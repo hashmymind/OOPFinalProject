@@ -6,7 +6,7 @@
 #include <cstring>
 #include <cmath>
 
-const uint64_t BaseMax = 1000000000000000000, subtrahend = BaseMax-1;;
+const uint64_t BaseMax = 1000000000000000000, subtrahend = BaseMax-1;
 const uint8_t SizeMax = 50, BaseLen = 18;
 const uint16_t ContainLenMax = SizeMax * BaseLen;
 
