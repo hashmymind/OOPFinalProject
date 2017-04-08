@@ -78,8 +78,11 @@ const BigInt operator*(const BigInt& lhs, const BigInt& rhs){
             if(lhs.digi[j] == 0)
                 continue;
             tmp = lhs.digi[j] * rhs.digi[i];
-            result.digi[i-(SizeMax-j)+1] += tmp % BaseMax;
-            result.digi[i-(SizeMax-j)] += tmp / BaseMax;
+            for(int k=0;tmp;++k){
+                tmp = result.digi[i-(SizeMax-j)+1-k] + tmp;
+                result.digi[i-(SizeMax-j)+1-k] = tmp % BaseMax;
+                tmp /= BaseMax;
+            }
         }
     }
     result.sign = lhs.sign ^ rhs.sign;
