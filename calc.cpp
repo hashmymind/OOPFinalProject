@@ -40,7 +40,7 @@ std::string BigInt::ToString() const{
         if(this->_digi[i])leading = false;
     }
     if(leading)num = "0";
-    return num;
+    return (this->_sign?"-":"") + num;
 }
 
 const BigInt operator+(const BigInt& lhs, const BigInt& rhs){
@@ -50,8 +50,7 @@ const BigInt operator+(const BigInt& lhs, const BigInt& rhs){
     uint64_t carry = 0,temp;
     //加到ltmp，並假設不會溢位
     for(int i=SizeMax-1;i>=0;--i){
-        if(!carry && i<(SizeMax - ltmp._sizeUsed) && i<(SizeMax - rtmp._sizeUsed))
-            break;
+        if(!carry && i<(SizeMax - ltmp._sizeUsed) && i<(SizeMax - rtmp._sizeUsed))break;
         temp = ltmp._digi[i] + rtmp._digi[i] + carry;
         ltmp._digi[i] = temp % BaseMax;
         carry = temp / BaseMax;
@@ -89,4 +88,76 @@ const BigInt operator*(const BigInt& lhs, const BigInt& rhs){
     }
     result._sign = lhs._sign ^ rhs._sign;
     return result;
+}
+
+const bool operator>(const BigInt& lhs, const BigInt& rhs){
+    if(!(lhs._sign^rhs._sign)){
+        if(lhs._sizeUsed > rhs._sizeUsed)return !lhs._sizeUsed;
+        else if(lhs._sizeUsed < rhs._sizeUsed)return lhs._sizeUsed;
+        else{
+            std::string lstr = lhs.ToString(), rstr = rhs.ToString();
+            if(lhs._sign){
+                lstr = lstr.substr(1);
+                rstr = rstr.substr(1);
+            }
+            uint32_t maxNow = lstr.length();
+            if(rstr.length()>maxNow)maxNow = rstr.length();
+            lstr.insert(0, maxNow - lstr.length(), '0');
+            rstr.insert(0, maxNow - rstr.length(), '0');
+            return lstr > rstr;
+        }
+    }
+    return !lhs._sign;
+}
+
+const bool operator<(const BigInt& lhs, const BigInt& rhs){
+    if(!(lhs._sign^rhs._sign)){
+        if(lhs._sizeUsed > rhs._sizeUsed)return lhs._sizeUsed;
+        else if(lhs._sizeUsed < rhs._sizeUsed)return !lhs._sizeUsed;
+        else{
+            std::string lstr = lhs.ToString(), rstr = rhs.ToString();
+            if(lhs._sign){
+                lstr = lstr.substr(1);
+                rstr = rstr.substr(1);
+            }
+            uint32_t maxNow = lstr.length();
+            if(rstr.length()>maxNow)maxNow = rstr.length();
+            lstr.insert(0, maxNow - lstr.length(), '0');
+            rstr.insert(0, maxNow - rstr.length(), '0');
+            return lstr < rstr;
+        }
+    }
+    return lhs._sign;
+}
+
+const bool operator==(const BigInt& lhs, const BigInt& rhs){
+    if(!(lhs._sign^rhs._sign)){
+        if(lhs._sizeUsed != rhs._sizeUsed) return false;
+        else{
+            std::string lstr = lhs.ToString(), rstr = rhs.ToString();
+            return lstr == rstr;
+        }
+    }
+    return false;
+}
+
+inline bool BigInt::isZero() const{
+    for(int i=SizeMax-1;i>=SizeMax-this->_sizeUsed;--i){
+        if(this->_digi[i])return false;
+    }
+    return true;
+}
+
+const BigInt GCD(const BigInt& lhs, const BigInt& rhs){
+    BigInt ltmp = lhs, rtmp = rhs;
+    ltmp._sign = false;rtmp._sign = false;
+    while(!rtmp.isZero()){
+        if(ltmp > rtmp){
+            ltmp = ltmp - rtmp;
+        }
+        else{
+            rtmp = rtmp - ltmp;
+        }
+    }
+    return ltmp;
 }

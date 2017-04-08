@@ -7,7 +7,7 @@
 #include <cmath>
 
 const uint64_t BaseMax = 1000000000000000000, subtrahend = BaseMax-1;
-const uint32_t SizeMax = 1000, BaseLen = 18, ContainLenMax = SizeMax * BaseLen;
+const uint32_t SizeMax = 100, BaseLen = 18, ContainLenMax = SizeMax * BaseLen;
 class Fraction;
 class BigInt{
 private:
@@ -22,14 +22,19 @@ public:
     friend const BigInt operator-(const BigInt&, const BigInt&);
     friend const BigInt operator*(const BigInt&, const BigInt&);
     friend const Fraction operator/(const BigInt&, const BigInt&);
+    friend const bool operator>(const BigInt&, const BigInt&);
+    friend const bool operator<(const BigInt&, const BigInt&);
+    friend const bool operator==(const BigInt&, const BigInt&);
+    friend const BigInt GCD(const BigInt&, const BigInt&);
     
     void Complete();
+    bool isZero() const;
     std::string ToString() const;
 };
 
 class Fraction{
 private:
-    BigInt _numerator, _denominator, _quotient;
+    BigInt _numerator, _denominator;
     bool _sign;
 public:
     Fraction(){}
