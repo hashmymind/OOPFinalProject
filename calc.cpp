@@ -28,7 +28,7 @@ void BigInt::Complete(){
     }
 }
 
-std::string BigInt::ToString(){
+std::string BigInt::ToString() const{
     bool leading = true;
     std::string num = "", tmp;
     for(int i=0;i<SizeMax;++i){
@@ -68,3 +68,20 @@ const BigInt operator-(const BigInt& lhs, const BigInt& rhs){
     return ltmp + rtmp;
 }
 
+const BigInt operator*(const BigInt& lhs, const BigInt& rhs){
+    BigInt result("0");
+    uint64_t tmp;
+    for(int i=SizeMax-1;i>=0;--i){
+        //i for rhs j for lhs
+        if(rhs.digi[i] == 0)continue;
+        for(int j=SizeMax-1;j>=0;--j){
+            if(lhs.digi[j] == 0)
+                continue;
+            tmp = lhs.digi[j] * rhs.digi[i];
+            result.digi[i-(SizeMax-j)+1] += tmp % BaseMax;
+            result.digi[i-(SizeMax-j)] += tmp / BaseMax;
+        }
+    }
+    result.sign = lhs.sign ^ rhs.sign;
+    return result;
+}
