@@ -100,8 +100,8 @@ const bool operator>(const BigInt& lhs, const BigInt& rhs){
                 lstr = lstr.substr(1);
                 rstr = rstr.substr(1);
             }
-            uint32_t maxNow = lstr.length();
-            if(rstr.length()>maxNow)maxNow = rstr.length();
+            uint32_t maxNow = static_cast<uint32_t>(lstr.length());
+            if(rstr.length()>maxNow)maxNow = static_cast<uint32_t>(rstr.length());
             lstr.insert(0, maxNow - lstr.length(), '0');
             rstr.insert(0, maxNow - rstr.length(), '0');
             return lstr > rstr;
@@ -120,8 +120,8 @@ const bool operator<(const BigInt& lhs, const BigInt& rhs){
                 lstr = lstr.substr(1);
                 rstr = rstr.substr(1);
             }
-            uint32_t maxNow = lstr.length();
-            if(rstr.length()>maxNow)maxNow = rstr.length();
+            uint32_t maxNow = static_cast<uint32_t>(lstr.length());
+            if(rstr.length()>maxNow)maxNow = static_cast<uint32_t>(rstr.length());
             lstr.insert(0, maxNow - lstr.length(), '0');
             rstr.insert(0, maxNow - rstr.length(), '0');
             return lstr < rstr;
