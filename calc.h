@@ -21,16 +21,22 @@ public:
     friend const Integer operator+(const Integer&, const Integer&);
     friend const Integer operator-(const Integer&, const Integer&);
     friend const Integer operator*(const Integer&, const Integer&);
-    friend const Decimal operator/(const Integer&, const Integer&);
+    friend const Integer operator/(const Integer&, const Integer&);
+    friend const Integer operator%(const Integer&, const Integer&);
     friend const bool operator>(const Integer&, const Integer&);
     friend const bool operator<(const Integer&, const Integer&);
+    friend const bool operator>=(const Integer&, const Integer&);
+    friend const bool operator<=(const Integer&, const Integer&);
     friend const bool operator==(const Integer&, const Integer&);
     friend const Integer GCD(const Integer&, const Integer&);
     friend const std::ostream operator<<(std::ostream& stream, const Integer&);
     friend const std::istream operator>>(std::istream& stream, const Integer&);
     
+    const Integer operator++();
     void Complete();
-    bool isZero() const;
+    void LeftShift();
+    void RightShift();
+    bool IsZero() const;
     std::string ToString() const;
 };
 

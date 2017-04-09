@@ -43,6 +43,18 @@ std::string Integer::ToString() const{
     return (this->_sign?"-":"") + num;
 }
 
+const Integer Integer::operator++(){
+    uint8_t carry = 1;
+    uint64_t temp;
+    for(int i=SizeMax-1;i>=0;--i){
+        if(!carry)break;
+        temp = this->_digi[i] + carry;
+        this->_digi[i] = temp % BaseMax;
+        carry = temp / BaseMax;
+    }
+    return *this;
+}
+
 const Integer operator+(const Integer& lhs, const Integer& rhs){
     Integer ltmp = lhs, rtmp = rhs;
     if(ltmp._sign)ltmp.Complete();
@@ -60,6 +72,12 @@ const Integer operator+(const Integer& lhs, const Integer& rhs){
         //相加結果是負數(最高為不是0，假設不會滿位)
         ltmp.Complete();
         ltmp._sign = true;
+    }
+    for(int i = 0;i<SizeMax;++i){
+        if(ltmp._digi[i]){
+            ltmp._sizeUsed = SizeMax - i;
+            break;
+        }
     }
     return ltmp;
 }
@@ -83,10 +101,29 @@ const Integer operator*(const Integer& lhs, const Integer& rhs){
                 tmp = result._digi[i-(SizeMax-j)+1-k] + tmp;
                 result._digi[i-(SizeMax-j)+1-k] = tmp % BaseMax;
                 tmp /= BaseMax;
+                result._sizeUsed = SizeMax - (i-(SizeMax-j)+1-k);
             }
         }
     }
     result._sign = lhs._sign ^ rhs._sign;
+    return result;
+}
+
+const Integer operator/(const Integer& lhs,const Integer& rhs){
+    Integer dividend = lhs, divisor = rhs, result("0");
+    dividend._sign = false;divisor._sign = false;
+    if(dividend < divisor)return Integer("0");
+    if(dividend == divisor)return Integer("1");
+    while(dividend >= divisor)divisor.LeftShift();
+    divisor.RightShift();
+    while(!divisor.IsZero()){
+        result.LeftShift();
+        while(dividend >= divisor){
+            ++result;
+            dividend = dividend - divisor;//to do -=
+        }
+        divisor.RightShift();
+    }
     return result;
 }
 
@@ -130,6 +167,13 @@ const bool operator<(const Integer& lhs, const Integer& rhs){
     return lhs._sign;
 }
 
+const bool operator>=(const Integer& lhs, const Integer& rhs){
+    return !(lhs < rhs);
+}
+
+const bool operator<=(const Integer& lhs, const Integer& rhs){
+    return !(lhs > rhs);
+}
 const bool operator==(const Integer& lhs, const Integer& rhs){
     if(!(lhs._sign^rhs._sign)){
         if(lhs._sizeUsed != rhs._sizeUsed) return false;
@@ -141,7 +185,7 @@ const bool operator==(const Integer& lhs, const Integer& rhs){
     return false;
 }
 
-inline bool Integer::isZero() const{
+inline bool Integer::IsZero() const{
     for(int i=SizeMax-1;i>=SizeMax-this->_sizeUsed;--i){
         if(this->_digi[i])return false;
     }
@@ -151,7 +195,7 @@ inline bool Integer::isZero() const{
 const Integer GCD(const Integer& lhs, const Integer& rhs){
     Integer ltmp = lhs, rtmp = rhs;
     ltmp._sign = false;rtmp._sign = false;
-    while(!rtmp.isZero()){
+    while(!rtmp.IsZero()){
         if(ltmp > rtmp){
             ltmp = ltmp - rtmp;
         }
@@ -160,4 +204,30 @@ const Integer GCD(const Integer& lhs, const Integer& rhs){
         }
     }
     return ltmp;
+}
+
+void Integer::LeftShift(){
+    uint64_t carry = 0, tmp, origin;
+    uint32_t newSize = 0;
+    for(int i=SizeMax-1;i>=SizeMax-this->_sizeUsed;--i){
+        origin = this->_digi[i];
+        tmp = this->_digi[i]*9 + carry;//先乘9
+        this->_digi[i] = tmp % BaseMax;
+        carry = tmp / BaseMax;
+        tmp = this->_digi[i] + origin;//再加一次
+        this->_digi[i] = tmp % BaseMax;
+        carry += tmp / BaseMax;
+        newSize = SizeMax - i;
+    }
+    this->_sizeUsed = newSize;
+}
+
+void Integer::RightShift(){
+    for(int i=SizeMax-1;i>=SizeMax-this->_sizeUsed;--i){
+        this->_digi[i] /= 10;
+        this->_digi[i] += this->_digi[i-1]%10 * (BaseMax/10);
+    }
+    if(!this->_digi[SizeMax - this->_sizeUsed]){
+        this->_sizeUsed -= 1;
+    }
 }
