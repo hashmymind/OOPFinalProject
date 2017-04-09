@@ -14,6 +14,13 @@ Integer::Integer(std::string numStr){
     }
 }
 
+Integer::Integer(uint64_t val, bool sign){
+    memset(this->_digi, 0, sizeof(this->_digi));
+    this->_sign = sign;
+    this->_digi[SizeMax-1] = val;
+    this->_sizeUsed = 1;
+}
+
 void Integer::Complete(){
     //將數字轉成10補數
     uint64_t temp;
@@ -89,7 +96,7 @@ const Integer operator-(const Integer& lhs, const Integer& rhs){
 }
 
 const Integer operator*(const Integer& lhs, const Integer& rhs){
-    Integer result("0");
+    Integer result(0, false);
     uint64_t tmp;
     for(int i=SizeMax-1;i>=SizeMax-rhs._sizeUsed;--i){
         //i for rhs j for lhs
@@ -110,13 +117,14 @@ const Integer operator*(const Integer& lhs, const Integer& rhs){
 }
 
 const Integer operator/(const Integer& lhs,const Integer& rhs){
-    Integer dividend = lhs, divisor = rhs, result("0");
+    Integer dividend = lhs, divisor = rhs, result(0,false), oriDivisor = rhs;
     dividend._sign = false;divisor._sign = false;
-    if(dividend < divisor)return Integer("0");
-    if(dividend == divisor)return Integer("1");
-    while(dividend >= divisor)divisor.LeftShift();
+    if(dividend < divisor)return Integer(0,false);
+    if(dividend == divisor)return Integer(1,false);
+    while(dividend >= divisor)
+        divisor.LeftShift();
     divisor.RightShift();
-    while(!divisor.IsZero()){
+    while(divisor >= oriDivisor){
         result.LeftShift();
         while(dividend >= divisor){
             ++result;
@@ -129,8 +137,8 @@ const Integer operator/(const Integer& lhs,const Integer& rhs){
 
 const bool operator>(const Integer& lhs, const Integer& rhs){
     if(!(lhs._sign^rhs._sign)){
-        if(lhs._sizeUsed > rhs._sizeUsed)return !lhs._sizeUsed;
-        else if(lhs._sizeUsed < rhs._sizeUsed)return lhs._sizeUsed;
+        if(lhs._sizeUsed > rhs._sizeUsed)return true;
+        else if(lhs._sizeUsed < rhs._sizeUsed)return false;
         else{
             std::string lstr = lhs.ToString(), rstr = rhs.ToString();
             if(lhs._sign){
@@ -149,8 +157,8 @@ const bool operator>(const Integer& lhs, const Integer& rhs){
 
 const bool operator<(const Integer& lhs, const Integer& rhs){
     if(!(lhs._sign^rhs._sign)){
-        if(lhs._sizeUsed > rhs._sizeUsed)return lhs._sizeUsed;
-        else if(lhs._sizeUsed < rhs._sizeUsed)return !lhs._sizeUsed;
+        if(lhs._sizeUsed > rhs._sizeUsed)return false;
+        else if(lhs._sizeUsed < rhs._sizeUsed)return true;
         else{
             std::string lstr = lhs.ToString(), rstr = rhs.ToString();
             if(lhs._sign){
@@ -209,7 +217,7 @@ const Integer GCD(const Integer& lhs, const Integer& rhs){
 void Integer::LeftShift(){
     uint64_t carry = 0, tmp, origin;
     uint32_t newSize = 0;
-    for(int i=SizeMax-1;i>=SizeMax-this->_sizeUsed;--i){
+    for(int i=SizeMax-1;i>=SizeMax-this->_sizeUsed || carry;--i){
         origin = this->_digi[i];
         tmp = this->_digi[i]*9 + carry;//先乘9
         this->_digi[i] = tmp % BaseMax;

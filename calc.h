@@ -17,6 +17,7 @@ private:
 public:
     Integer(){}
     Integer(std::string);
+    Integer(uint64_t ,bool);
     
     friend const Integer operator+(const Integer&, const Integer&);
     friend const Integer operator-(const Integer&, const Integer&);
