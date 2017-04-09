@@ -1,6 +1,6 @@
 #include "calc.h"
 
-BigInt::BigInt(std::string numStr){
+Integer::Integer(std::string numStr){
     this->_sign = numStr[0]=='-' ? true:false;
     numStr = this->_sign ? numStr.substr(1):numStr;
     this->_sizeUsed = static_cast<uint32_t>(numStr.length()) / BaseLen + 1;
@@ -14,7 +14,7 @@ BigInt::BigInt(std::string numStr){
     }
 }
 
-void BigInt::Complete(){
+void Integer::Complete(){
     //將數字轉成10補數
     uint64_t temp;
     uint8_t carry = 1;
@@ -29,7 +29,7 @@ void BigInt::Complete(){
     }
 }
 
-std::string BigInt::ToString() const{
+std::string Integer::ToString() const{
     bool leading = true;
     std::string num = "", tmp;
     for(int i=0;i<SizeMax;++i){
@@ -43,8 +43,8 @@ std::string BigInt::ToString() const{
     return (this->_sign?"-":"") + num;
 }
 
-const BigInt operator+(const BigInt& lhs, const BigInt& rhs){
-    BigInt ltmp = lhs, rtmp = rhs;
+const Integer operator+(const Integer& lhs, const Integer& rhs){
+    Integer ltmp = lhs, rtmp = rhs;
     if(ltmp._sign)ltmp.Complete();
     if(rtmp._sign)rtmp.Complete();
     uint64_t carry = 0,temp;
@@ -64,14 +64,14 @@ const BigInt operator+(const BigInt& lhs, const BigInt& rhs){
     return ltmp;
 }
 
-const BigInt operator-(const BigInt& lhs, const BigInt& rhs){
-    BigInt ltmp = lhs, rtmp = rhs;
+const Integer operator-(const Integer& lhs, const Integer& rhs){
+    Integer ltmp = lhs, rtmp = rhs;
     rtmp._sign = !rtmp._sign;
     return ltmp + rtmp;
 }
 
-const BigInt operator*(const BigInt& lhs, const BigInt& rhs){
-    BigInt result("0");
+const Integer operator*(const Integer& lhs, const Integer& rhs){
+    Integer result("0");
     uint64_t tmp;
     for(int i=SizeMax-1;i>=SizeMax-rhs._sizeUsed;--i){
         //i for rhs j for lhs
@@ -90,7 +90,7 @@ const BigInt operator*(const BigInt& lhs, const BigInt& rhs){
     return result;
 }
 
-const bool operator>(const BigInt& lhs, const BigInt& rhs){
+const bool operator>(const Integer& lhs, const Integer& rhs){
     if(!(lhs._sign^rhs._sign)){
         if(lhs._sizeUsed > rhs._sizeUsed)return !lhs._sizeUsed;
         else if(lhs._sizeUsed < rhs._sizeUsed)return lhs._sizeUsed;
@@ -110,7 +110,7 @@ const bool operator>(const BigInt& lhs, const BigInt& rhs){
     return !lhs._sign;
 }
 
-const bool operator<(const BigInt& lhs, const BigInt& rhs){
+const bool operator<(const Integer& lhs, const Integer& rhs){
     if(!(lhs._sign^rhs._sign)){
         if(lhs._sizeUsed > rhs._sizeUsed)return lhs._sizeUsed;
         else if(lhs._sizeUsed < rhs._sizeUsed)return !lhs._sizeUsed;
@@ -130,7 +130,7 @@ const bool operator<(const BigInt& lhs, const BigInt& rhs){
     return lhs._sign;
 }
 
-const bool operator==(const BigInt& lhs, const BigInt& rhs){
+const bool operator==(const Integer& lhs, const Integer& rhs){
     if(!(lhs._sign^rhs._sign)){
         if(lhs._sizeUsed != rhs._sizeUsed) return false;
         else{
@@ -141,15 +141,15 @@ const bool operator==(const BigInt& lhs, const BigInt& rhs){
     return false;
 }
 
-inline bool BigInt::isZero() const{
+inline bool Integer::isZero() const{
     for(int i=SizeMax-1;i>=SizeMax-this->_sizeUsed;--i){
         if(this->_digi[i])return false;
     }
     return true;
 }
 
-const BigInt GCD(const BigInt& lhs, const BigInt& rhs){
-    BigInt ltmp = lhs, rtmp = rhs;
+const Integer GCD(const Integer& lhs, const Integer& rhs){
+    Integer ltmp = lhs, rtmp = rhs;
     ltmp._sign = false;rtmp._sign = false;
     while(!rtmp.isZero()){
         if(ltmp > rtmp){

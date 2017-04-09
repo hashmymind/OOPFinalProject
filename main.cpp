@@ -4,7 +4,7 @@
 using namespace std;
 
 int main(){
-    BigInt i("8"), j("16"),k;
+    Integer i("8"), j("16"),k;
     clock_t start, finish;
     start = clock();
     k = GCD(i,j);
