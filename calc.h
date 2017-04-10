@@ -43,8 +43,8 @@ public:
     void LeftShift();
     void RightShift();
     void SetSign(bool);
-    bool IsZero() const;
-    bool GetSign() const;
+    const bool IsZero() const;
+    const bool GetSign() const;
     std::string ToString() const;
 };
 
@@ -70,8 +70,8 @@ public:
     
     void Reduce();
     void SetSign(bool);
-    bool GetSign() const;
-    bool IsReduced();
+    const bool GetSign() const;
+    const bool IsReduced();
     std::string ToString() const;
 };
 

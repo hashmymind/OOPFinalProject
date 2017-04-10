@@ -208,7 +208,7 @@ const bool operator==(const Integer& lhs, const Integer& rhs){
     return false;
 }
 
-inline bool Integer::IsZero() const{
+const bool Integer::IsZero() const{
     for(int i=SizeMax-1;i>=SizeMax-this->_sizeUsed;--i){
         if(this->_digi[i])return false;
     }
@@ -255,7 +255,7 @@ void Integer::RightShift(){
     }
 }
 
-bool Integer::GetSign() const{
+const bool Integer::GetSign() const{
     return this->_sign;
 }
 
@@ -309,12 +309,16 @@ void Decimal::Reduce(){
     // todo: overload /=
 }
 
-bool Decimal::GetSign() const{
+const bool Decimal::GetSign() const{
     return this->_sign;
 }
 
 void Decimal::SetSign(bool sign){
     this->_sign = sign;
+}
+
+const bool Decimal::IsReduced(){
+    return GCD(this->_numerator, this->_denominator) == Integer(1,false);
 }
 
 const Decimal operator+(const Decimal& lhs, const Decimal& rhs){
