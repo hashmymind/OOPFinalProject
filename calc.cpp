@@ -2,6 +2,18 @@
 
 //
 //
+// NumberObject below
+//
+//
+
+std::ostream& operator<<(std::ostream& stream, const NumberObject& rhs){
+    rhs.Output(stream);
+    return stream;
+}
+
+
+//
+//
 // Integer below
 //
 //
@@ -32,6 +44,10 @@ Integer::Integer(BaseNum val, bool sign){
     this->_sign = sign;
     this->_digi[SizeMax-1] = val;
     this->_sizeUsed = 1;
+}
+
+void Integer::Output(std::ostream& stream) const{
+    stream << this->ToString();
 }
 
 void Integer::Complete(){
@@ -289,7 +305,7 @@ void Integer::SetSign(bool sign){
 }
 
 std::ostream& operator<<(std::ostream& stream, const Integer& rhs){
-    stream << rhs.ToString();
+    rhs.Output(stream);
     return stream;
 }
 
@@ -322,6 +338,10 @@ Decimal::Decimal(const std::string& decimalStr){
     this->_numerator = Integer(decimalTmp);
     this->_sign = this->_numerator.GetSign();
     this->_numerator.SetSign(false);
+}
+
+void Decimal::Output(std::ostream& stream) const{
+    stream << this->ToString(100);
 }
 
 void Decimal::operator=(const std::string& numSrt){
@@ -443,6 +463,11 @@ std::string Decimal::ToString(int precise) const{
     return result;
 }
 
+std::ostream& operator<<(std::ostream& stream, const Decimal& rhs){
+    rhs.Output(stream);
+    return stream;
+}
+
 //
 //
 // Complex below
@@ -451,6 +476,5 @@ std::string Decimal::ToString(int precise) const{
 
 Complex::Complex(const std::string& complexStr){
     std::string complexTmp = complexStr;
-    
     
 }

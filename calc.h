@@ -14,7 +14,15 @@ const uint32_t SizeMax = 1000, BaseLen = 18, ContainLenMax = SizeMax * BaseLen;
 class Decimal;
 class Complex;
 
-class Integer{
+class NumberObject{
+    // root class
+public:
+    friend std::ostream& operator<<(std::ostream&, const NumberObject&);
+protected:
+    virtual void Output(std::ostream&) const{};
+};
+
+class Integer: public NumberObject{
 private:
     std::vector<BaseNum> _digi;
     uint32_t _sizeUsed;
@@ -48,9 +56,11 @@ public:
     const bool IsZero() const;
     const bool GetSign() const;
     std::string ToString() const;
+protected:
+    virtual void Output(std::ostream&) const;
 };
 
-class Decimal{
+class Decimal:public NumberObject{
 private:
     Integer _numerator, _denominator;
     bool _sign;
@@ -77,9 +87,11 @@ public:
     const bool GetSign() const;
     const bool IsReduced();
     std::string ToString(int) const;
+protected:
+    virtual void Output(std::ostream&) const;
 };
 
-class Complex{
+class Complex:public NumberObject{
 private:
     Decimal _realPart, _imaginePart;
 public:
@@ -93,7 +105,7 @@ public:
     friend const bool operator==(const Complex&, const Complex&);
     friend std::ostream& operator<<(std::ostream&, const Complex&);
     friend std::istream& operator>>(std::istream&, Complex&);
-    
+  
+protected:
     void operator=(const std::string&);
-    
 };
