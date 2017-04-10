@@ -61,6 +61,10 @@ public:
     friend const Decimal operator*(const Decimal&, const Decimal&);
     friend const Decimal operator/(const Decimal&, const Decimal&);
     friend const bool operator==(const Decimal&, const Decimal&);
+    friend const bool operator>(const Decimal&, const Decimal&);
+    friend const bool operator<(const Decimal&, const Decimal&);
+    friend const bool operator>=(const Decimal&, const Decimal&);
+    friend const bool operator<=(const Decimal&, const Decimal&);
     friend std::ostream& operator<<(std::ostream&, const Decimal&);
     friend std::istream& operator>>(std::istream&, Decimal&);
     

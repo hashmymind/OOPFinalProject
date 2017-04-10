@@ -356,3 +356,42 @@ const Decimal operator/(const Decimal& lhs, const Decimal& rhs){
     rtmp._denominator = rhs._numerator;
     return lhs * rtmp;
 }
+
+const bool operator==(const Decimal& lhs, const Decimal& rhs){
+    if(lhs._sign != rhs._sign)
+        return false;
+    Integer lnumerator, rnumerator;
+    lnumerator = lhs._numerator * rhs._denominator;
+    rnumerator = rhs._numerator * lhs._denominator;
+    return lnumerator == rnumerator;
+}
+
+const bool operator>(const Decimal& lhs, const Decimal& rhs){
+    if(lhs._sign ^ rhs._sign){
+        if(lhs._sign)return false;
+        return true;
+    }
+    Integer lnumerator, rnumerator;
+    lnumerator = lhs._numerator * rhs._denominator;
+    rnumerator = rhs._numerator * lhs._denominator;
+    return (lnumerator > rnumerator) ^ lhs._sign;
+}
+
+const bool operator<(const Decimal& lhs, const Decimal& rhs){
+    if(lhs._sign ^ rhs._sign){
+        if(lhs._sign)return true;
+        return false;
+    }
+    Integer lnumerator, rnumerator;
+    lnumerator = lhs._numerator * rhs._denominator;
+    rnumerator = rhs._numerator * lhs._denominator;
+    return (lnumerator < rnumerator) ^ lhs._sign;
+}
+
+const bool operator>=(const Decimal& lhs, const Decimal& rhs){
+    return !(lhs < rhs);
+}
+
+const bool operator<=(const Decimal& lhs, const Decimal& rhs){
+    return !(lhs > rhs);
+}
