@@ -35,8 +35,8 @@ public:
     friend const bool operator<=(const Integer&, const Integer&);
     friend const bool operator==(const Integer&, const Integer&);
     friend const Integer GCD(const Integer&, const Integer&);
-    friend const std::ostream operator<<(std::ostream& stream, const Integer&);
-    friend const std::istream operator>>(std::istream& stream, const Integer&);
+    friend std::ostream& operator<<(std::ostream&, const Integer&);
+    friend std::istream& operator>>(std::istream&, Integer&);
     
     const Integer operator++();
     void Complete();
@@ -61,8 +61,8 @@ public:
     friend const Decimal operator*(const Decimal&, const Decimal&);
     friend const Decimal operator/(const Decimal&, const Decimal&);
     friend const bool operator==(const Decimal&, const Decimal&);
-    friend const std::ostream operator<<(std::ostream& stream, const Decimal&);
-    friend const std::istream operator>>(std::istream& stream, const Decimal&);
+    friend std::ostream& operator<<(std::ostream&, const Decimal&);
+    friend std::istream& operator>>(std::istream&, Decimal&);
     
     void Reduce();
     void SetSign(bool);

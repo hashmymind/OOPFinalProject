@@ -263,6 +263,18 @@ void Integer::SetSign(bool sign){
     this->_sign = sign;
 }
 
+std::ostream& operator<<(std::ostream& stream, const Integer& rhs){
+    stream << rhs.ToString();
+    return stream;
+}
+
+std::istream& operator>>(std::istream& stream, Integer& rhs){
+    std::string numStr;
+    stream >> numStr;
+    rhs = Integer(numStr);
+    return stream;
+}
+
 //
 //
 // Decimal below
