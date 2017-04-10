@@ -8,10 +8,14 @@
 
 Integer::Integer(std::string numStr){
     this->_digi.resize(SizeMax);
+    //處理負號
     this->_sign = numStr[0]=='-' ? true:false;
     numStr = this->_sign ? numStr.substr(1):numStr;
+    //計算使用量
     this->_sizeUsed = static_cast<uint32_t>(numStr.length()) / BaseLen + 1;
+    //字串補0方便轉換
     numStr.insert(0, ContainLenMax-numStr.length(),'0');
+    //轉換
     for(int i=0;i<SizeMax;++i){
         BaseNum tmp = 0;
         for(int j=0;j<BaseLen;++j){
@@ -22,6 +26,7 @@ Integer::Integer(std::string numStr){
 }
 
 Integer::Integer(BaseNum val, bool sign){
+    //用數字來建構比較小的
     this->_digi.resize(SizeMax);
     this->_sign = sign;
     this->_digi[SizeMax-1] = val;
@@ -53,11 +58,12 @@ std::string Integer::ToString() const{
         num += tmp;
         if(this->_digi[i])leading = false;
     }
-    if(leading)num = "0";
+    if(leading)num = "0";//如果全部都是0就輸出0
     return (this->_sign?"-":"") + num;
 }
 
 const Integer Integer::operator++(){
+    //prefix ++ ex:++integer
     uint8_t carry = 1;
     BaseNum temp;
     for(int i=SizeMax-1;i>=0;--i){
@@ -82,11 +88,12 @@ const Integer operator+(const Integer& lhs, const Integer& rhs){
         carry = temp / BaseMax;
     }
     ltmp._sign = false;
+    //相加結果是負數(最高為不是0，假設不會滿位)
     if(ltmp._digi[0]/(BaseMax/10)!=0){
-        //相加結果是負數(最高為不是0，假設不會滿位)
         ltmp.Complete();
         ltmp._sign = true;
     }
+    //重新計算使用量
     for(int i = 0;i<SizeMax;++i){
         if(ltmp._digi[i]){
             ltmp._sizeUsed = SizeMax - i;
@@ -115,6 +122,7 @@ const Integer operator*(const Integer& lhs, const Integer& rhs){
                 tmp = result._digi[i-(SizeMax-j)+1-k] + tmp;
                 result._digi[i-(SizeMax-j)+1-k] = tmp % BaseMax;
                 tmp /= BaseMax;
+                //重新計算使用量
                 result._sizeUsed = SizeMax - (i-(SizeMax-j)+1-k);
             }
         }
@@ -135,6 +143,7 @@ const Integer operator/(const Integer& lhs,const Integer& rhs){
         result.LeftShift();
         while(dividend >= divisor){
             ++result;
+            //現在不知道是調用乘法快還是用減法快，待測試
             dividend = dividend - divisor;//to do -=
         }
         divisor.RightShift();
