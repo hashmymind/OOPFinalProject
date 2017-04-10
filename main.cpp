@@ -9,7 +9,7 @@ int main(){
     clock_t start, finish;
     start = clock();
     d = d / e;
-    string s = d.ToString();
+    string s = d.ToString(10);
     cout << s.length() << endl;
     cout << s << endl;
     finish = clock();

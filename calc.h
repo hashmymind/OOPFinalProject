@@ -21,7 +21,7 @@ private:
     bool _sign;
 public:
     Integer(){}
-    Integer(std::string);
+    Integer(const std::string&);
     Integer(BaseNum ,bool);
     
     friend const Integer operator+(const Integer&, const Integer&);
@@ -37,6 +37,8 @@ public:
     friend const Integer GCD(const Integer&, const Integer&);
     friend std::ostream& operator<<(std::ostream&, const Integer&);
     friend std::istream& operator>>(std::istream&, Integer&);
+    
+    void operator=(const std::string&);
     
     const Integer operator++();
     void Complete();
@@ -54,7 +56,7 @@ private:
     bool _sign;
 public:
     Decimal(){}
-    Decimal(std::string);
+    Decimal(const std::string&);
     
     friend const Decimal operator+(const Decimal&, const Decimal&);
     friend const Decimal operator-(const Decimal&, const Decimal&);
@@ -68,11 +70,13 @@ public:
     friend std::ostream& operator<<(std::ostream&, const Decimal&);
     friend std::istream& operator>>(std::istream&, Decimal&);
     
+    void operator=(const std::string&);
+    
     void Reduce();
     void SetSign(bool);
     const bool GetSign() const;
     const bool IsReduced();
-    std::string ToString() const;
+    std::string ToString(int) const;
 };
 
 class Complex{
@@ -80,5 +84,16 @@ private:
     Decimal _realPart, _imaginePart;
 public:
     Complex(){}
+    Complex(const std::string&);
+    
+    friend const Complex operator+(const Complex&, const Complex&);
+    friend const Complex operator-(const Complex&, const Complex&);
+    friend const Complex operator*(const Complex&, const Complex&);
+    friend const Complex operator/(const Complex&, const Complex&);
+    friend const bool operator==(const Complex&, const Complex&);
+    friend std::ostream& operator<<(std::ostream&, const Complex&);
+    friend std::istream& operator>>(std::istream&, Complex&);
+    
+    void operator=(const std::string&);
     
 };

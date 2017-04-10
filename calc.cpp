@@ -6,20 +6,21 @@
 //
 //
 
-Integer::Integer(std::string numStr){
+Integer::Integer(const std::string& numStr){
+    std::string numTmp = numStr;
     this->_digi.resize(SizeMax);
     //處理負號
     this->_sign = numStr[0]=='-' ? true:false;
-    numStr = this->_sign ? numStr.substr(1):numStr;
+    numTmp = this->_sign ? numTmp.substr(1):numTmp;
     //計算使用量
-    this->_sizeUsed = static_cast<uint32_t>(numStr.length()) / BaseLen + 1;
+    this->_sizeUsed = static_cast<uint32_t>(numTmp.length()) / BaseLen + 1;
     //字串補0方便轉換
-    numStr.insert(0, ContainLenMax-numStr.length(),'0');
+    numTmp.insert(0, ContainLenMax-numTmp.length(),'0');
     //轉換
     for(int i=0;i<SizeMax;++i){
         BaseNum tmp = 0;
         for(int j=0;j<BaseLen;++j){
-            tmp += static_cast<BaseNum>(pow(10,BaseLen-j-1))*(numStr[i*BaseLen+j]-'0');
+            tmp += static_cast<BaseNum>(pow(10,BaseLen-j-1))*(numTmp[i*BaseLen+j]-'0');
         }
         this->_digi[i] = tmp;
     }
@@ -73,6 +74,10 @@ const Integer Integer::operator++(){
         carry = temp / BaseMax;
     }
     return *this;
+}
+
+void Integer::operator=(const std::string& numSrt){
+    *this = Integer(numSrt);
 }
 
 const Integer operator+(const Integer& lhs, const Integer& rhs){
@@ -301,21 +306,26 @@ std::istream& operator>>(std::istream& stream, Integer& rhs){
 //
 //
 
-Decimal::Decimal(std::string decimalStr){
+Decimal::Decimal(const std::string& decimalStr){
+    std::string decimalTmp = decimalStr;
     this->_denominator = Integer(1, false);
     bool havePoint = false;
-    for(int i=(int)decimalStr.length()-1;i>=0;--i){
-        if(decimalStr[i] == '.'){
-            decimalStr.erase(i,1);
+    for(int i=(int)decimalTmp.length()-1;i>=0;--i){
+        if(decimalTmp[i] == '.'){
+            decimalTmp.erase(i,1);
             havePoint = true;
             break;
         }
         this->_denominator.LeftShift();
     }
     if(!havePoint)this->_denominator = Integer(1, false);
-    this->_numerator = Integer(decimalStr);
+    this->_numerator = Integer(decimalTmp);
     this->_sign = this->_numerator.GetSign();
     this->_numerator.SetSign(false);
+}
+
+void Decimal::operator=(const std::string& numSrt){
+    *this = Decimal(numSrt);
 }
 
 void Decimal::Reduce(){
@@ -420,15 +430,27 @@ const bool operator<=(const Decimal& lhs, const Decimal& rhs){
     return !(lhs > rhs);
 }
 
-std::string Decimal::ToString() const{
+std::string Decimal::ToString(int precise) const{
     std::string result;
     Decimal tmp = *this;
-    for(int i=0;i<100;++i){
+    for(int i=0;i<precise;++i){
         tmp._numerator.LeftShift();
     }
     tmp.Reduce();
     result = (tmp._numerator / tmp._denominator).ToString();
-    if(result.length() - 100 == 0) result = "0" + result ;
-    result.insert(result.length() - 100, ".");
+    if(result.length() - precise == 0) result = "0" + result ;
+    result.insert(result.length() - precise, ".");
     return result;
+}
+
+//
+//
+// Complex below
+//
+//
+
+Complex::Complex(const std::string& complexStr){
+    std::string complexTmp = complexStr;
+    
+    
 }
