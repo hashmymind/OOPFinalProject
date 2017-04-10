@@ -82,7 +82,6 @@ const Integer operator+(const Integer& lhs, const Integer& rhs){
     BaseNum carry = 0,temp;
     //加到ltmp，並假設不會溢位
     for(int i=SizeMax-1;i>=0;--i){
-        if(!carry && i<(SizeMax - ltmp._sizeUsed) && i<(SizeMax - rtmp._sizeUsed))break;
         temp = ltmp._digi[i] + rtmp._digi[i] + carry;
         ltmp._digi[i] = temp % BaseMax;
         carry = temp / BaseMax;
