@@ -3,21 +3,23 @@
 #include <algorithm>
 #include <cstdint>
 #include <string>
-#include <cstring>
+#include <vector>
 #include <cmath>
 
-const uint64_t BaseMax = 1000000000000000000, subtrahend = BaseMax-1;
+typedef uint64_t BaseNum;
+
+const BaseNum BaseMax = 1000000000000000000, subtrahend = BaseMax-1;
 const uint32_t SizeMax = 100, BaseLen = 18, ContainLenMax = SizeMax * BaseLen;
 class Decimal;
 class Integer{
 private:
-    uint64_t _digi[SizeMax];
+    std::vector<BaseNum> _digi;
     uint32_t _sizeUsed;
     bool _sign;
 public:
     Integer(){}
     Integer(std::string);
-    Integer(uint64_t ,bool);
+    Integer(BaseNum ,bool);
     
     friend const Integer operator+(const Integer&, const Integer&);
     friend const Integer operator-(const Integer&, const Integer&);

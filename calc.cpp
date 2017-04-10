@@ -1,21 +1,22 @@
 #include "calc.h"
 
 Integer::Integer(std::string numStr){
+    this->_digi.resize(SizeMax);
     this->_sign = numStr[0]=='-' ? true:false;
     numStr = this->_sign ? numStr.substr(1):numStr;
     this->_sizeUsed = static_cast<uint32_t>(numStr.length()) / BaseLen + 1;
     numStr.insert(0, ContainLenMax-numStr.length(),'0');
     for(int i=0;i<SizeMax;++i){
-        uint64_t tmp = 0;
+        BaseNum tmp = 0;
         for(int j=0;j<BaseLen;++j){
-            tmp += static_cast<uint64_t>(pow(10,BaseLen-j-1))*(numStr[i*BaseLen+j]-'0');
+            tmp += static_cast<BaseNum>(pow(10,BaseLen-j-1))*(numStr[i*BaseLen+j]-'0');
         }
         this->_digi[i] = tmp;
     }
 }
 
-Integer::Integer(uint64_t val, bool sign){
-    memset(this->_digi, 0, sizeof(this->_digi));
+Integer::Integer(BaseNum val, bool sign){
+    this->_digi.resize(SizeMax);
     this->_sign = sign;
     this->_digi[SizeMax-1] = val;
     this->_sizeUsed = 1;
@@ -23,7 +24,7 @@ Integer::Integer(uint64_t val, bool sign){
 
 void Integer::Complete(){
     //將數字轉成10補數
-    uint64_t temp;
+    BaseNum temp;
     uint8_t carry = 1;
     for(int i=0;i<SizeMax;++i){
         this->_digi[i] = subtrahend - this->_digi[i];
@@ -52,7 +53,7 @@ std::string Integer::ToString() const{
 
 const Integer Integer::operator++(){
     uint8_t carry = 1;
-    uint64_t temp;
+    BaseNum temp;
     for(int i=SizeMax-1;i>=0;--i){
         if(!carry)break;
         temp = this->_digi[i] + carry;
@@ -66,7 +67,7 @@ const Integer operator+(const Integer& lhs, const Integer& rhs){
     Integer ltmp = lhs, rtmp = rhs;
     if(ltmp._sign)ltmp.Complete();
     if(rtmp._sign)rtmp.Complete();
-    uint64_t carry = 0,temp;
+    BaseNum carry = 0,temp;
     //加到ltmp，並假設不會溢位
     for(int i=SizeMax-1;i>=0;--i){
         if(!carry && i<(SizeMax - ltmp._sizeUsed) && i<(SizeMax - rtmp._sizeUsed))break;
@@ -97,7 +98,7 @@ const Integer operator-(const Integer& lhs, const Integer& rhs){
 
 const Integer operator*(const Integer& lhs, const Integer& rhs){
     Integer result(0, false);
-    uint64_t tmp;
+    BaseNum tmp;
     for(int i=SizeMax-1;i>=SizeMax-rhs._sizeUsed;--i){
         //i for rhs j for lhs
         if(rhs._digi[i] == 0)continue;
@@ -215,7 +216,7 @@ const Integer GCD(const Integer& lhs, const Integer& rhs){
 }
 
 void Integer::LeftShift(){
-    uint64_t carry = 0, tmp, origin;
+    BaseNum carry = 0, tmp, origin;
     uint32_t newSize = 0;
     for(int i=SizeMax-1;i>=SizeMax-this->_sizeUsed || carry;--i){
         origin = this->_digi[i];
