@@ -5,6 +5,7 @@ using namespace std;
 
 int main(){
     Decimal d("0.2");
+    //
     clock_t start, finish;
     start = clock();
     d.Reduce();

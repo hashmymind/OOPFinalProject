@@ -297,3 +297,51 @@ void Decimal::Reduce(){
     this->_denominator = this->_denominator / divisor;
     // todo: overload /=
 }
+
+bool Decimal::GetSign() const{
+    return this->_sign;
+}
+
+void Decimal::SetSign(bool sign){
+    this->_sign = sign;
+}
+
+const Decimal operator+(const Decimal& lhs, const Decimal& rhs){
+    // 相加再約分
+    Decimal result, ltmp = lhs, rtmp = rhs;
+    ltmp._numerator.SetSign(ltmp.GetSign());
+    ltmp._denominator.SetSign(false);
+    rtmp._numerator.SetSign(rtmp.GetSign());
+    rtmp._denominator.SetSign(false);
+    result._numerator = ltmp._numerator*rtmp._denominator + ltmp._denominator*rtmp._numerator;
+    result._denominator = ltmp._denominator * rtmp._denominator;
+    result.SetSign(result._numerator.GetSign());
+    result._numerator.SetSign(false);
+    result.Reduce();
+    return result;
+}
+
+const Decimal operator-(const Decimal& lhs, const Decimal& rhs){
+    Decimal rtmp = rhs;
+    rtmp.SetSign(!rtmp.GetSign());
+    return lhs + rtmp;
+}
+
+const Decimal operator*(const Decimal& lhs, const Decimal& rhs){
+    // 相乘再約分
+    Decimal result;
+    result._numerator = lhs._numerator * rhs._numerator;
+    result._denominator = lhs._denominator * rhs._denominator;
+    result.SetSign(lhs.GetSign()^rhs.GetSign());
+    result.Reduce();
+    return result;
+}
+
+const Decimal operator/(const Decimal& lhs, const Decimal& rhs){
+    //乘倒數
+    Decimal rtmp;
+    rtmp._sign = rhs.GetSign();
+    rtmp._numerator = rhs._denominator;
+    rtmp._denominator = rhs._numerator;
+    return lhs * rtmp;
+}

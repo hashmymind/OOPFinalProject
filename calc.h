@@ -65,6 +65,8 @@ public:
     friend const std::istream operator>>(std::istream& stream, const Decimal&);
     
     void Reduce();
+    void SetSign(bool);
+    bool GetSign() const;
     bool IsReduced();
     std::string ToString() const;
 };
