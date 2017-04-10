@@ -18,8 +18,17 @@ class NumberObject{
     // root class
 public:
     friend std::ostream& operator<<(std::ostream&, const NumberObject&);
+    friend const NumberObject operator+(const NumberObject&, const NumberObject&);
+    friend const NumberObject operator-(const NumberObject&, const NumberObject&);
+    friend const NumberObject operator*(const NumberObject&, const NumberObject&);
+    friend const NumberObject operator/(const NumberObject&, const NumberObject&);
 protected:
+    // Todo:在子類別實作
     virtual void Output(std::ostream&) const{};
+    virtual const NumberObject Times(const NumberObject&){return *this;};
+    virtual const NumberObject DivBy(const NumberObject&){return *this;};
+    virtual const NumberObject Add(const NumberObject&){return *this;};
+    virtual const NumberObject Sub(const NumberObject&){return *this;};
 };
 
 class Integer: public NumberObject{
