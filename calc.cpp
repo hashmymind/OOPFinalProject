@@ -93,6 +93,7 @@ const Integer operator+(const Integer& lhs, const Integer& rhs){
         ltmp._sign = true;
     }
     //重新計算使用量
+    ltmp._sizeUsed = 1;
     for(int i = 0;i<SizeMax;++i){
         if(ltmp._digi[i]){
             ltmp._sizeUsed = SizeMax - i;
@@ -135,6 +136,7 @@ const Integer operator/(const Integer& lhs,const Integer& rhs){
     dividend._sign = false;divisor._sign = false;
     if(dividend < divisor)return Integer(0,false);
     if(dividend == divisor)return Integer(1,false);
+    if(divisor == Integer(1,false))return dividend;
     while(dividend >= divisor)
         divisor.LeftShift();
     divisor.RightShift();
@@ -148,6 +150,27 @@ const Integer operator/(const Integer& lhs,const Integer& rhs){
         divisor.RightShift();
     }
     return result;
+}
+
+const Integer operator%(const Integer& lhs, const Integer& rhs){
+    Integer dividend = lhs, divisor = rhs, result(0,false), oriDivisor = rhs;
+    dividend._sign = false;divisor._sign = false;
+    if(dividend < divisor)return dividend;
+    if(dividend == divisor)return Integer(0,false);
+    if(divisor == Integer(1,false))return Integer(0,false);
+    while(dividend >= divisor)
+        divisor.LeftShift();
+    divisor.RightShift();
+    while(divisor >= oriDivisor){
+        result.LeftShift();
+        while(dividend >= divisor){
+            ++result;
+            //現在不知道是調用乘法快還是用減法快，待測試
+            dividend = dividend - divisor;//to do -=
+        }
+        divisor.RightShift();
+    }
+    return dividend;
 }
 
 const bool operator>(const Integer& lhs, const Integer& rhs){
@@ -216,15 +239,12 @@ const bool Integer::IsZero() const{
 }
 
 const Integer GCD(const Integer& lhs, const Integer& rhs){
-    Integer ltmp = lhs, rtmp = rhs;
+    Integer ltmp = lhs, rtmp = rhs, tmp;
     ltmp._sign = false;rtmp._sign = false;
     while(!rtmp.IsZero()){
-        if(ltmp > rtmp){
-            ltmp = ltmp - rtmp;
-        }
-        else{
-            rtmp = rtmp - ltmp;
-        }
+        tmp = rtmp;
+        rtmp = ltmp%rtmp;
+        ltmp = tmp;
     }
     return ltmp;
 }
@@ -398,4 +418,17 @@ const bool operator>=(const Decimal& lhs, const Decimal& rhs){
 
 const bool operator<=(const Decimal& lhs, const Decimal& rhs){
     return !(lhs > rhs);
+}
+
+std::string Decimal::ToString() const{
+    std::string result;
+    Decimal tmp = *this;
+    for(int i=0;i<100;++i){
+        tmp._numerator.LeftShift();
+    }
+    tmp.Reduce();
+    result = (tmp._numerator / tmp._denominator).ToString();
+    if(result.length() - 100 == 0) result = "0" + result ;
+    result.insert(result.length() - 100, ".");
+    return result;
 }
