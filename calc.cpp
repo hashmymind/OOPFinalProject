@@ -263,13 +263,16 @@ void Integer::SetSign(bool sign){
 
 Decimal::Decimal(std::string decimalStr){
     this->_denominator = Integer(1, false);
+    bool havePoint = false;
     for(int i=(int)decimalStr.length()-1;i>=0;--i){
         if(decimalStr[i] == '.'){
             decimalStr.erase(i,1);
+            havePoint = true;
             break;
         }
         this->_denominator.LeftShift();
     }
+    if(!havePoint)this->_denominator = Integer(1, false);
     this->_numerator = Integer(decimalStr);
     this->_sign = this->_numerator.GetSign();
     this->_numerator.SetSign(false);
