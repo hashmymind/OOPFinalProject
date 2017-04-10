@@ -1,5 +1,11 @@
 #include "calc.h"
 
+//
+//
+// Integer below
+//
+//
+
 Integer::Integer(std::string numStr){
     this->_digi.resize(SizeMax);
     this->_sign = numStr[0]=='-' ? true:false;
@@ -239,4 +245,43 @@ void Integer::RightShift(){
     if(!this->_digi[SizeMax - this->_sizeUsed]){
         this->_sizeUsed -= 1;
     }
+}
+
+bool Integer::GetSign() const{
+    return this->_sign;
+}
+
+void Integer::SetSign(bool sign){
+    this->_sign = sign;
+}
+
+//
+//
+// Decimal below
+//
+//
+
+Decimal::Decimal(std::string decimalStr){
+    this->_denominator = Integer(1, false);
+    for(int i=(int)decimalStr.length()-1;i>=0;--i){
+        if(decimalStr[i] == '.'){
+            decimalStr.erase(i,1);
+            break;
+        }
+        this->_denominator.LeftShift();
+    }
+    this->_numerator = Integer(decimalStr);
+    this->_sign = this->_numerator.GetSign();
+    this->_numerator.SetSign(false);
+}
+
+void Decimal::Reduce(){
+    Integer divisor = GCD(this->_numerator, this->_denominator);
+    if(divisor.ToString() == "1"){
+        // todo: compare to real number
+        return;
+    }
+    this->_numerator = this->_numerator / divisor;
+    this->_denominator = this->_denominator / divisor;
+    // todo: overload /=
 }

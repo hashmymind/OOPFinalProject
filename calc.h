@@ -10,7 +10,10 @@ typedef uint64_t BaseNum;
 
 const BaseNum BaseMax = 1000000000000000000, subtrahend = BaseMax-1;
 const uint32_t SizeMax = 100, BaseLen = 18, ContainLenMax = SizeMax * BaseLen;
+
 class Decimal;
+class Complex;
+
 class Integer{
 private:
     std::vector<BaseNum> _digi;
@@ -39,7 +42,9 @@ public:
     void Complete();
     void LeftShift();
     void RightShift();
+    void SetSign(bool);
     bool IsZero() const;
+    bool GetSign() const;
     std::string ToString() const;
 };
 
@@ -49,7 +54,19 @@ private:
     bool _sign;
 public:
     Decimal(){}
+    Decimal(std::string);
     
+    friend const Decimal operator+(const Decimal&, const Decimal&);
+    friend const Decimal operator-(const Decimal&, const Decimal&);
+    friend const Decimal operator*(const Decimal&, const Decimal&);
+    friend const Decimal operator/(const Decimal&, const Decimal&);
+    friend const bool operator==(const Decimal&, const Decimal&);
+    friend const std::ostream operator<<(std::ostream& stream, const Decimal&);
+    friend const std::istream operator>>(std::istream& stream, const Decimal&);
+    
+    void Reduce();
+    bool IsReduced();
+    std::string ToString() const;
 };
 
 class Complex{

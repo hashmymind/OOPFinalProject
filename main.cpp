@@ -4,13 +4,11 @@
 using namespace std;
 
 int main(){
-    Integer i(BaseMax-1,false), j("88888888888888888888888"),k;
+    Decimal d("0.2");
     clock_t start, finish;
-    i.LeftShift();
     start = clock();
-    k = j / i;
-    cout << k.ToString() << endl;
+    d.Reduce();
     finish = clock();
-    cout << 1000*(double)(finish - start) / CLOCKS_PER_SEC << "ms" << endl;
+    cout << 1000000*(double)(finish - start) / CLOCKS_PER_SEC << " us" << endl;
     return 0;
 }
