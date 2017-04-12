@@ -22,9 +22,10 @@ public:
     friend const NumberObject operator-(const NumberObject&, const NumberObject&);
     friend const NumberObject operator*(const NumberObject&, const NumberObject&);
     friend const NumberObject operator/(const NumberObject&, const NumberObject&);
-protected:
+    
     // Todo:在子類別實作
     virtual void Output(std::ostream&) const{};
+    virtual std::string ToString() const{return "root object";}
 };
 
 class Integer: public NumberObject{
@@ -62,9 +63,9 @@ public:
     void SetSign(bool);
     const bool IsZero() const;
     const bool GetSign() const;
-    std::string ToString() const;
-protected:
+    
     virtual void Output(std::ostream&) const;
+    virtual std::string ToString() const;
 };
 
 class Decimal:public NumberObject{
@@ -97,8 +98,9 @@ public:
     const bool GetSign() const;
     const bool IsReduced();
     std::string ToString(int) const;
-protected:
+    
     virtual void Output(std::ostream&) const;
+    virtual std::string ToString() const;
 };
 
 class Complex:public NumberObject{
@@ -118,8 +120,6 @@ public:
     
     Complex operator=(const std::string&);
     
-    std::string ToString() const;
-    
-protected:
     virtual void Output(std::ostream&) const;
+    virtual std::string ToString() const;
 };

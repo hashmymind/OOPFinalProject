@@ -2,7 +2,15 @@
 using namespace std;
 
 int main(){
-    Complex a("-1+-1i");
-    cout << a << endl;
+    vector<NumberObject*> nums;
+    Integer i("1");
+    Decimal d("0.1");
+    Complex c("-1");
+    nums.push_back(&i);
+    nums.push_back(&d);
+    nums.push_back(&c);
+    
+    cout << nums[2]->ToString() << endl;
+    
     return 0;
 }

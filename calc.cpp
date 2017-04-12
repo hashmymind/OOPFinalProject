@@ -469,6 +469,10 @@ std::string Decimal::ToString(int precise) const{
     return result;
 }
 
+std::string Decimal::ToString() const{
+    return this->ToString(100);
+}
+
 std::ostream& operator<<(std::ostream& stream, const Decimal& rhs){
     rhs.Output(stream);
     return stream;
@@ -519,7 +523,7 @@ std::string Complex::ToString() const{
     //還沒加入為0忽略的功能
     std::string result = "";
     result += this->_realPart.ToString(10) + " ";
-    result += this->_imaginePart.GetSign()?"- "+this->_imaginePart.ToString(10).substr(1):"+ "+this->_imaginePart.ToString(10)+"i";
+    result += this->_imaginePart.GetSign()?"- "+this->_imaginePart.ToString(10).substr(1)+"i":"+ "+this->_imaginePart.ToString(10)+"i";
     return result;
 }
 
