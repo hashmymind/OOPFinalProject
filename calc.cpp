@@ -21,6 +21,9 @@ std::ostream& operator<<(std::ostream& stream, const NumberObject& rhs){
 Integer::Integer(const std::string& numStr){
     std::string numTmp = numStr;
     this->_digi.resize(SizeMax);
+    //防呆
+    if(numTmp[0] == '+')numTmp = numTmp.substr(1);
+    if(numTmp == "")numTmp = "0";
     //處理負號
     this->_sign = numStr[0]=='-' ? true:false;
     numTmp = this->_sign ? numTmp.substr(1):numTmp;
@@ -92,8 +95,9 @@ const Integer Integer::operator++(){
     return *this;
 }
 
-void Integer::operator=(const std::string& numSrt){
+Integer Integer::operator=(const std::string& numSrt){
     *this = Integer(numSrt);
+    return *this;
 }
 
 const Integer operator+(const Integer& lhs, const Integer& rhs){
@@ -344,8 +348,9 @@ void Decimal::Output(std::ostream& stream) const{
     stream << this->ToString(100);
 }
 
-void Decimal::operator=(const std::string& numSrt){
+Decimal Decimal::operator=(const std::string& numSrt){
     *this = Decimal(numSrt);
+    return *this;
 }
 
 void Decimal::Reduce(){
@@ -459,7 +464,8 @@ std::string Decimal::ToString(int precise) const{
     tmp.Reduce();
     result = (tmp._numerator / tmp._denominator).ToString();
     if(result.length() - precise == 0) result = "0" + result ;
-    result.insert(result.length() - precise, ".");
+    if(result.length() > precise)result.insert(result.length() - precise, ".");
+    if(this->_sign)result = "-" + result;
     return result;
 }
 
@@ -475,6 +481,91 @@ std::ostream& operator<<(std::ostream& stream, const Decimal& rhs){
 //
 
 Complex::Complex(const std::string& complexStr){
+    //邏輯有點亂 有空改
     std::string complexTmp = complexStr;
-    
+    bool haveReal = false, haveImag = false;
+    if(complexTmp.find("i") != std::string::npos){
+        haveImag = true;
+        complexTmp.erase(complexTmp.find("i"),1);
+    }
+    if((!haveImag && complexTmp.size()!=0)|| complexTmp.find("+",1)!=std::string::npos||complexTmp.find("-",1)!=std::string::npos){
+        haveReal = true;
+    }
+    size_t midOp = complexTmp.find("+",1);
+    if(midOp ==std::string::npos)midOp =complexTmp.find("-",1);
+    if(haveReal){
+        size_t end = complexTmp.length();
+        if(haveImag)
+            end = midOp;
+        this->_realPart = Decimal(complexTmp.substr(0,end));
+    }
+    else{
+        this->_realPart = Decimal("0");
+    }
+    if(haveImag){
+        size_t start = 0;
+        if(haveReal){
+            start = midOp+1;
+        }
+        this->_imaginePart = Decimal(complexTmp.substr(start, complexTmp.length()-start));
+        if(complexTmp[midOp]=='-')this->_imaginePart.SetSign(true);
+    }
+    else{
+        this->_imaginePart = Decimal("0");
+    }
+}
+
+std::string Complex::ToString() const{
+    //還沒加入為0忽略的功能
+    std::string result = "";
+    result += this->_realPart.ToString(10) + " ";
+    result += this->_imaginePart.GetSign()?"- "+this->_imaginePart.ToString(10).substr(1):"+ "+this->_imaginePart.ToString(10)+"i";
+    return result;
+}
+
+const Complex operator+(const Complex& lhs, const Complex& rhs){
+    Complex result;
+    result._realPart = lhs._realPart + rhs._realPart;
+    result._imaginePart = lhs._realPart + rhs._imaginePart;
+    return result;
+}
+
+const Complex operator-(const Complex& lhs, const Complex& rhs){
+    Complex result;
+    result._realPart = lhs._realPart - rhs._realPart;
+    result._imaginePart = lhs._realPart - rhs._imaginePart;
+    return result;
+}
+
+const Complex operator*(const Complex& lhs, const Complex& rhs){
+    Complex result;
+    result._realPart = lhs._realPart*rhs._realPart - lhs._imaginePart*rhs._imaginePart;
+    result._imaginePart = lhs._realPart*rhs._imaginePart + lhs._imaginePart*rhs._realPart;
+    return result;
+}
+
+const Complex operator/(const Complex& lhs, const Complex& rhs){
+    Complex result;
+    Decimal divisor = lhs._realPart*lhs._realPart + rhs._imaginePart*rhs._imaginePart;
+    result._realPart = (lhs._realPart*rhs._realPart + lhs._imaginePart*rhs._imaginePart)/divisor;
+    result._imaginePart = (lhs._imaginePart*rhs._realPart - lhs._realPart*rhs._imaginePart)/divisor;
+    return result;
+}
+
+void Complex::Output(std::ostream& stream) const{
+    stream << this->ToString();
+}
+
+std::ostream& operator<<(std::ostream& stream, const Complex& rhs){
+    rhs.Output(stream);
+    return stream;
+}
+
+const bool operator==(const Complex& lhs, const Complex& rhs){
+    return lhs._realPart == rhs._realPart && lhs._imaginePart == rhs._imaginePart;
+}
+
+Complex Complex::operator=(const std::string& complexStr){
+    *this = Complex(complexStr);
+    return *this;
 }

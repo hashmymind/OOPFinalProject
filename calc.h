@@ -25,10 +25,6 @@ public:
 protected:
     // Todo:在子類別實作
     virtual void Output(std::ostream&) const{};
-    virtual const NumberObject Times(const NumberObject&){return *this;};
-    virtual const NumberObject DivBy(const NumberObject&){return *this;};
-    virtual const NumberObject Add(const NumberObject&){return *this;};
-    virtual const NumberObject Sub(const NumberObject&){return *this;};
 };
 
 class Integer: public NumberObject{
@@ -37,7 +33,9 @@ private:
     uint32_t _sizeUsed;
     bool _sign;
 public:
-    Integer(){}
+    Integer():_sizeUsed(1){
+        _digi.resize(SizeMax);
+    }
     Integer(const std::string&);
     Integer(BaseNum ,bool);
     
@@ -55,7 +53,7 @@ public:
     friend std::ostream& operator<<(std::ostream&, const Integer&);
     friend std::istream& operator>>(std::istream&, Integer&);
     
-    void operator=(const std::string&);
+    Integer operator=(const std::string&);
     
     const Integer operator++();
     void Complete();
@@ -74,7 +72,10 @@ private:
     Integer _numerator, _denominator;
     bool _sign;
 public:
-    Decimal(){}
+    Decimal(){
+        _numerator = Integer(0, false);
+        _denominator = Integer(1, false);
+    }
     Decimal(const std::string&);
     
     friend const Decimal operator+(const Decimal&, const Decimal&);
@@ -89,7 +90,7 @@ public:
     friend std::ostream& operator<<(std::ostream&, const Decimal&);
     friend std::istream& operator>>(std::istream&, Decimal&);
     
-    void operator=(const std::string&);
+    Decimal operator=(const std::string&);
     
     void Reduce();
     void SetSign(bool);
@@ -114,7 +115,11 @@ public:
     friend const bool operator==(const Complex&, const Complex&);
     friend std::ostream& operator<<(std::ostream&, const Complex&);
     friend std::istream& operator>>(std::istream&, Complex&);
-  
+    
+    Complex operator=(const std::string&);
+    
+    std::string ToString() const;
+    
 protected:
-    void operator=(const std::string&);
+    virtual void Output(std::ostream&) const;
 };
