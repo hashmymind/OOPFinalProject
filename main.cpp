@@ -2,15 +2,10 @@
 using namespace std;
 
 int main(){
-    vector<NumberObject*> nums;
-    Integer i("1");
-    Decimal d("0.1");
-    Complex c("-1");
-    nums.push_back(&i);
-    nums.push_back(&d);
-    nums.push_back(&c);
-    
-    cout << nums[2]->ToString() << endl;
-    
+    Integer i1("4412313213465646451"), i2("7897454531231231313"), i3, i4(1,false);
+    i3 = i1 * i2;
+    cout << i3.ToString() << endl;
+    for(int i=0;i<18;i++)i4.LeftShift();
+    cout << i4.ToString()<<endl;
     return 0;
 }

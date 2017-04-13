@@ -26,6 +26,7 @@ public:
     // Todo:在子類別實作
     virtual void Output(std::ostream&) const{};
     virtual std::string ToString() const{return "root object";}
+    virtual const NumberObject Add(const NumberObject&) const{return *this;};
 };
 
 class Integer: public NumberObject{
@@ -56,6 +57,16 @@ public:
     
     Integer operator=(const std::string&);
     
+    const Decimal operator+(const Decimal&);
+    const Decimal operator-(const Decimal&);
+    const Decimal operator*(const Decimal&);
+    const Decimal operator/(const Decimal&);
+    
+    const Complex operator+(const Complex&);
+    const Complex operator-(const Complex&);
+    const Complex operator*(const Complex&);
+    const Complex operator/(const Complex&);
+    
     const Integer operator++();
     void Complete();
     void LeftShift();
@@ -66,6 +77,7 @@ public:
     
     virtual void Output(std::ostream&) const;
     virtual std::string ToString() const;
+    virtual const Integer Add(const Integer&)const;
 };
 
 class Decimal:public NumberObject{
@@ -93,11 +105,23 @@ public:
     
     Decimal operator=(const std::string&);
     
+    const Decimal operator+(const Integer&);
+    const Decimal operator-(const Integer&);
+    const Decimal operator*(const Integer&);
+    const Decimal operator/(const Integer&);
+    
+    const Complex operator+(const Complex&);
+    const Complex operator-(const Complex&);
+    const Complex operator*(const Complex&);
+    const Complex operator/(const Complex&);
+    
     void Reduce();
     void SetSign(bool);
     const bool GetSign() const;
     const bool IsReduced();
     std::string ToString(int) const;
+    
+    static Decimal IntToDecimal(const Integer&);
     
     virtual void Output(std::ostream&) const;
     virtual std::string ToString() const;
@@ -119,6 +143,19 @@ public:
     friend std::istream& operator>>(std::istream&, Complex&);
     
     Complex operator=(const std::string&);
+    
+    const Complex operator+(const Integer&);
+    const Complex operator-(const Integer&);
+    const Complex operator*(const Integer&);
+    const Complex operator/(const Integer&);
+    
+    const Complex operator+(const Decimal&);
+    const Complex operator-(const Decimal&);
+    const Complex operator*(const Decimal&);
+    const Complex operator/(const Decimal&);
+    
+    static Complex IntToComplex(const Integer&);
+    static Complex DecimalToComplex(const Decimal&);
     
     virtual void Output(std::ostream&) const;
     virtual std::string ToString() const;

@@ -11,6 +11,10 @@ std::ostream& operator<<(std::ostream& stream, const NumberObject& rhs){
     return stream;
 }
 
+const NumberObject operator+(const NumberObject& lhs, const NumberObject& rhs){
+    return lhs.Add(rhs);
+}
+
 
 //
 //
@@ -47,6 +51,12 @@ Integer::Integer(BaseNum val, bool sign){
     this->_sign = sign;
     this->_digi[SizeMax-1] = val;
     this->_sizeUsed = 1;
+    if(this->_digi[SizeMax-1]/BaseMax >0){
+        this->_digi[SizeMax-1] = this->_digi[SizeMax-1]%BaseMax;
+        this->_digi[SizeMax-2] = val/BaseMax;
+        this->_sizeUsed = 2;
+    }
+    
 }
 
 void Integer::Output(std::ostream& stream) const{
@@ -100,8 +110,8 @@ Integer Integer::operator=(const std::string& numSrt){
     return *this;
 }
 
-const Integer operator+(const Integer& lhs, const Integer& rhs){
-    Integer ltmp = lhs, rtmp = rhs;
+const Integer Integer::Add(const Integer& rhs) const{
+    Integer ltmp = *this, rtmp = rhs;
     if(ltmp._sign)ltmp.Complete();
     if(rtmp._sign)rtmp.Complete();
     BaseNum carry = 0,temp;
@@ -126,6 +136,11 @@ const Integer operator+(const Integer& lhs, const Integer& rhs){
         }
     }
     return ltmp;
+
+}
+
+const Integer operator+(const Integer& lhs, const Integer& rhs){
+    return lhs.Add(rhs);
 }
 
 const Integer operator-(const Integer& lhs, const Integer& rhs){
@@ -135,26 +150,27 @@ const Integer operator-(const Integer& lhs, const Integer& rhs){
 }
 
 const Integer operator*(const Integer& lhs, const Integer& rhs){
-    Integer result(0, false);
-    BaseNum tmp;
-    for(int i=SizeMax-1;i>=SizeMax-rhs._sizeUsed;--i){
-        //i for rhs j for lhs
-        if(rhs._digi[i] == 0)continue;
+    Integer result(0, false), rtmp=rhs , itmp;
         for(int j=SizeMax-1;j>=SizeMax-lhs._sizeUsed;--j){
+            rtmp = rhs;
             if(lhs._digi[j] == 0)continue;
-            tmp = lhs._digi[j] * rhs._digi[i];
-            for(int k=0;tmp;++k){
-                tmp = result._digi[i-(SizeMax-j)+1-k] + tmp;
-                result._digi[i-(SizeMax-j)+1-k] = tmp % BaseMax;
-                tmp /= BaseMax;
-                //重新計算使用量
-                result._sizeUsed = SizeMax - (i-(SizeMax-j)+1-k);
+            int count = 0;
+            while(!rtmp.IsZero()){
+                if(count == 18){
+                    std::cout << "";
+                }
+                itmp =Integer(lhs._digi[j] * (rtmp._digi[SizeMax-1]%10),false);
+                rtmp.RightShift();
+                for(int k=0;k<count + (SizeMax-j-1)*BaseLen;k++){
+                    itmp.LeftShift();
+                }count++;
+                result = result+itmp;
             }
         }
-    }
     result._sign = lhs._sign ^ rhs._sign;
     return result;
 }
+
 
 const Integer operator/(const Integer& lhs,const Integer& rhs){
     Integer dividend = lhs, divisor = rhs, result(0,false), oriDivisor = rhs;
@@ -320,6 +336,32 @@ std::istream& operator>>(std::istream& stream, Integer& rhs){
     return stream;
 }
 
+const Decimal Integer::operator+(const Decimal& rhs){
+    return Decimal::IntToDecimal(*this) + rhs;
+}
+
+const Decimal Integer::operator-(const Decimal& rhs){
+    return Decimal::IntToDecimal(*this) - rhs;
+}
+
+const Decimal Integer::operator*(const Decimal& rhs){
+    return Decimal::IntToDecimal(*this) * rhs;
+}
+
+const Decimal Integer::operator/(const Decimal& rhs){
+    return Decimal::IntToDecimal(*this) / rhs;
+}
+
+const Complex Integer::operator+(const Complex& rhs){
+    return Complex::IntToComplex(*this) + rhs;
+}
+
+/*const Complex Integer::operator-(const Complex& rhs){
+    return <#expression#>
+}*/
+
+
+
 //
 //
 // Decimal below
@@ -342,6 +384,16 @@ Decimal::Decimal(const std::string& decimalStr){
     this->_numerator = Integer(decimalTmp);
     this->_sign = this->_numerator.GetSign();
     this->_numerator.SetSign(false);
+}
+
+Decimal Decimal::IntToDecimal(const Integer& rhs){
+    Decimal newDec;
+    Integer tmpInt = rhs;
+    newDec._sign = tmpInt.GetSign();
+    tmpInt.SetSign(false);
+    newDec._numerator = tmpInt;
+    newDec._denominator = Integer(1,false);
+    return newDec;
 }
 
 void Decimal::Output(std::ostream& stream) const{
@@ -572,4 +624,18 @@ const bool operator==(const Complex& lhs, const Complex& rhs){
 Complex Complex::operator=(const std::string& complexStr){
     *this = Complex(complexStr);
     return *this;
+}
+
+Complex Complex::IntToComplex(const Integer& rhs){
+    Complex newComp;
+    newComp._realPart = Decimal::IntToDecimal(rhs);
+    newComp._imaginePart = Decimal::IntToDecimal(Integer(0,false));
+    return newComp;
+}
+
+Complex Complex::DecimalToComplex(const Decimal& rhs){
+    Complex newComp;
+    newComp._realPart = rhs;
+    newComp._imaginePart = Decimal::IntToDecimal(Integer(0,false));
+    return newComp;
 }
