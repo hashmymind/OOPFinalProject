@@ -15,7 +15,6 @@ const NumberObject operator+(const NumberObject& lhs, const NumberObject& rhs){
     return lhs.Add(rhs);
 }
 
-
 //
 //
 // Integer below
@@ -107,6 +106,13 @@ const Integer Integer::operator++(){
 
 Integer Integer::operator=(const std::string& numSrt){
     *this = Integer(numSrt);
+    return *this;
+}
+
+const Integer Integer::operator=(const Integer& rhs){
+    this->_sign = rhs._sign;
+    this->_sizeUsed = rhs._sizeUsed;
+    this->_digi = rhs._digi;
     return *this;
 }
 
@@ -515,8 +521,8 @@ std::string Decimal::ToString(int precise) const{
     }
     tmp.Reduce();
     result = (tmp._numerator / tmp._denominator).ToString();
-    if(result.length() - precise == 0) result = "0" + result ;
-    if(result.length() > precise)result.insert(result.length() - precise, ".");
+    if(result.size() < precise)result.insert(0, precise - result.length()+1,'0');
+    result.insert(result.length() - precise, ".");
     if(this->_sign)result = "-" + result;
     return result;
 }

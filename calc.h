@@ -27,6 +27,7 @@ public:
     virtual void Output(std::ostream&) const{};
     virtual std::string ToString() const{return "root object";}
     virtual const NumberObject Add(const NumberObject&) const{return *this;};
+    virtual const NumberObject operator=(const NumberObject&){return *this;};
 };
 
 class Integer: public NumberObject{
@@ -78,6 +79,7 @@ public:
     virtual void Output(std::ostream&) const;
     virtual std::string ToString() const;
     virtual const Integer Add(const Integer&)const;
+    virtual const Integer operator=(const Integer&);
 };
 
 class Decimal:public NumberObject{
