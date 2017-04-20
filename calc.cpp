@@ -608,7 +608,7 @@ const Complex operator*(const Complex& lhs, const Complex& rhs){
 
 const Complex operator/(const Complex& lhs, const Complex& rhs){
     Complex result;
-    Decimal divisor = lhs._realPart*lhs._realPart + rhs._imaginePart*rhs._imaginePart;
+    Decimal divisor = rhs._realPart*rhs._realPart + rhs._imaginePart*rhs._imaginePart;
     result._realPart = (lhs._realPart*rhs._realPart + lhs._imaginePart*rhs._imaginePart)/divisor;
     result._imaginePart = (lhs._imaginePart*rhs._realPart - lhs._realPart*rhs._imaginePart)/divisor;
     return result;

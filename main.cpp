@@ -3,10 +3,9 @@ using namespace std;
 
 int main(){
     
-    Decimal a,b,c;
-    a = Decimal("1");
-    b = Decimal("1");
-    c = a/b;
-    cout << c << endl;
+    NumberObject *a, *b,*c;
+    a = new Integer("1");
+    b = new Decimal("2.0");
+    cout << a->ToString() << endl;
 }
 
