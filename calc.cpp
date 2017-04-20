@@ -588,14 +588,14 @@ std::string Complex::ToString() const{
 const Complex operator+(const Complex& lhs, const Complex& rhs){
     Complex result;
     result._realPart = lhs._realPart + rhs._realPart;
-    result._imaginePart = lhs._realPart + rhs._imaginePart;
+    result._imaginePart = lhs._imaginePart + rhs._imaginePart;
     return result;
 }
 
 const Complex operator-(const Complex& lhs, const Complex& rhs){
     Complex result;
     result._realPart = lhs._realPart - rhs._realPart;
-    result._imaginePart = lhs._realPart - rhs._imaginePart;
+    result._imaginePart = lhs._imaginePart - rhs._imaginePart;
     return result;
 }
 

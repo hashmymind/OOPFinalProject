@@ -2,10 +2,7 @@
 using namespace std;
 
 int main(){
-    
-    NumberObject *a, *b,*c;
-    a = new Integer("1");
-    b = new Decimal("2.0");
-    cout << a->ToString() << endl;
+    Complex a("1"), b("1");
+    cout <<(a+b).ToString() << endl;
 }
 
