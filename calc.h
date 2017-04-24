@@ -18,16 +18,10 @@ class NumberObject{
     // root class
 public:
     friend std::ostream& operator<<(std::ostream&, const NumberObject&);
-    friend const NumberObject operator+(const NumberObject&, const NumberObject&);
-    friend const NumberObject operator-(const NumberObject&, const NumberObject&);
-    friend const NumberObject operator*(const NumberObject&, const NumberObject&);
-    friend const NumberObject operator/(const NumberObject&, const NumberObject&);
     
     // Todo:在子類別實作
-    virtual void Output(std::ostream&) const{};
-    virtual std::string ToString() const{return "root object";}
-    virtual const NumberObject Add(const NumberObject&) const{return *this;};
-    virtual const NumberObject operator=(const NumberObject&){return *this;};
+    virtual void Output(std::ostream&) const = 0;
+    virtual std::string ToString() const = 0;
 };
 
 class Integer: public NumberObject{
@@ -78,8 +72,8 @@ public:
     
     virtual void Output(std::ostream&) const;
     virtual std::string ToString() const;
-    virtual const Integer Add(const Integer&)const;
-    virtual const Integer operator=(const Integer&);
+    const Integer Add(const Integer&)const;
+    const Integer operator=(const Integer&);
 };
 
 class Decimal:public NumberObject{

@@ -11,10 +11,6 @@ std::ostream& operator<<(std::ostream& stream, const NumberObject& rhs){
     return stream;
 }
 
-const NumberObject operator+(const NumberObject& lhs, const NumberObject& rhs){
-    return lhs.Add(rhs);
-}
-
 //
 //
 // Integer below
