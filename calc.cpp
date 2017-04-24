@@ -58,6 +58,12 @@ void Integer::Output(std::ostream& stream) const{
     stream << this->ToString();
 }
 
+void Integer::Input(std::istream& stream){
+    std::string digis;
+    stream >> digis;
+    *this = Integer(digis);
+}
+
 void Integer::Complete(){
     //將數字轉成10補數
     BaseNum temp;
@@ -332,9 +338,7 @@ std::ostream& operator<<(std::ostream& stream, const Integer& rhs){
 }
 
 std::istream& operator>>(std::istream& stream, Integer& rhs){
-    std::string numStr;
-    stream >> numStr;
-    rhs = Integer(numStr);
+    rhs.Input(stream);
     return stream;
 }
 
@@ -401,6 +405,19 @@ Decimal Decimal::IntToDecimal(const Integer& rhs){
 void Decimal::Output(std::ostream& stream) const{
     stream << this->ToString(100);
 }
+
+void Decimal::Input(std::istream& stream){
+    std::string digis;
+    stream >> digis;
+    *this = Decimal(digis);
+}
+
+std::istream& operator>>(std::istream& stream, Decimal& rhs){
+    rhs.Input(stream);
+    return stream;
+}
+
+
 
 Decimal Decimal::operator=(const std::string& numSrt){
     *this = Decimal(numSrt);
@@ -614,11 +631,20 @@ void Complex::Output(std::ostream& stream) const{
     stream << this->ToString();
 }
 
+void Complex::Input(std::istream& stream){
+    char inputChar;
+    //還不知道怎麼寫
+}
+
 std::ostream& operator<<(std::ostream& stream, const Complex& rhs){
     rhs.Output(stream);
     return stream;
 }
 
+std::istream& operator>>(std::istream& stream, Complex& rhs){
+    rhs.Input(stream);
+    return stream;
+}
 const bool operator==(const Complex& lhs, const Complex& rhs){
     return lhs._realPart == rhs._realPart && lhs._imaginePart == rhs._imaginePart;
 }

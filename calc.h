@@ -5,6 +5,7 @@
 #include <string>
 #include <vector>
 #include <cmath>
+#include <cctype>
 
 typedef uint64_t BaseNum;
 
@@ -18,9 +19,11 @@ class NumberObject{
     // root class
 public:
     friend std::ostream& operator<<(std::ostream&, const NumberObject&);
+    friend std::ostream& operator>>(std::ostream&, const NumberObject&);
     
     // Todo:在子類別實作
     virtual void Output(std::ostream&) const = 0;
+    virtual void Input(std::istream&) = 0;
     virtual std::string ToString() const = 0;
 };
 
@@ -71,6 +74,7 @@ public:
     const bool GetSign() const;
     
     virtual void Output(std::ostream&) const;
+    virtual void Input(std::istream&);
     virtual std::string ToString() const;
     const Integer Add(const Integer&)const;
     const Integer operator=(const Integer&);
@@ -120,6 +124,7 @@ public:
     static Decimal IntToDecimal(const Integer&);
     
     virtual void Output(std::ostream&) const;
+    virtual void Input(std::istream&);
     virtual std::string ToString() const;
 };
 
@@ -154,5 +159,6 @@ public:
     static Complex DecimalToComplex(const Decimal&);
     
     virtual void Output(std::ostream&) const;
+    virtual void Input(std::istream&);
     virtual std::string ToString() const;
 };
