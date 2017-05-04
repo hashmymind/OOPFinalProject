@@ -34,43 +34,93 @@ namespace CalcForm {
 				delete components;
 			}
 		}
-	private: System::Windows::Forms::GroupBox^  groupBox1;
+	private: System::Windows::Forms::GroupBox^  Nymber;
 	protected:
-	private: System::Windows::Forms::Button^  button12;
-	private: System::Windows::Forms::Button^  button11;
-	private: System::Windows::Forms::Button^  button10;
-	private: System::Windows::Forms::Button^  button9;
-	private: System::Windows::Forms::Button^  button8;
-	private: System::Windows::Forms::Button^  button7;
-	private: System::Windows::Forms::Button^  button6;
-	private: System::Windows::Forms::Button^  button5;
-	private: System::Windows::Forms::Button^  button4;
-	private: System::Windows::Forms::Button^  button3;
-	private: System::Windows::Forms::Button^  button2;
-	private: System::Windows::Forms::Button^  button1;
-	private: System::Windows::Forms::TextBox^  textBox1;
-	private: System::Windows::Forms::GroupBox^  groupBox2;
-	private: System::Windows::Forms::Button^  button15;
-	private: System::Windows::Forms::Button^  button14;
-	private: System::Windows::Forms::Button^  button13;
-	private: System::Windows::Forms::GroupBox^  groupBox3;
-	private: System::Windows::Forms::Button^  button19;
-	private: System::Windows::Forms::Button^  button18;
-	private: System::Windows::Forms::Button^  button17;
-	private: System::Windows::Forms::Button^  button16;
-	private: System::Windows::Forms::Button^  button26;
-	private: System::Windows::Forms::Button^  button25;
-	private: System::Windows::Forms::Button^  button24;
-	private: System::Windows::Forms::Button^  button23;
-	private: System::Windows::Forms::Button^  button22;
-	private: System::Windows::Forms::Button^  button21;
-	private: System::Windows::Forms::Button^  button20;
-	private: System::Windows::Forms::GroupBox^  groupBox4;
-	private: System::Windows::Forms::ListBox^  listBox1;
-	private: System::Windows::Forms::Button^  button27;
-	private: System::Windows::Forms::TextBox^  textBox2;
-	private: System::Windows::Forms::Button^  button28;
-	private: System::Windows::Forms::Button^  button29;
+
+	private: System::Windows::Forms::Button^  Imagine;
+	protected:
+
+	private: System::Windows::Forms::Button^  Dot;
+
+
+
+	private: System::Windows::Forms::Button^  Zero;
+
+	private: System::Windows::Forms::Button^  Nine;
+
+	private: System::Windows::Forms::Button^  Eight;
+
+	private: System::Windows::Forms::Button^  Seven;
+
+	private: System::Windows::Forms::Button^  Six;
+
+	private: System::Windows::Forms::Button^  Five;
+
+	private: System::Windows::Forms::Button^  Four;
+
+	private: System::Windows::Forms::Button^  Three;
+
+	private: System::Windows::Forms::Button^  Two;
+
+	private: System::Windows::Forms::Button^  One;
+	private: System::Windows::Forms::TextBox^  Show;
+	private: System::Windows::Forms::GroupBox^  Types;
+
+
+
+
+	private: System::Windows::Forms::Button^  ComplexBTM;
+
+	private: System::Windows::Forms::Button^  DecimalBTM;
+
+
+	private: System::Windows::Forms::Button^  IntegerBTM;
+	private: System::Windows::Forms::GroupBox^  Functions;
+
+
+
+
+
+
+	private: System::Windows::Forms::Button^  Dev;
+
+	private: System::Windows::Forms::Button^  Multiple;
+
+	private: System::Windows::Forms::Button^  Sub;
+
+	private: System::Windows::Forms::Button^  Plus;
+	private: System::Windows::Forms::Button^  Equal;
+
+
+
+	private: System::Windows::Forms::Button^  Clear;
+
+	private: System::Windows::Forms::Button^  Back;
+	private: System::Windows::Forms::Button^  Factor;
+	private: System::Windows::Forms::Button^  POW;
+
+	private: System::Windows::Forms::Button^  Right;
+	private: System::Windows::Forms::Button^  Left;
+	private: System::Windows::Forms::GroupBox^  Var;
+
+
+
+
+
+
+	private: System::Windows::Forms::ListBox^  VarList;
+
+	private: System::Windows::Forms::Button^  Set;
+	private: System::Windows::Forms::TextBox^  VarName;
+
+
+
+
+	private: System::Windows::Forms::Button^  Delete;
+
+	private: System::Windows::Forms::Button^  Modify;
+
+
 
 	private:
 		/// <summary>
@@ -85,482 +135,648 @@ namespace CalcForm {
 		/// </summary>
 		void InitializeComponent(void)
 		{
-			this->groupBox1 = (gcnew System::Windows::Forms::GroupBox());
-			this->button12 = (gcnew System::Windows::Forms::Button());
-			this->button11 = (gcnew System::Windows::Forms::Button());
-			this->button10 = (gcnew System::Windows::Forms::Button());
-			this->button9 = (gcnew System::Windows::Forms::Button());
-			this->button8 = (gcnew System::Windows::Forms::Button());
-			this->button7 = (gcnew System::Windows::Forms::Button());
-			this->button6 = (gcnew System::Windows::Forms::Button());
-			this->button5 = (gcnew System::Windows::Forms::Button());
-			this->button4 = (gcnew System::Windows::Forms::Button());
-			this->button3 = (gcnew System::Windows::Forms::Button());
-			this->button2 = (gcnew System::Windows::Forms::Button());
-			this->button1 = (gcnew System::Windows::Forms::Button());
-			this->textBox1 = (gcnew System::Windows::Forms::TextBox());
-			this->groupBox2 = (gcnew System::Windows::Forms::GroupBox());
-			this->button15 = (gcnew System::Windows::Forms::Button());
-			this->button14 = (gcnew System::Windows::Forms::Button());
-			this->button13 = (gcnew System::Windows::Forms::Button());
-			this->groupBox3 = (gcnew System::Windows::Forms::GroupBox());
-			this->button19 = (gcnew System::Windows::Forms::Button());
-			this->button18 = (gcnew System::Windows::Forms::Button());
-			this->button17 = (gcnew System::Windows::Forms::Button());
-			this->button16 = (gcnew System::Windows::Forms::Button());
-			this->button20 = (gcnew System::Windows::Forms::Button());
-			this->button21 = (gcnew System::Windows::Forms::Button());
-			this->button22 = (gcnew System::Windows::Forms::Button());
-			this->button23 = (gcnew System::Windows::Forms::Button());
-			this->button24 = (gcnew System::Windows::Forms::Button());
-			this->button25 = (gcnew System::Windows::Forms::Button());
-			this->button26 = (gcnew System::Windows::Forms::Button());
-			this->groupBox4 = (gcnew System::Windows::Forms::GroupBox());
-			this->button27 = (gcnew System::Windows::Forms::Button());
-			this->listBox1 = (gcnew System::Windows::Forms::ListBox());
-			this->button28 = (gcnew System::Windows::Forms::Button());
-			this->textBox2 = (gcnew System::Windows::Forms::TextBox());
-			this->button29 = (gcnew System::Windows::Forms::Button());
-			this->groupBox1->SuspendLayout();
-			this->groupBox2->SuspendLayout();
-			this->groupBox3->SuspendLayout();
-			this->groupBox4->SuspendLayout();
+			this->Nymber = (gcnew System::Windows::Forms::GroupBox());
+			this->Imagine = (gcnew System::Windows::Forms::Button());
+			this->Dot = (gcnew System::Windows::Forms::Button());
+			this->Zero = (gcnew System::Windows::Forms::Button());
+			this->Nine = (gcnew System::Windows::Forms::Button());
+			this->Eight = (gcnew System::Windows::Forms::Button());
+			this->Seven = (gcnew System::Windows::Forms::Button());
+			this->Six = (gcnew System::Windows::Forms::Button());
+			this->Five = (gcnew System::Windows::Forms::Button());
+			this->Four = (gcnew System::Windows::Forms::Button());
+			this->Three = (gcnew System::Windows::Forms::Button());
+			this->Two = (gcnew System::Windows::Forms::Button());
+			this->One = (gcnew System::Windows::Forms::Button());
+			this->Show = (gcnew System::Windows::Forms::TextBox());
+			this->Types = (gcnew System::Windows::Forms::GroupBox());
+			this->ComplexBTM = (gcnew System::Windows::Forms::Button());
+			this->DecimalBTM = (gcnew System::Windows::Forms::Button());
+			this->IntegerBTM = (gcnew System::Windows::Forms::Button());
+			this->Functions = (gcnew System::Windows::Forms::GroupBox());
+			this->Equal = (gcnew System::Windows::Forms::Button());
+			this->Clear = (gcnew System::Windows::Forms::Button());
+			this->Back = (gcnew System::Windows::Forms::Button());
+			this->Factor = (gcnew System::Windows::Forms::Button());
+			this->POW = (gcnew System::Windows::Forms::Button());
+			this->Right = (gcnew System::Windows::Forms::Button());
+			this->Left = (gcnew System::Windows::Forms::Button());
+			this->Dev = (gcnew System::Windows::Forms::Button());
+			this->Multiple = (gcnew System::Windows::Forms::Button());
+			this->Sub = (gcnew System::Windows::Forms::Button());
+			this->Plus = (gcnew System::Windows::Forms::Button());
+			this->Var = (gcnew System::Windows::Forms::GroupBox());
+			this->VarName = (gcnew System::Windows::Forms::TextBox());
+			this->VarList = (gcnew System::Windows::Forms::ListBox());
+			this->Modify = (gcnew System::Windows::Forms::Button());
+			this->Delete = (gcnew System::Windows::Forms::Button());
+			this->Set = (gcnew System::Windows::Forms::Button());
+			this->Nymber->SuspendLayout();
+			this->Types->SuspendLayout();
+			this->Functions->SuspendLayout();
+			this->Var->SuspendLayout();
 			this->SuspendLayout();
 			// 
-			// groupBox1
+			// Nymber
 			// 
-			this->groupBox1->Controls->Add(this->button12);
-			this->groupBox1->Controls->Add(this->button11);
-			this->groupBox1->Controls->Add(this->button10);
-			this->groupBox1->Controls->Add(this->button9);
-			this->groupBox1->Controls->Add(this->button8);
-			this->groupBox1->Controls->Add(this->button7);
-			this->groupBox1->Controls->Add(this->button6);
-			this->groupBox1->Controls->Add(this->button5);
-			this->groupBox1->Controls->Add(this->button4);
-			this->groupBox1->Controls->Add(this->button3);
-			this->groupBox1->Controls->Add(this->button2);
-			this->groupBox1->Controls->Add(this->button1);
-			this->groupBox1->Location = System::Drawing::Point(12, 215);
-			this->groupBox1->Name = L"groupBox1";
-			this->groupBox1->Size = System::Drawing::Size(256, 322);
-			this->groupBox1->TabIndex = 0;
-			this->groupBox1->TabStop = false;
-			this->groupBox1->Text = L"Numbers";
+			this->Nymber->Controls->Add(this->Imagine);
+			this->Nymber->Controls->Add(this->Dot);
+			this->Nymber->Controls->Add(this->Zero);
+			this->Nymber->Controls->Add(this->Nine);
+			this->Nymber->Controls->Add(this->Eight);
+			this->Nymber->Controls->Add(this->Seven);
+			this->Nymber->Controls->Add(this->Six);
+			this->Nymber->Controls->Add(this->Five);
+			this->Nymber->Controls->Add(this->Four);
+			this->Nymber->Controls->Add(this->Three);
+			this->Nymber->Controls->Add(this->Two);
+			this->Nymber->Controls->Add(this->One);
+			this->Nymber->Location = System::Drawing::Point(12, 215);
+			this->Nymber->Name = L"Nymber";
+			this->Nymber->Size = System::Drawing::Size(256, 322);
+			this->Nymber->TabIndex = 0;
+			this->Nymber->TabStop = false;
+			this->Nymber->Text = L"Numbers";
 			// 
-			// button12
+			// Imagine
 			// 
-			this->button12->Enabled = false;
-			this->button12->Font = (gcnew System::Drawing::Font(L"標楷體", 18, System::Drawing::FontStyle::Bold, System::Drawing::GraphicsUnit::Point,
+			this->Imagine->Enabled = false;
+			this->Imagine->Font = (gcnew System::Drawing::Font(L"標楷體", 18, System::Drawing::FontStyle::Bold, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(136)));
-			this->button12->Location = System::Drawing::Point(169, 241);
-			this->button12->Name = L"button12";
-			this->button12->Size = System::Drawing::Size(75, 67);
-			this->button12->TabIndex = 0;
-			this->button12->Text = L"i";
-			this->button12->UseVisualStyleBackColor = true;
+			this->Imagine->Location = System::Drawing::Point(169, 241);
+			this->Imagine->Name = L"Imagine";
+			this->Imagine->Size = System::Drawing::Size(75, 67);
+			this->Imagine->TabIndex = 0;
+			this->Imagine->Text = L"i";
+			this->Imagine->UseVisualStyleBackColor = true;
 			// 
-			// button11
+			// Dot
 			// 
-			this->button11->Enabled = false;
-			this->button11->Font = (gcnew System::Drawing::Font(L"標楷體", 18, System::Drawing::FontStyle::Bold, System::Drawing::GraphicsUnit::Point,
+			this->Dot->Enabled = false;
+			this->Dot->Font = (gcnew System::Drawing::Font(L"標楷體", 18, System::Drawing::FontStyle::Bold, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(136)));
-			this->button11->Location = System::Drawing::Point(88, 241);
-			this->button11->Name = L"button11";
-			this->button11->Size = System::Drawing::Size(75, 67);
-			this->button11->TabIndex = 0;
-			this->button11->Text = L".";
-			this->button11->UseVisualStyleBackColor = true;
+			this->Dot->Location = System::Drawing::Point(88, 241);
+			this->Dot->Name = L"Dot";
+			this->Dot->Size = System::Drawing::Size(75, 67);
+			this->Dot->TabIndex = 0;
+			this->Dot->Text = L".";
+			this->Dot->UseVisualStyleBackColor = true;
+			this->Dot->Click += gcnew System::EventHandler(this, &MainForm::Dot_Click);
 			// 
-			// button10
+			// Zero
 			// 
-			this->button10->Font = (gcnew System::Drawing::Font(L"標楷體", 18, System::Drawing::FontStyle::Bold, System::Drawing::GraphicsUnit::Point,
+			this->Zero->Font = (gcnew System::Drawing::Font(L"標楷體", 18, System::Drawing::FontStyle::Bold, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(136)));
-			this->button10->Location = System::Drawing::Point(7, 241);
-			this->button10->Name = L"button10";
-			this->button10->Size = System::Drawing::Size(75, 67);
-			this->button10->TabIndex = 0;
-			this->button10->Text = L"0";
-			this->button10->UseVisualStyleBackColor = true;
+			this->Zero->Location = System::Drawing::Point(7, 241);
+			this->Zero->Name = L"Zero";
+			this->Zero->Size = System::Drawing::Size(75, 67);
+			this->Zero->TabIndex = 0;
+			this->Zero->Text = L"0";
+			this->Zero->UseVisualStyleBackColor = true;
+			this->Zero->Click += gcnew System::EventHandler(this, &MainForm::Zero_Click);
 			// 
-			// button9
+			// Nine
 			// 
-			this->button9->Font = (gcnew System::Drawing::Font(L"標楷體", 18, System::Drawing::FontStyle::Bold, System::Drawing::GraphicsUnit::Point,
+			this->Nine->Font = (gcnew System::Drawing::Font(L"標楷體", 18, System::Drawing::FontStyle::Bold, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(136)));
-			this->button9->Location = System::Drawing::Point(169, 168);
-			this->button9->Name = L"button9";
-			this->button9->Size = System::Drawing::Size(75, 67);
-			this->button9->TabIndex = 0;
-			this->button9->Text = L"9";
-			this->button9->UseVisualStyleBackColor = true;
+			this->Nine->Location = System::Drawing::Point(169, 168);
+			this->Nine->Name = L"Nine";
+			this->Nine->Size = System::Drawing::Size(75, 67);
+			this->Nine->TabIndex = 0;
+			this->Nine->Text = L"9";
+			this->Nine->UseVisualStyleBackColor = true;
+			this->Nine->Click += gcnew System::EventHandler(this, &MainForm::Nine_Click);
 			// 
-			// button8
+			// Eight
 			// 
-			this->button8->Font = (gcnew System::Drawing::Font(L"標楷體", 18, System::Drawing::FontStyle::Bold, System::Drawing::GraphicsUnit::Point,
+			this->Eight->Font = (gcnew System::Drawing::Font(L"標楷體", 18, System::Drawing::FontStyle::Bold, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(136)));
-			this->button8->Location = System::Drawing::Point(88, 168);
-			this->button8->Name = L"button8";
-			this->button8->Size = System::Drawing::Size(75, 67);
-			this->button8->TabIndex = 0;
-			this->button8->Text = L"8";
-			this->button8->UseVisualStyleBackColor = true;
+			this->Eight->Location = System::Drawing::Point(88, 168);
+			this->Eight->Name = L"Eight";
+			this->Eight->Size = System::Drawing::Size(75, 67);
+			this->Eight->TabIndex = 0;
+			this->Eight->Text = L"8";
+			this->Eight->UseVisualStyleBackColor = true;
+			this->Eight->Click += gcnew System::EventHandler(this, &MainForm::Eight_Click);
 			// 
-			// button7
+			// Seven
 			// 
-			this->button7->Font = (gcnew System::Drawing::Font(L"標楷體", 18, System::Drawing::FontStyle::Bold, System::Drawing::GraphicsUnit::Point,
+			this->Seven->Font = (gcnew System::Drawing::Font(L"標楷體", 18, System::Drawing::FontStyle::Bold, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(136)));
-			this->button7->Location = System::Drawing::Point(7, 168);
-			this->button7->Name = L"button7";
-			this->button7->Size = System::Drawing::Size(75, 67);
-			this->button7->TabIndex = 0;
-			this->button7->Text = L"7";
-			this->button7->UseVisualStyleBackColor = true;
+			this->Seven->Location = System::Drawing::Point(7, 168);
+			this->Seven->Name = L"Seven";
+			this->Seven->Size = System::Drawing::Size(75, 67);
+			this->Seven->TabIndex = 0;
+			this->Seven->Text = L"7";
+			this->Seven->UseVisualStyleBackColor = true;
+			this->Seven->Click += gcnew System::EventHandler(this, &MainForm::Seven_Click);
 			// 
-			// button6
+			// Six
 			// 
-			this->button6->Font = (gcnew System::Drawing::Font(L"標楷體", 18, System::Drawing::FontStyle::Bold, System::Drawing::GraphicsUnit::Point,
+			this->Six->Font = (gcnew System::Drawing::Font(L"標楷體", 18, System::Drawing::FontStyle::Bold, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(136)));
-			this->button6->Location = System::Drawing::Point(169, 95);
-			this->button6->Name = L"button6";
-			this->button6->Size = System::Drawing::Size(75, 67);
-			this->button6->TabIndex = 0;
-			this->button6->Text = L"6";
-			this->button6->UseVisualStyleBackColor = true;
+			this->Six->Location = System::Drawing::Point(169, 95);
+			this->Six->Name = L"Six";
+			this->Six->Size = System::Drawing::Size(75, 67);
+			this->Six->TabIndex = 0;
+			this->Six->Text = L"6";
+			this->Six->UseVisualStyleBackColor = true;
+			this->Six->Click += gcnew System::EventHandler(this, &MainForm::Six_Click);
 			// 
-			// button5
+			// Five
 			// 
-			this->button5->Font = (gcnew System::Drawing::Font(L"標楷體", 18, System::Drawing::FontStyle::Bold, System::Drawing::GraphicsUnit::Point,
+			this->Five->Font = (gcnew System::Drawing::Font(L"標楷體", 18, System::Drawing::FontStyle::Bold, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(136)));
-			this->button5->Location = System::Drawing::Point(88, 95);
-			this->button5->Name = L"button5";
-			this->button5->Size = System::Drawing::Size(75, 67);
-			this->button5->TabIndex = 0;
-			this->button5->Text = L"5";
-			this->button5->UseVisualStyleBackColor = true;
+			this->Five->Location = System::Drawing::Point(88, 95);
+			this->Five->Name = L"Five";
+			this->Five->Size = System::Drawing::Size(75, 67);
+			this->Five->TabIndex = 0;
+			this->Five->Text = L"5";
+			this->Five->UseVisualStyleBackColor = true;
+			this->Five->Click += gcnew System::EventHandler(this, &MainForm::Five_Click);
 			// 
-			// button4
+			// Four
 			// 
-			this->button4->Font = (gcnew System::Drawing::Font(L"標楷體", 18, System::Drawing::FontStyle::Bold, System::Drawing::GraphicsUnit::Point,
+			this->Four->Font = (gcnew System::Drawing::Font(L"標楷體", 18, System::Drawing::FontStyle::Bold, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(136)));
-			this->button4->Location = System::Drawing::Point(7, 95);
-			this->button4->Name = L"button4";
-			this->button4->Size = System::Drawing::Size(75, 67);
-			this->button4->TabIndex = 0;
-			this->button4->Text = L"4";
-			this->button4->UseVisualStyleBackColor = true;
+			this->Four->Location = System::Drawing::Point(7, 95);
+			this->Four->Name = L"Four";
+			this->Four->Size = System::Drawing::Size(75, 67);
+			this->Four->TabIndex = 0;
+			this->Four->Text = L"4";
+			this->Four->UseVisualStyleBackColor = true;
+			this->Four->Click += gcnew System::EventHandler(this, &MainForm::Four_Click);
 			// 
-			// button3
+			// Three
 			// 
-			this->button3->Font = (gcnew System::Drawing::Font(L"標楷體", 18, System::Drawing::FontStyle::Bold, System::Drawing::GraphicsUnit::Point,
+			this->Three->Font = (gcnew System::Drawing::Font(L"標楷體", 18, System::Drawing::FontStyle::Bold, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(136)));
-			this->button3->Location = System::Drawing::Point(169, 22);
-			this->button3->Name = L"button3";
-			this->button3->Size = System::Drawing::Size(75, 67);
-			this->button3->TabIndex = 0;
-			this->button3->Text = L"3";
-			this->button3->UseVisualStyleBackColor = true;
+			this->Three->Location = System::Drawing::Point(169, 22);
+			this->Three->Name = L"Three";
+			this->Three->Size = System::Drawing::Size(75, 67);
+			this->Three->TabIndex = 0;
+			this->Three->Text = L"3";
+			this->Three->UseVisualStyleBackColor = true;
+			this->Three->Click += gcnew System::EventHandler(this, &MainForm::Three_Click);
 			// 
-			// button2
+			// Two
 			// 
-			this->button2->Font = (gcnew System::Drawing::Font(L"標楷體", 18, System::Drawing::FontStyle::Bold, System::Drawing::GraphicsUnit::Point,
+			this->Two->Font = (gcnew System::Drawing::Font(L"標楷體", 18, System::Drawing::FontStyle::Bold, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(136)));
-			this->button2->Location = System::Drawing::Point(88, 22);
-			this->button2->Name = L"button2";
-			this->button2->Size = System::Drawing::Size(75, 67);
-			this->button2->TabIndex = 0;
-			this->button2->Text = L"2";
-			this->button2->UseVisualStyleBackColor = true;
-			this->button2->Click += gcnew System::EventHandler(this, &MainForm::button2_Click);
+			this->Two->Location = System::Drawing::Point(88, 22);
+			this->Two->Name = L"Two";
+			this->Two->Size = System::Drawing::Size(75, 67);
+			this->Two->TabIndex = 0;
+			this->Two->Text = L"2";
+			this->Two->UseVisualStyleBackColor = true;
+			this->Two->Click += gcnew System::EventHandler(this, &MainForm::Two_Click);
 			// 
-			// button1
+			// One
 			// 
-			this->button1->Font = (gcnew System::Drawing::Font(L"標楷體", 18, System::Drawing::FontStyle::Bold, System::Drawing::GraphicsUnit::Point,
+			this->One->Font = (gcnew System::Drawing::Font(L"標楷體", 18, System::Drawing::FontStyle::Bold, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(136)));
-			this->button1->Location = System::Drawing::Point(7, 22);
-			this->button1->Name = L"button1";
-			this->button1->Size = System::Drawing::Size(75, 67);
-			this->button1->TabIndex = 0;
-			this->button1->Text = L"1";
-			this->button1->UseVisualStyleBackColor = true;
+			this->One->Location = System::Drawing::Point(7, 22);
+			this->One->Name = L"One";
+			this->One->Size = System::Drawing::Size(75, 67);
+			this->One->TabIndex = 0;
+			this->One->Text = L"1";
+			this->One->UseVisualStyleBackColor = true;
+			this->One->Click += gcnew System::EventHandler(this, &MainForm::One_Click);
 			// 
-			// textBox1
+			// Show
 			// 
-			this->textBox1->Enabled = false;
-			this->textBox1->Font = (gcnew System::Drawing::Font(L"標楷體", 36, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
+			this->Show->Anchor = static_cast<System::Windows::Forms::AnchorStyles>((System::Windows::Forms::AnchorStyles::Bottom | System::Windows::Forms::AnchorStyles::Right));
+			this->Show->BackColor = System::Drawing::Color::White;
+			this->Show->Font = (gcnew System::Drawing::Font(L"標楷體", 39.75F, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(136)));
-			this->textBox1->Location = System::Drawing::Point(12, 25);
-			this->textBox1->Name = L"textBox1";
-			this->textBox1->Size = System::Drawing::Size(698, 65);
-			this->textBox1->TabIndex = 1;
+			this->Show->ForeColor = System::Drawing::Color::Black;
+			this->Show->Location = System::Drawing::Point(12, 12);
+			this->Show->Name = L"Show";
+			this->Show->ReadOnly = true;
+			this->Show->ScrollBars = System::Windows::Forms::ScrollBars::Horizontal;
+			this->Show->Size = System::Drawing::Size(698, 71);
+			this->Show->TabIndex = 1;
+			this->Show->TextAlign = System::Windows::Forms::HorizontalAlignment::Right;
 			// 
-			// groupBox2
+			// Types
 			// 
-			this->groupBox2->Controls->Add(this->button15);
-			this->groupBox2->Controls->Add(this->button14);
-			this->groupBox2->Controls->Add(this->button13);
-			this->groupBox2->Location = System::Drawing::Point(12, 100);
-			this->groupBox2->Name = L"groupBox2";
-			this->groupBox2->Size = System::Drawing::Size(256, 89);
-			this->groupBox2->TabIndex = 2;
-			this->groupBox2->TabStop = false;
-			this->groupBox2->Text = L"Types";
+			this->Types->Controls->Add(this->ComplexBTM);
+			this->Types->Controls->Add(this->DecimalBTM);
+			this->Types->Controls->Add(this->IntegerBTM);
+			this->Types->Location = System::Drawing::Point(12, 100);
+			this->Types->Name = L"Types";
+			this->Types->Size = System::Drawing::Size(256, 89);
+			this->Types->TabIndex = 2;
+			this->Types->TabStop = false;
+			this->Types->Text = L"Types";
 			// 
-			// button15
+			// ComplexBTM
 			// 
-			this->button15->Font = (gcnew System::Drawing::Font(L"標楷體", 9.75F, System::Drawing::FontStyle::Bold, System::Drawing::GraphicsUnit::Point,
+			this->ComplexBTM->Font = (gcnew System::Drawing::Font(L"標楷體", 9.75F, System::Drawing::FontStyle::Bold, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(136)));
-			this->button15->Location = System::Drawing::Point(169, 16);
-			this->button15->Name = L"button15";
-			this->button15->Size = System::Drawing::Size(75, 67);
-			this->button15->TabIndex = 0;
-			this->button15->Text = L"Complex";
-			this->button15->UseVisualStyleBackColor = true;
+			this->ComplexBTM->Location = System::Drawing::Point(169, 16);
+			this->ComplexBTM->Name = L"ComplexBTM";
+			this->ComplexBTM->Size = System::Drawing::Size(75, 67);
+			this->ComplexBTM->TabIndex = 0;
+			this->ComplexBTM->Text = L"Complex";
+			this->ComplexBTM->UseVisualStyleBackColor = true;
+			this->ComplexBTM->Click += gcnew System::EventHandler(this, &MainForm::ComplexBTM_Click);
 			// 
-			// button14
+			// DecimalBTM
 			// 
-			this->button14->Font = (gcnew System::Drawing::Font(L"標楷體", 9.75F, System::Drawing::FontStyle::Bold, System::Drawing::GraphicsUnit::Point,
+			this->DecimalBTM->Font = (gcnew System::Drawing::Font(L"標楷體", 9.75F, System::Drawing::FontStyle::Bold, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(136)));
-			this->button14->Location = System::Drawing::Point(88, 16);
-			this->button14->Name = L"button14";
-			this->button14->Size = System::Drawing::Size(75, 67);
-			this->button14->TabIndex = 0;
-			this->button14->Text = L"Decimal";
-			this->button14->UseVisualStyleBackColor = true;
+			this->DecimalBTM->Location = System::Drawing::Point(88, 16);
+			this->DecimalBTM->Name = L"DecimalBTM";
+			this->DecimalBTM->Size = System::Drawing::Size(75, 67);
+			this->DecimalBTM->TabIndex = 0;
+			this->DecimalBTM->Text = L"Decimal";
+			this->DecimalBTM->UseVisualStyleBackColor = true;
+			this->DecimalBTM->Click += gcnew System::EventHandler(this, &MainForm::DecimalBTM_Click);
 			// 
-			// button13
+			// IntegerBTM
 			// 
-			this->button13->Enabled = false;
-			this->button13->Font = (gcnew System::Drawing::Font(L"標楷體", 9.75F, System::Drawing::FontStyle::Bold, System::Drawing::GraphicsUnit::Point,
+			this->IntegerBTM->Enabled = false;
+			this->IntegerBTM->Font = (gcnew System::Drawing::Font(L"標楷體", 9.75F, System::Drawing::FontStyle::Bold, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(136)));
-			this->button13->Location = System::Drawing::Point(7, 16);
-			this->button13->Name = L"button13";
-			this->button13->Size = System::Drawing::Size(75, 67);
-			this->button13->TabIndex = 0;
-			this->button13->Text = L"Integer";
-			this->button13->UseVisualStyleBackColor = true;
+			this->IntegerBTM->Location = System::Drawing::Point(6, 16);
+			this->IntegerBTM->Name = L"IntegerBTM";
+			this->IntegerBTM->Size = System::Drawing::Size(75, 67);
+			this->IntegerBTM->TabIndex = 0;
+			this->IntegerBTM->Text = L"Integer";
+			this->IntegerBTM->UseVisualStyleBackColor = true;
+			this->IntegerBTM->Click += gcnew System::EventHandler(this, &MainForm::IntegerBTM_Click);
 			// 
-			// groupBox3
+			// Functions
 			// 
-			this->groupBox3->Controls->Add(this->button26);
-			this->groupBox3->Controls->Add(this->button25);
-			this->groupBox3->Controls->Add(this->button24);
-			this->groupBox3->Controls->Add(this->button23);
-			this->groupBox3->Controls->Add(this->button22);
-			this->groupBox3->Controls->Add(this->button21);
-			this->groupBox3->Controls->Add(this->button20);
-			this->groupBox3->Controls->Add(this->button19);
-			this->groupBox3->Controls->Add(this->button18);
-			this->groupBox3->Controls->Add(this->button17);
-			this->groupBox3->Controls->Add(this->button16);
-			this->groupBox3->Location = System::Drawing::Point(284, 100);
-			this->groupBox3->Name = L"groupBox3";
-			this->groupBox3->Size = System::Drawing::Size(173, 437);
-			this->groupBox3->TabIndex = 3;
-			this->groupBox3->TabStop = false;
-			this->groupBox3->Text = L"Functions";
+			this->Functions->Controls->Add(this->Equal);
+			this->Functions->Controls->Add(this->Clear);
+			this->Functions->Controls->Add(this->Back);
+			this->Functions->Controls->Add(this->Factor);
+			this->Functions->Controls->Add(this->POW);
+			this->Functions->Controls->Add(this->Right);
+			this->Functions->Controls->Add(this->Left);
+			this->Functions->Controls->Add(this->Dev);
+			this->Functions->Controls->Add(this->Multiple);
+			this->Functions->Controls->Add(this->Sub);
+			this->Functions->Controls->Add(this->Plus);
+			this->Functions->Location = System::Drawing::Point(284, 100);
+			this->Functions->Name = L"Functions";
+			this->Functions->Size = System::Drawing::Size(173, 437);
+			this->Functions->TabIndex = 3;
+			this->Functions->TabStop = false;
+			this->Functions->Text = L"Functions";
 			// 
-			// button19
+			// Equal
 			// 
-			this->button19->Font = (gcnew System::Drawing::Font(L"標楷體", 18, System::Drawing::FontStyle::Bold, System::Drawing::GraphicsUnit::Point,
+			this->Equal->Font = (gcnew System::Drawing::Font(L"標楷體", 18, System::Drawing::FontStyle::Bold, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(136)));
-			this->button19->Location = System::Drawing::Point(6, 241);
-			this->button19->Name = L"button19";
-			this->button19->Size = System::Drawing::Size(75, 67);
-			this->button19->TabIndex = 0;
-			this->button19->Text = L"/";
-			this->button19->UseVisualStyleBackColor = true;
+			this->Equal->Location = System::Drawing::Point(6, 387);
+			this->Equal->Name = L"Equal";
+			this->Equal->Size = System::Drawing::Size(161, 36);
+			this->Equal->TabIndex = 0;
+			this->Equal->Text = L"=";
+			this->Equal->UseVisualStyleBackColor = true;
 			// 
-			// button18
+			// Clear
 			// 
-			this->button18->Font = (gcnew System::Drawing::Font(L"標楷體", 18, System::Drawing::FontStyle::Bold, System::Drawing::GraphicsUnit::Point,
+			this->Clear->Font = (gcnew System::Drawing::Font(L"標楷體", 18, System::Drawing::FontStyle::Bold, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(136)));
-			this->button18->Location = System::Drawing::Point(6, 168);
-			this->button18->Name = L"button18";
-			this->button18->Size = System::Drawing::Size(75, 67);
-			this->button18->TabIndex = 0;
-			this->button18->Text = L"*";
-			this->button18->UseVisualStyleBackColor = true;
+			this->Clear->Location = System::Drawing::Point(92, 314);
+			this->Clear->Name = L"Clear";
+			this->Clear->Size = System::Drawing::Size(75, 67);
+			this->Clear->TabIndex = 0;
+			this->Clear->Text = L"C";
+			this->Clear->UseVisualStyleBackColor = true;
+			this->Clear->Click += gcnew System::EventHandler(this, &MainForm::Clear_Click);
 			// 
-			// button17
+			// Back
 			// 
-			this->button17->Font = (gcnew System::Drawing::Font(L"標楷體", 18, System::Drawing::FontStyle::Bold, System::Drawing::GraphicsUnit::Point,
+			this->Back->Font = (gcnew System::Drawing::Font(L"標楷體", 18, System::Drawing::FontStyle::Bold, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(136)));
-			this->button17->Location = System::Drawing::Point(6, 95);
-			this->button17->Name = L"button17";
-			this->button17->Size = System::Drawing::Size(75, 67);
-			this->button17->TabIndex = 0;
-			this->button17->Text = L"-";
-			this->button17->UseVisualStyleBackColor = true;
+			this->Back->Location = System::Drawing::Point(6, 314);
+			this->Back->Name = L"Back";
+			this->Back->Size = System::Drawing::Size(75, 67);
+			this->Back->TabIndex = 0;
+			this->Back->Text = L"<-";
+			this->Back->UseVisualStyleBackColor = true;
+			this->Back->Click += gcnew System::EventHandler(this, &MainForm::Back_Click);
 			// 
-			// button16
+			// Factor
 			// 
-			this->button16->Font = (gcnew System::Drawing::Font(L"標楷體", 18, System::Drawing::FontStyle::Bold, System::Drawing::GraphicsUnit::Point,
+			this->Factor->Enabled = false;
+			this->Factor->Font = (gcnew System::Drawing::Font(L"標楷體", 18, System::Drawing::FontStyle::Bold, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(136)));
-			this->button16->Location = System::Drawing::Point(6, 22);
-			this->button16->Name = L"button16";
-			this->button16->Size = System::Drawing::Size(75, 67);
-			this->button16->TabIndex = 0;
-			this->button16->Text = L"+";
-			this->button16->UseVisualStyleBackColor = true;
+			this->Factor->Location = System::Drawing::Point(92, 241);
+			this->Factor->Name = L"Factor";
+			this->Factor->Size = System::Drawing::Size(75, 67);
+			this->Factor->TabIndex = 0;
+			this->Factor->Text = L"!";
+			this->Factor->UseVisualStyleBackColor = true;
+			this->Factor->Click += gcnew System::EventHandler(this, &MainForm::Factor_Click);
 			// 
-			// button20
+			// POW
 			// 
-			this->button20->Font = (gcnew System::Drawing::Font(L"標楷體", 18, System::Drawing::FontStyle::Bold, System::Drawing::GraphicsUnit::Point,
+			this->POW->Enabled = false;
+			this->POW->Font = (gcnew System::Drawing::Font(L"標楷體", 29.25F, System::Drawing::FontStyle::Bold, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(136)));
-			this->button20->Location = System::Drawing::Point(92, 22);
-			this->button20->Name = L"button20";
-			this->button20->Size = System::Drawing::Size(75, 67);
-			this->button20->TabIndex = 0;
-			this->button20->Text = L"(";
-			this->button20->UseVisualStyleBackColor = true;
+			this->POW->Location = System::Drawing::Point(92, 168);
+			this->POW->Name = L"POW";
+			this->POW->Size = System::Drawing::Size(75, 67);
+			this->POW->TabIndex = 0;
+			this->POW->Text = L"^";
+			this->POW->TextAlign = System::Drawing::ContentAlignment::BottomCenter;
+			this->POW->UseVisualStyleBackColor = true;
+			this->POW->Click += gcnew System::EventHandler(this, &MainForm::POW_Click);
 			// 
-			// button21
+			// Right
 			// 
-			this->button21->Font = (gcnew System::Drawing::Font(L"標楷體", 18, System::Drawing::FontStyle::Bold, System::Drawing::GraphicsUnit::Point,
+			this->Right->Font = (gcnew System::Drawing::Font(L"標楷體", 18, System::Drawing::FontStyle::Bold, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(136)));
-			this->button21->Location = System::Drawing::Point(92, 95);
-			this->button21->Name = L"button21";
-			this->button21->Size = System::Drawing::Size(75, 67);
-			this->button21->TabIndex = 0;
-			this->button21->Text = L")";
-			this->button21->UseVisualStyleBackColor = true;
+			this->Right->Location = System::Drawing::Point(92, 95);
+			this->Right->Name = L"Right";
+			this->Right->Size = System::Drawing::Size(75, 67);
+			this->Right->TabIndex = 0;
+			this->Right->Text = L")";
+			this->Right->UseVisualStyleBackColor = true;
+			this->Right->Click += gcnew System::EventHandler(this, &MainForm::Right_Click);
 			// 
-			// button22
+			// Left
 			// 
-			this->button22->Font = (gcnew System::Drawing::Font(L"標楷體", 18, System::Drawing::FontStyle::Bold, System::Drawing::GraphicsUnit::Point,
+			this->Left->Font = (gcnew System::Drawing::Font(L"標楷體", 18, System::Drawing::FontStyle::Bold, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(136)));
-			this->button22->Location = System::Drawing::Point(92, 168);
-			this->button22->Name = L"button22";
-			this->button22->Size = System::Drawing::Size(75, 67);
-			this->button22->TabIndex = 0;
-			this->button22->Text = L"POW";
-			this->button22->UseVisualStyleBackColor = true;
+			this->Left->Location = System::Drawing::Point(92, 22);
+			this->Left->Name = L"Left";
+			this->Left->Size = System::Drawing::Size(75, 67);
+			this->Left->TabIndex = 0;
+			this->Left->Text = L"(";
+			this->Left->UseVisualStyleBackColor = true;
+			this->Left->Click += gcnew System::EventHandler(this, &MainForm::Left_Click);
 			// 
-			// button23
+			// Dev
 			// 
-			this->button23->Font = (gcnew System::Drawing::Font(L"標楷體", 18, System::Drawing::FontStyle::Bold, System::Drawing::GraphicsUnit::Point,
+			this->Dev->Enabled = false;
+			this->Dev->Font = (gcnew System::Drawing::Font(L"標楷體", 18, System::Drawing::FontStyle::Bold, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(136)));
-			this->button23->Location = System::Drawing::Point(92, 241);
-			this->button23->Name = L"button23";
-			this->button23->Size = System::Drawing::Size(75, 67);
-			this->button23->TabIndex = 0;
-			this->button23->Text = L"!";
-			this->button23->UseVisualStyleBackColor = true;
+			this->Dev->Location = System::Drawing::Point(6, 241);
+			this->Dev->Name = L"Dev";
+			this->Dev->Size = System::Drawing::Size(75, 67);
+			this->Dev->TabIndex = 0;
+			this->Dev->Text = L"/";
+			this->Dev->UseVisualStyleBackColor = true;
+			this->Dev->Click += gcnew System::EventHandler(this, &MainForm::Dev_Click);
 			// 
-			// button24
+			// Multiple
 			// 
-			this->button24->Font = (gcnew System::Drawing::Font(L"標楷體", 18, System::Drawing::FontStyle::Bold, System::Drawing::GraphicsUnit::Point,
+			this->Multiple->Enabled = false;
+			this->Multiple->Font = (gcnew System::Drawing::Font(L"標楷體", 18, System::Drawing::FontStyle::Bold, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(136)));
-			this->button24->Location = System::Drawing::Point(6, 314);
-			this->button24->Name = L"button24";
-			this->button24->Size = System::Drawing::Size(75, 67);
-			this->button24->TabIndex = 0;
-			this->button24->Text = L"<-";
-			this->button24->UseVisualStyleBackColor = true;
+			this->Multiple->Location = System::Drawing::Point(6, 168);
+			this->Multiple->Name = L"Multiple";
+			this->Multiple->Size = System::Drawing::Size(75, 67);
+			this->Multiple->TabIndex = 0;
+			this->Multiple->Text = L"*";
+			this->Multiple->UseVisualStyleBackColor = true;
+			this->Multiple->Click += gcnew System::EventHandler(this, &MainForm::Multiple_Click);
 			// 
-			// button25
+			// Sub
 			// 
-			this->button25->Font = (gcnew System::Drawing::Font(L"標楷體", 18, System::Drawing::FontStyle::Bold, System::Drawing::GraphicsUnit::Point,
+			this->Sub->Font = (gcnew System::Drawing::Font(L"標楷體", 18, System::Drawing::FontStyle::Bold, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(136)));
-			this->button25->Location = System::Drawing::Point(92, 314);
-			this->button25->Name = L"button25";
-			this->button25->Size = System::Drawing::Size(75, 67);
-			this->button25->TabIndex = 0;
-			this->button25->Text = L"C";
-			this->button25->UseVisualStyleBackColor = true;
+			this->Sub->Location = System::Drawing::Point(6, 95);
+			this->Sub->Name = L"Sub";
+			this->Sub->Size = System::Drawing::Size(75, 67);
+			this->Sub->TabIndex = 0;
+			this->Sub->Text = L"-";
+			this->Sub->UseVisualStyleBackColor = true;
+			this->Sub->Click += gcnew System::EventHandler(this, &MainForm::Sub_Click);
 			// 
-			// button26
+			// Plus
 			// 
-			this->button26->Font = (gcnew System::Drawing::Font(L"標楷體", 18, System::Drawing::FontStyle::Bold, System::Drawing::GraphicsUnit::Point,
+			this->Plus->Enabled = false;
+			this->Plus->Font = (gcnew System::Drawing::Font(L"標楷體", 18, System::Drawing::FontStyle::Bold, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(136)));
-			this->button26->Location = System::Drawing::Point(6, 387);
-			this->button26->Name = L"button26";
-			this->button26->Size = System::Drawing::Size(161, 36);
-			this->button26->TabIndex = 0;
-			this->button26->Text = L"=";
-			this->button26->UseVisualStyleBackColor = true;
+			this->Plus->Location = System::Drawing::Point(6, 22);
+			this->Plus->Name = L"Plus";
+			this->Plus->Size = System::Drawing::Size(75, 67);
+			this->Plus->TabIndex = 0;
+			this->Plus->Text = L"+";
+			this->Plus->UseVisualStyleBackColor = true;
+			this->Plus->Click += gcnew System::EventHandler(this, &MainForm::Plus_Click);
 			// 
-			// groupBox4
+			// Var
 			// 
-			this->groupBox4->Controls->Add(this->textBox2);
-			this->groupBox4->Controls->Add(this->listBox1);
-			this->groupBox4->Controls->Add(this->button29);
-			this->groupBox4->Controls->Add(this->button28);
-			this->groupBox4->Controls->Add(this->button27);
-			this->groupBox4->Location = System::Drawing::Point(463, 100);
-			this->groupBox4->Name = L"groupBox4";
-			this->groupBox4->Size = System::Drawing::Size(247, 437);
-			this->groupBox4->TabIndex = 1;
-			this->groupBox4->TabStop = false;
-			this->groupBox4->Text = L"groupBox4";
+			this->Var->Controls->Add(this->VarName);
+			this->Var->Controls->Add(this->VarList);
+			this->Var->Controls->Add(this->Modify);
+			this->Var->Controls->Add(this->Delete);
+			this->Var->Controls->Add(this->Set);
+			this->Var->Location = System::Drawing::Point(463, 100);
+			this->Var->Name = L"Var";
+			this->Var->Size = System::Drawing::Size(247, 437);
+			this->Var->TabIndex = 1;
+			this->Var->TabStop = false;
+			this->Var->Text = L"Var";
 			// 
-			// button27
+			// VarName
 			// 
-			this->button27->Location = System::Drawing::Point(20, 56);
-			this->button27->Name = L"button27";
-			this->button27->Size = System::Drawing::Size(77, 24);
-			this->button27->TabIndex = 0;
-			this->button27->Text = L"SET";
-			this->button27->UseVisualStyleBackColor = true;
+			this->VarName->Location = System::Drawing::Point(20, 22);
+			this->VarName->Name = L"VarName";
+			this->VarName->Size = System::Drawing::Size(212, 22);
+			this->VarName->TabIndex = 2;
 			// 
-			// listBox1
+			// VarList
 			// 
-			this->listBox1->FormattingEnabled = true;
-			this->listBox1->ItemHeight = 12;
-			this->listBox1->Location = System::Drawing::Point(6, 91);
-			this->listBox1->Name = L"listBox1";
-			this->listBox1->Size = System::Drawing::Size(235, 340);
-			this->listBox1->TabIndex = 1;
+			this->VarList->FormattingEnabled = true;
+			this->VarList->ItemHeight = 12;
+			this->VarList->Location = System::Drawing::Point(6, 91);
+			this->VarList->Name = L"VarList";
+			this->VarList->Size = System::Drawing::Size(235, 340);
+			this->VarList->TabIndex = 1;
 			// 
-			// button28
+			// Modify
 			// 
-			this->button28->Location = System::Drawing::Point(171, 56);
-			this->button28->Name = L"button28";
-			this->button28->Size = System::Drawing::Size(70, 24);
-			this->button28->TabIndex = 0;
-			this->button28->Text = L"DELETE";
-			this->button28->UseVisualStyleBackColor = true;
+			this->Modify->Location = System::Drawing::Point(103, 56);
+			this->Modify->Name = L"Modify";
+			this->Modify->Size = System::Drawing::Size(62, 24);
+			this->Modify->TabIndex = 0;
+			this->Modify->Text = L"Modify";
+			this->Modify->UseVisualStyleBackColor = true;
 			// 
-			// textBox2
+			// Delete
 			// 
-			this->textBox2->Location = System::Drawing::Point(20, 22);
-			this->textBox2->Name = L"textBox2";
-			this->textBox2->Size = System::Drawing::Size(212, 22);
-			this->textBox2->TabIndex = 2;
+			this->Delete->Location = System::Drawing::Point(171, 56);
+			this->Delete->Name = L"Delete";
+			this->Delete->Size = System::Drawing::Size(70, 24);
+			this->Delete->TabIndex = 0;
+			this->Delete->Text = L"DELETE";
+			this->Delete->UseVisualStyleBackColor = true;
 			// 
-			// button29
+			// Set
 			// 
-			this->button29->Location = System::Drawing::Point(103, 56);
-			this->button29->Name = L"button29";
-			this->button29->Size = System::Drawing::Size(62, 24);
-			this->button29->TabIndex = 0;
-			this->button29->Text = L"Modify";
-			this->button29->UseVisualStyleBackColor = true;
+			this->Set->Location = System::Drawing::Point(20, 56);
+			this->Set->Name = L"Set";
+			this->Set->Size = System::Drawing::Size(77, 24);
+			this->Set->TabIndex = 0;
+			this->Set->Text = L"SET";
+			this->Set->UseVisualStyleBackColor = true;
 			// 
 			// MainForm
 			// 
 			this->AutoScaleDimensions = System::Drawing::SizeF(6, 12);
 			this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
 			this->ClientSize = System::Drawing::Size(725, 549);
-			this->Controls->Add(this->groupBox4);
-			this->Controls->Add(this->groupBox3);
-			this->Controls->Add(this->groupBox2);
-			this->Controls->Add(this->textBox1);
-			this->Controls->Add(this->groupBox1);
+			this->Controls->Add(this->Var);
+			this->Controls->Add(this->Functions);
+			this->Controls->Add(this->Types);
+			this->Controls->Add(this->Show);
+			this->Controls->Add(this->Nymber);
 			this->Name = L"MainForm";
 			this->Text = L"MainForm";
-			this->groupBox1->ResumeLayout(false);
-			this->groupBox2->ResumeLayout(false);
-			this->groupBox3->ResumeLayout(false);
-			this->groupBox4->ResumeLayout(false);
-			this->groupBox4->PerformLayout();
+			this->Load += gcnew System::EventHandler(this, &MainForm::MainForm_Load);
+			this->Nymber->ResumeLayout(false);
+			this->Types->ResumeLayout(false);
+			this->Functions->ResumeLayout(false);
+			this->Var->ResumeLayout(false);
+			this->Var->PerformLayout();
 			this->ResumeLayout(false);
 			this->PerformLayout();
 
 		}
 #pragma endregion
-	private: System::Void button2_Click(System::Object^  sender, System::EventArgs^  e) {
-
+void EnableFunctions()
+{
+	if (IntegerBTM->Enabled)
+	{
+		Dot->Enabled = true;
+		Plus->Enabled = true;
+		Sub->Enabled = true;
+		Multiple->Enabled = true;
+		Dev->Enabled = true;
+		Left->Enabled = true;
+		Right->Enabled = true;
+		POW->Enabled = true;
+		Factor->Enabled = true;
+		Equal->Enabled = true;
 	}
+}
+private: System::Void MainForm_Load(System::Object^  sender, System::EventArgs^  e) {
+}
+private: System::Void IntegerBTM_Click(System::Object^  sender, System::EventArgs^  e) {
+	IntegerBTM->Enabled = false;
+	DecimalBTM->Enabled = true;
+	ComplexBTM->Enabled = true;
+	Dot->Enabled = false;
+	Imagine->Enabled = false;
+}
+private: System::Void DecimalBTM_Click(System::Object^  sender, System::EventArgs^  e) {
+	IntegerBTM->Enabled = true;
+	DecimalBTM->Enabled = false;
+	ComplexBTM->Enabled = true;
+	Dot->Enabled = true;
+	Imagine->Enabled = false;
+}
+private: System::Void ComplexBTM_Click(System::Object^  sender, System::EventArgs^  e) {
+	IntegerBTM->Enabled = true;
+	DecimalBTM->Enabled = true;
+	ComplexBTM->Enabled = false;
+	Dot->Enabled = true;
+	Imagine->Enabled = true;
+}
+private: System::Void One_Click(System::Object^  sender, System::EventArgs^  e) {
+	Show->Text += "1";
+	EnableFunctions();
+}
+private: System::Void Two_Click(System::Object^  sender, System::EventArgs^  e) {
+	Show->Text += "2" ;
+	EnableFunctions();
+}
+private: System::Void Three_Click(System::Object^  sender, System::EventArgs^  e) {
+	Show->Text += "3";
+	EnableFunctions();
+}
+private: System::Void Four_Click(System::Object^  sender, System::EventArgs^  e) {
+	Show->Text += "4";
+	EnableFunctions();
+}
+private: System::Void Five_Click(System::Object^  sender, System::EventArgs^  e) {
+	Show->Text += "5";
+	EnableFunctions();
+}
+private: System::Void Six_Click(System::Object^  sender, System::EventArgs^  e) {
+	Show->Text += "6";
+	EnableFunctions();
+}
+private: System::Void Seven_Click(System::Object^  sender, System::EventArgs^  e) {
+	Show->Text += "7";
+	EnableFunctions();
+}
+private: System::Void Eight_Click(System::Object^  sender, System::EventArgs^  e) {
+	Show->Text += "8";
+	EnableFunctions();
+}
+private: System::Void Nine_Click(System::Object^  sender, System::EventArgs^  e) {
+	Show->Text += "9";
+	EnableFunctions();
+}
+private: System::Void Zero_Click(System::Object^  sender, System::EventArgs^  e) {
+	Show->Text += "0";
+	EnableFunctions();
+}
+private: System::Void Dot_Click(System::Object^  sender, System::EventArgs^  e) {
+	Show->Text += ".";
+	Dot->Enabled = false;
+	Plus->Enabled = false;
+	Sub->Enabled = false;
+	Multiple->Enabled = false;
+	Dev->Enabled = false;
+	Left->Enabled = false;
+	Right->Enabled = false;
+	POW->Enabled = false;
+	Factor->Enabled = false;
+	Equal->Enabled = false;
+}
+private: System::Void Plus_Click(System::Object^  sender, System::EventArgs^  e) {
+	if (!DecimalBTM->Enabled || !ComplexBTM->Enabled) 
+		Dot->Enabled = true;
+	Show->Text += "+";
+}
+private: System::Void Sub_Click(System::Object^  sender, System::EventArgs^  e) {
+	if (!DecimalBTM->Enabled || !ComplexBTM->Enabled)
+		Dot->Enabled = true;
+	Show->Text += "-";
+}
+private: System::Void Multiple_Click(System::Object^  sender, System::EventArgs^  e) {
+	if (!DecimalBTM->Enabled || !ComplexBTM->Enabled)
+		Dot->Enabled = true;
+	Show->Text += "*";
+}
+private: System::Void Dev_Click(System::Object^  sender, System::EventArgs^  e) {
+	if (!DecimalBTM->Enabled || !ComplexBTM->Enabled)
+		Dot->Enabled = true;
+	Show->Text += "/";
+}
+private: System::Void Back_Click(System::Object^  sender, System::EventArgs^  e) {
+	if (Show->Text->Length) {
+		if (Show->Text[Show->Text->Length - 1] == '.')
+			Dot->Enabled = true;
+		Show->Text = Show->Text->Substring(0, Show->Text->Length - 1);
+	}
+}
+private: System::Void Left_Click(System::Object^  sender, System::EventArgs^  e) {
+	Show->Text += "(";
+}
+private: System::Void Right_Click(System::Object^  sender, System::EventArgs^  e) {
+	Show->Text += ")";
+}
+private: System::Void Factor_Click(System::Object^  sender, System::EventArgs^  e) {
+	Show->Text += "!";
+}
+private: System::Void Clear_Click(System::Object^  sender, System::EventArgs^  e) {
+	Show->Text = "";
+}
+private: System::Void POW_Click(System::Object^  sender, System::EventArgs^  e) {
+	Show->Text += "^";
+}
 };
 }

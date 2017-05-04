@@ -6,5 +6,6 @@ int main() {
 	Application::SetCompatibleTextRenderingDefault(false);
 	CalcForm::MainForm form;
 	Application::Run(%form);
+	
 	return 0;
 }
