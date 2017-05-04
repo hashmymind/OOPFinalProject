@@ -1,0 +1,4 @@
+﻿  MainForm.cpp
+  MainForm.obj : Managed 程式碼存在時不支援 /DEBUG:FASTLINK; 正在以 /DEBUG:FULL 重新啟動連結
+  CalcForm.vcxproj -> c:\users\rb509\documents\visual studio 2015\Projects\CalcForm\Debug\CalcForm.exe
+  CalcForm.vcxproj -> c:\users\rb509\documents\visual studio 2015\Projects\CalcForm\Debug\CalcForm.pdb (Partial PDB)
