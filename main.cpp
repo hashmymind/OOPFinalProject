@@ -24,8 +24,6 @@ void init(){
 var getVal(string val){
     var result;
     //
-    // try varList
-    //
     bool dot = false, imag = false;
     // clean
     for(int i=0;i<val.length();++i){
@@ -35,10 +33,16 @@ var getVal(string val){
         else if(val[i] == '.'){
             dot = true;
         }
-        else if(!isdigit(val[i])){
+        else if(!isdigit(val[i]) && !isalpha(val[i])){
             val.erase(val.begin() + i);
             --i;
         }
+    }
+    //
+    map<string, var>::iterator iter;
+    iter = vars.find(val);//find by name
+    if(iter != vars.end()){
+        return iter->second;
     }
     //
     if(imag){
@@ -144,13 +148,47 @@ void outputVar(var num){
     }
 }
 
+void convert(var& num, int type){
+    if(num.type == type)return;
+    if(num.type == 1 && type == 2){
+        num.type = 2;
+        Decimal tmp = Decimal::IntToDecimal(*(Integer *)num.data);
+        num.data = new Decimal();
+        *(Decimal *)num.data = tmp;
+    }else if(num.type == 1 && type == 3){
+        num.type = 3;
+        Complex tmp = Complex::IntToComplex(*(Integer *)num.data);
+        num.data = new Complex();
+        *(Complex *)num.data = tmp;
+    }else if(num.type == 2 && type == 3){
+        num.type = 3;
+        Complex tmp = Complex::DecimalToComplex(*(Decimal *)num.data);
+        num.data = new Complex();
+        *(Complex *)num.data = tmp;
+    }
+}
+
 int main(){
     init();
-    string cmd, formula;
+    string cmd, formula, name, type;
     while(cin >> cmd){
         if(cmd == "calc"){
             cin >> formula;
             outputVar(calc(formula));
+        }else if(cmd == "set"){
+            var tmp;
+            cin >> type >> name >> formula >> formula;//把=弄掉
+            tmp = calc(formula);
+            if(type == "Integer"){
+                convert(tmp, 1);
+            }else if(type == "Decimal"){
+                convert(tmp, 2);
+            }else{
+                convert(tmp, 3);
+            }
+            vars[name] = tmp;
+            cout << name << " = ";
+            outputVar(vars[name]);
         }
     }
 }
