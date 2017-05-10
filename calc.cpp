@@ -144,7 +144,7 @@ const Integer Integer::Add(const Integer& rhs) const{
         }
     }
     return ltmp;
-
+    
 }
 
 const Integer operator+(const Integer& lhs, const Integer& rhs){
@@ -159,22 +159,22 @@ const Integer operator-(const Integer& lhs, const Integer& rhs){
 
 const Integer operator*(const Integer& lhs, const Integer& rhs){
     Integer result(0, false), rtmp=rhs , itmp;
-        for(int j=SizeMax-1;j>=SizeMax-lhs._sizeUsed;--j){
-            rtmp = rhs;
-            if(lhs._digi[j] == 0)continue;
-            int count = 0;
-            while(!rtmp.IsZero()){
-                if(count == 18){
-                    std::cout << "";
-                }
-                itmp =Integer(lhs._digi[j] * (rtmp._digi[SizeMax-1]%10),false);
-                rtmp.RightShift();
-                for(int k=0;k<count + (SizeMax-j-1)*BaseLen;k++){
-                    itmp.LeftShift();
-                }count++;
-                result = result+itmp;
+    for(int j=SizeMax-1;j>=SizeMax-lhs._sizeUsed;--j){
+        rtmp = rhs;
+        if(lhs._digi[j] == 0)continue;
+        int count = 0;
+        while(!rtmp.IsZero()){
+            if(count == 18){
+                std::cout << "";
             }
+            itmp =Integer(lhs._digi[j] * (rtmp._digi[SizeMax-1]%10),false);
+            rtmp.RightShift();
+            for(int k=0;k<count + (SizeMax-j-1)*BaseLen;k++){
+                itmp.LeftShift();
+            }count++;
+            result = result+itmp;
         }
+    }
     result._sign = lhs._sign ^ rhs._sign;
     return result;
 }
@@ -362,10 +362,17 @@ const Complex Integer::operator+(const Complex& rhs){
     return Complex::IntToComplex(*this) + rhs;
 }
 
-/*const Complex Integer::operator-(const Complex& rhs){
-    return <#expression#>
-}*/
+const Complex Integer::operator-(const Complex& rhs){
+ return Complex::IntToComplex(*this) - rhs;
+}
 
+const Complex Integer::operator*(const Complex& rhs){
+    return Complex::IntToComplex(*this) * rhs;
+}
+
+const Complex Integer::operator/(const Complex& rhs){
+    return Complex::IntToComplex(*this) / rhs;
+}
 
 
 //
@@ -549,6 +556,31 @@ std::ostream& operator<<(std::ostream& stream, const Decimal& rhs){
     return stream;
 }
 
+const Decimal Decimal::operator+(const Integer& rhs){
+    return  *this + IntToDecimal(rhs);
+}
+const Decimal Decimal::operator-(const Integer& rhs){
+    return  *this - IntToDecimal(rhs);
+}
+const Decimal Decimal::operator*(const Integer& rhs){
+    return  *this * IntToDecimal(rhs);
+}
+const Decimal Decimal::operator/(const Integer& rhs){
+    return  *this / IntToDecimal(rhs);
+}
+
+const Complex Decimal::operator+(const Complex& rhs){
+    return  Complex::DecimalToComplex(*this) + rhs;
+}
+const Complex Decimal::operator-(const Complex& rhs){
+    return  Complex::DecimalToComplex(*this) - rhs;
+}
+const Complex Decimal::operator*(const Complex& rhs){
+    return  Complex::DecimalToComplex(*this) * rhs;
+}
+const Complex Decimal::operator/(const Complex& rhs){
+    return  Complex::DecimalToComplex(*this) / rhs;
+}
 //
 //
 // Complex below
@@ -666,4 +698,30 @@ Complex Complex::DecimalToComplex(const Decimal& rhs){
     newComp._realPart = rhs;
     newComp._imaginePart = Decimal::IntToDecimal(Integer(0,false));
     return newComp;
+}
+
+const Complex Complex::operator+(const Integer& rhs){
+    return *this + IntToComplex(rhs);
+}
+const Complex Complex::operator-(const Integer& rhs){
+    return *this - IntToComplex(rhs);
+}
+const Complex Complex::operator*(const Integer& rhs){
+    return *this * IntToComplex(rhs);
+}
+const Complex Complex::operator/(const Integer& rhs){
+    return *this / IntToComplex(rhs);
+}
+
+const Complex Complex::operator+(const Decimal& rhs){
+    return *this + DecimalToComplex(rhs);
+}
+const Complex Complex::operator-(const Decimal& rhs){
+    return *this - DecimalToComplex(rhs);
+}
+const Complex Complex::operator*(const Decimal& rhs){
+    return *this * DecimalToComplex(rhs);
+}
+const Complex Complex::operator/(const Decimal& rhs){
+    return *this / DecimalToComplex(rhs);
 }
