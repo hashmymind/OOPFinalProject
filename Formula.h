@@ -22,3 +22,4 @@ var operating(const var&, const var&, char);
 var calc(string);
 void convert(var&, int);
 string dealNegtiveSign(string);
+void setVariable(string name, int type, string formula);
