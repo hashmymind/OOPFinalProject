@@ -1,7 +1,8 @@
 #pragma once
 
 namespace CalcForm {
-
+	int subCount = 1;
+	
 	using namespace System;
 	using namespace System::ComponentModel;
 	using namespace System::Collections;
@@ -644,21 +645,37 @@ namespace CalcForm {
 
 		}
 #pragma endregion
+
+void SubCheck() {
+	if (subCount == 2)
+		Sub->Enabled = false;
+	else
+		Sub->Enabled = true;
+}
 void EnableFunctions()
 {
-	if (IntegerBTM->Enabled)
-	{
+	Plus->Enabled = true;
+	Sub->Enabled = true;
+	Multiple->Enabled = true;
+	Dev->Enabled = true;
+	Left->Enabled = true;
+	Right->Enabled = true;
+	POW->Enabled = true;
+	Equal->Enabled = true;
+	Factor->Enabled = true;
+	Imagine->Enabled = false;
+	Dot->Enabled = false;
+	if (!DecimalBTM->Enabled) {
+		Factor->Enabled = false;
 		Dot->Enabled = true;
-		Plus->Enabled = true;
-		Sub->Enabled = true;
-		Multiple->Enabled = true;
-		Dev->Enabled = true;
-		Left->Enabled = true;
-		Right->Enabled = true;
-		POW->Enabled = true;
-		Factor->Enabled = true;
-		Equal->Enabled = true;
+		Imagine->Enabled = false;
 	}
+	else if (!ComplexBTM->Enabled) {
+		Factor->Enabled = false;
+		Dot->Enabled = true;
+		Imagine->Enabled = true;
+	}
+	SubCheck();
 }
 private: System::Void MainForm_Load(System::Object^  sender, System::EventArgs^  e) {
 }
@@ -684,42 +701,53 @@ private: System::Void ComplexBTM_Click(System::Object^  sender, System::EventArg
 	Imagine->Enabled = true;
 }
 private: System::Void One_Click(System::Object^  sender, System::EventArgs^  e) {
+	subCount = 0;
 	Show->Text += "1";
 	EnableFunctions();
 }
 private: System::Void Two_Click(System::Object^  sender, System::EventArgs^  e) {
+	subCount = 0;
 	Show->Text += "2" ;
 	EnableFunctions();
 }
 private: System::Void Three_Click(System::Object^  sender, System::EventArgs^  e) {
+	subCount = 0;
 	Show->Text += "3";
 	EnableFunctions();
 }
 private: System::Void Four_Click(System::Object^  sender, System::EventArgs^  e) {
+	subCount = 0;
 	Show->Text += "4";
 	EnableFunctions();
 }
 private: System::Void Five_Click(System::Object^  sender, System::EventArgs^  e) {
+	subCount = 0;
 	Show->Text += "5";
 	EnableFunctions();
 }
 private: System::Void Six_Click(System::Object^  sender, System::EventArgs^  e) {
+	subCount = 0;
 	Show->Text += "6";
 	EnableFunctions();
 }
 private: System::Void Seven_Click(System::Object^  sender, System::EventArgs^  e) {
+	subCount = 0;
 	Show->Text += "7";
 	EnableFunctions();
 }
 private: System::Void Eight_Click(System::Object^  sender, System::EventArgs^  e) {
+	subCount = 0;
 	Show->Text += "8";
 	EnableFunctions();
 }
 private: System::Void Nine_Click(System::Object^  sender, System::EventArgs^  e) {
+	subCount = 0;
 	Show->Text += "9";
 	EnableFunctions();
+	SubCheck();
 }
 private: System::Void Zero_Click(System::Object^  sender, System::EventArgs^  e) {
+	subCount = 0;
 	Show->Text += "0";
 	EnableFunctions();
 }
@@ -737,21 +765,33 @@ private: System::Void Dot_Click(System::Object^  sender, System::EventArgs^  e) 
 	Equal->Enabled = false;
 }
 private: System::Void Plus_Click(System::Object^  sender, System::EventArgs^  e) {
+	subCount = 1;
+	SubCheck();
+	Plus->Enabled = false;
 	if (!DecimalBTM->Enabled || !ComplexBTM->Enabled) 
 		Dot->Enabled = true;
 	Show->Text += "+";
+
 }
 private: System::Void Sub_Click(System::Object^  sender, System::EventArgs^  e) {
+	subCount++;
+	SubCheck();
 	if (!DecimalBTM->Enabled || !ComplexBTM->Enabled)
 		Dot->Enabled = true;
 	Show->Text += "-";
 }
 private: System::Void Multiple_Click(System::Object^  sender, System::EventArgs^  e) {
+	subCount = 1;
+	SubCheck();
+	Multiple->Enabled = false;
 	if (!DecimalBTM->Enabled || !ComplexBTM->Enabled)
 		Dot->Enabled = true;
 	Show->Text += "*";
 }
 private: System::Void Dev_Click(System::Object^  sender, System::EventArgs^  e) {
+	subCount = 1;
+	SubCheck();
+	Dev->Enabled = false;
 	if (!DecimalBTM->Enabled || !ComplexBTM->Enabled)
 		Dot->Enabled = true;
 	Show->Text += "/";
@@ -760,22 +800,37 @@ private: System::Void Back_Click(System::Object^  sender, System::EventArgs^  e)
 	if (Show->Text->Length) {
 		if (Show->Text[Show->Text->Length - 1] == '.')
 			Dot->Enabled = true;
+		else if (Show->Text[Show->Text->Length - 1] == '-') {
+			subCount--;
+		}
+		SubCheck();
 		Show->Text = Show->Text->Substring(0, Show->Text->Length - 1);
 	}
 }
 private: System::Void Left_Click(System::Object^  sender, System::EventArgs^  e) {
+	subCount = 1;
+	SubCheck();
 	Show->Text += "(";
 }
 private: System::Void Right_Click(System::Object^  sender, System::EventArgs^  e) {
+	subCount = 0;
+	SubCheck();
 	Show->Text += ")";
 }
 private: System::Void Factor_Click(System::Object^  sender, System::EventArgs^  e) {
+	subCount = 0;
+	SubCheck();
+	Factor->Enabled = false;
 	Show->Text += "!";
 }
 private: System::Void Clear_Click(System::Object^  sender, System::EventArgs^  e) {
+	subCount = 1;
+	SubCheck();
 	Show->Text = "";
 }
 private: System::Void POW_Click(System::Object^  sender, System::EventArgs^  e) {
+	Sub->Enabled = false;
+	POW->Enabled = false; 
 	Show->Text += "^";
 }
 };
