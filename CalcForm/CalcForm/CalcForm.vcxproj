@@ -132,12 +132,22 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Complex.cpp" />
+    <ClCompile Include="Decimal.cpp" />
+    <ClCompile Include="Formula.cpp" />
+    <ClCompile Include="Integer.cpp" />
     <ClCompile Include="MainForm.cpp" />
+    <ClCompile Include="NumberObject.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Complex.h" />
+    <ClInclude Include="Decimal.h" />
+    <ClInclude Include="Formula.h" />
+    <ClInclude Include="Integer.h" />
     <ClInclude Include="MainForm.h">
       <FileType>CppForm</FileType>
     </ClInclude>
+    <ClInclude Include="NumberObject.h" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="MainForm.resx">

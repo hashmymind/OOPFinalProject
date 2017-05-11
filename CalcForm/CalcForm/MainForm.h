@@ -1,8 +1,10 @@
 #pragma once
-
-namespace CalcForm {
-	int subCount = 1;
-	
+#include "Formula.h"
+#include <msclr/marshal.h>        // .NET string to C-style string
+#include <msclr/marshal_cppstd.h> // .NET string to STL string
+map<string, var> vars;
+map<char, int> operators;
+namespace CalcForm {	
 	using namespace System;
 	using namespace System::ComponentModel;
 	using namespace System::Collections;
@@ -210,6 +212,7 @@ namespace CalcForm {
 			this->Imagine->TabIndex = 0;
 			this->Imagine->Text = L"i";
 			this->Imagine->UseVisualStyleBackColor = true;
+			this->Imagine->Click += gcnew System::EventHandler(this, &MainForm::Imagine_Click);
 			// 
 			// Dot
 			// 
@@ -438,6 +441,7 @@ namespace CalcForm {
 			this->Equal->TabIndex = 0;
 			this->Equal->Text = L"=";
 			this->Equal->UseVisualStyleBackColor = true;
+			this->Equal->Click += gcnew System::EventHandler(this, &MainForm::Equal_Click);
 			// 
 			// Clear
 			// 
@@ -492,6 +496,7 @@ namespace CalcForm {
 			// 
 			// Right
 			// 
+			this->Right->Enabled = false;
 			this->Right->Font = (gcnew System::Drawing::Font(L"º–∑¢≈È", 18, System::Drawing::FontStyle::Bold, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(136)));
 			this->Right->Location = System::Drawing::Point(92, 95);
@@ -646,7 +651,24 @@ namespace CalcForm {
 		}
 #pragma endregion
 
+int subCount = 1;
+int bracketCount = 0;
+bool dotCheck = false;
+bool EQ = true;
+void EQCheck() {
+	if (EQ) 
+		Show->Text = "";
+	EQ = false;
+	bracketCount = 0;
+}
+void bracketCheck() {
+	if (bracketCount)
+		Right->Enabled = true;
+	else
+		Right->Enabled = false;
+}
 void SubCheck() {
+	// --¿À¨d
 	if (subCount == 2)
 		Sub->Enabled = false;
 	else
@@ -654,30 +676,54 @@ void SubCheck() {
 }
 void EnableFunctions()
 {
+	EQCheck();
 	Plus->Enabled = true;
 	Sub->Enabled = true;
 	Multiple->Enabled = true;
 	Dev->Enabled = true;
 	Left->Enabled = true;
-	Right->Enabled = true;
 	POW->Enabled = true;
 	Equal->Enabled = true;
 	Factor->Enabled = true;
-	Imagine->Enabled = false;
-	Dot->Enabled = false;
 	if (!DecimalBTM->Enabled) {
 		Factor->Enabled = false;
-		Dot->Enabled = true;
+		if (dotCheck == false)
+			Dot->Enabled = true;
 		Imagine->Enabled = false;
 	}
 	else if (!ComplexBTM->Enabled) {
 		Factor->Enabled = false;
-		Dot->Enabled = true;
+		if (dotCheck == false)
+			Dot->Enabled = true;
 		Imagine->Enabled = true;
 	}
+}
+void SignFun() {
+	if (!DecimalBTM->Enabled || !ComplexBTM->Enabled)
+		Dot->Enabled = true;
+	if (!ComplexBTM->Enabled)
+		Imagine->Enabled = true;
+	Plus->Enabled = false;
+	Multiple->Enabled = false;
+	Dev->Enabled = false;
+	POW->Enabled = false;
+	Factor->Enabled = false;
+	One->Enabled = true;
+	Two->Enabled = true;
+	Three->Enabled = true;
+	Four->Enabled = true;
+	Five->Enabled = true;
+	Six->Enabled = true;
+	Seven->Enabled = true;
+	Eight->Enabled = true;
+	Nine->Enabled = true;
+	Zero->Enabled = true;
+	Dot->Enabled = false;
+	dotCheck = false;
 	SubCheck();
 }
 private: System::Void MainForm_Load(System::Object^  sender, System::EventArgs^  e) {
+	init();
 }
 private: System::Void IntegerBTM_Click(System::Object^  sender, System::EventArgs^  e) {
 	IntegerBTM->Enabled = false;
@@ -702,58 +748,58 @@ private: System::Void ComplexBTM_Click(System::Object^  sender, System::EventArg
 }
 private: System::Void One_Click(System::Object^  sender, System::EventArgs^  e) {
 	subCount = 0;
-	Show->Text += "1";
 	EnableFunctions();
+	Show->Text += "1";
 }
 private: System::Void Two_Click(System::Object^  sender, System::EventArgs^  e) {
 	subCount = 0;
-	Show->Text += "2" ;
 	EnableFunctions();
+	Show->Text += "2" ;
 }
 private: System::Void Three_Click(System::Object^  sender, System::EventArgs^  e) {
 	subCount = 0;
-	Show->Text += "3";
 	EnableFunctions();
+	Show->Text += "3";
 }
 private: System::Void Four_Click(System::Object^  sender, System::EventArgs^  e) {
 	subCount = 0;
-	Show->Text += "4";
 	EnableFunctions();
+	Show->Text += "4";
 }
 private: System::Void Five_Click(System::Object^  sender, System::EventArgs^  e) {
 	subCount = 0;
-	Show->Text += "5";
 	EnableFunctions();
+	Show->Text += "5";
 }
 private: System::Void Six_Click(System::Object^  sender, System::EventArgs^  e) {
 	subCount = 0;
-	Show->Text += "6";
 	EnableFunctions();
+	Show->Text += "6";
 }
 private: System::Void Seven_Click(System::Object^  sender, System::EventArgs^  e) {
 	subCount = 0;
-	Show->Text += "7";
 	EnableFunctions();
+	Show->Text += "7";
 }
 private: System::Void Eight_Click(System::Object^  sender, System::EventArgs^  e) {
 	subCount = 0;
-	Show->Text += "8";
 	EnableFunctions();
+	Show->Text += "8";
 }
 private: System::Void Nine_Click(System::Object^  sender, System::EventArgs^  e) {
 	subCount = 0;
-	Show->Text += "9";
 	EnableFunctions();
-	SubCheck();
+	Show->Text += "9";
 }
 private: System::Void Zero_Click(System::Object^  sender, System::EventArgs^  e) {
 	subCount = 0;
-	Show->Text += "0";
 	EnableFunctions();
+	Show->Text += "0";
 }
 private: System::Void Dot_Click(System::Object^  sender, System::EventArgs^  e) {
 	Show->Text += ".";
 	Dot->Enabled = false;
+	dotCheck = true;
 	Plus->Enabled = false;
 	Sub->Enabled = false;
 	Multiple->Enabled = false;
@@ -765,73 +811,93 @@ private: System::Void Dot_Click(System::Object^  sender, System::EventArgs^  e) 
 	Equal->Enabled = false;
 }
 private: System::Void Plus_Click(System::Object^  sender, System::EventArgs^  e) {
+	EQ = false;
 	subCount = 1;
-	SubCheck();
-	Plus->Enabled = false;
-	if (!DecimalBTM->Enabled || !ComplexBTM->Enabled) 
-		Dot->Enabled = true;
+	SubCheck();	
 	Show->Text += "+";
-
+	SignFun();
 }
 private: System::Void Sub_Click(System::Object^  sender, System::EventArgs^  e) {
+	EQ = false;
 	subCount++;
-	SubCheck();
-	if (!DecimalBTM->Enabled || !ComplexBTM->Enabled)
-		Dot->Enabled = true;
 	Show->Text += "-";
+	SignFun();
 }
 private: System::Void Multiple_Click(System::Object^  sender, System::EventArgs^  e) {
+	EQ = false;
 	subCount = 1;
-	SubCheck();
-	Multiple->Enabled = false;
-	if (!DecimalBTM->Enabled || !ComplexBTM->Enabled)
-		Dot->Enabled = true;
 	Show->Text += "*";
+	SignFun();
 }
 private: System::Void Dev_Click(System::Object^  sender, System::EventArgs^  e) {
+	EQ = false;
 	subCount = 1;
-	SubCheck();
-	Dev->Enabled = false;
-	if (!DecimalBTM->Enabled || !ComplexBTM->Enabled)
-		Dot->Enabled = true;
 	Show->Text += "/";
+	SignFun();
 }
 private: System::Void Back_Click(System::Object^  sender, System::EventArgs^  e) {
 	if (Show->Text->Length) {
 		if (Show->Text[Show->Text->Length - 1] == '.')
+		{
 			Dot->Enabled = true;
+			dotCheck = false;
+		}
 		else if (Show->Text[Show->Text->Length - 1] == '-') {
 			subCount--;
 		}
+		if (Show->Text->Length - 1 == 0)
+			subCount = 1;
 		SubCheck();
 		Show->Text = Show->Text->Substring(0, Show->Text->Length - 1);
 	}
 }
 private: System::Void Left_Click(System::Object^  sender, System::EventArgs^  e) {
+	EQCheck();
 	subCount = 1;
+	bracketCount++;
+	bracketCheck();
 	SubCheck();
 	Show->Text += "(";
 }
 private: System::Void Right_Click(System::Object^  sender, System::EventArgs^  e) {
 	subCount = 0;
+	bracketCount--;
 	SubCheck();
+	bracketCheck();
 	Show->Text += ")";
 }
 private: System::Void Factor_Click(System::Object^  sender, System::EventArgs^  e) {
+	EQ = false;
 	subCount = 0;
-	SubCheck();
+	SignFun();
 	Factor->Enabled = false;
 	Show->Text += "!";
 }
 private: System::Void Clear_Click(System::Object^  sender, System::EventArgs^  e) {
+	EQ = false;
+	bracketCount = 0;
 	subCount = 1;
 	SubCheck();
 	Show->Text = "";
 }
 private: System::Void POW_Click(System::Object^  sender, System::EventArgs^  e) {
+	EQ = false;
 	Sub->Enabled = false;
 	POW->Enabled = false; 
 	Show->Text += "^";
+}
+private: System::Void Equal_Click(System::Object^  sender, System::EventArgs^  e) {
+	string result = msclr::interop::marshal_as<std::string>(Show->Text);
+	result = dealNegativeSign(result);
+	result = calc(result).data->ToString();
+	Show->Text = gcnew String(result.c_str());
+	Dot->Enabled = false;
+	EQ = true;
+	bracketCount = 0;
+	bracketCheck();
+}
+private: System::Void Imagine_Click(System::Object^  sender, System::EventArgs^  e) {
+	Show->Text += "i";
 }
 };
 }

@@ -1,4 +1,4 @@
 ﻿  MainForm.cpp
-  MainForm.obj : Managed 程式碼存在時不支援 /DEBUG:FASTLINK; 正在以 /DEBUG:FULL 重新啟動連結
-  CalcForm.vcxproj -> C:\Users\RB509\Desktop\OOPFinalProject-master\OOPFinalProject-master\CalcForm\Debug\CalcForm.exe
-  CalcForm.vcxproj -> C:\Users\RB509\Desktop\OOPFinalProject-master\OOPFinalProject-master\CalcForm\Debug\CalcForm.pdb (Partial PDB)
+  Complex.obj : Managed 程式碼存在時不支援 /DEBUG:FASTLINK; 正在以 /DEBUG:FULL 重新啟動連結
+  CalcForm.vcxproj -> C:\Users\RB509\Desktop\OOPFinalProject\CalcForm\Debug\CalcForm.exe
+  CalcForm.vcxproj -> C:\Users\RB509\Desktop\OOPFinalProject\CalcForm\Debug\CalcForm.pdb (Partial PDB)
