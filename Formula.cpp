@@ -149,3 +149,5 @@ string dealNegtiveSign(string formula){
     
     return formula;
 }
+void setVariable(string name, int type, string formula){
+}
