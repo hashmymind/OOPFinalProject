@@ -1,3 +1,6 @@
+#pragma once
+#include "Integer"
+
 class Decimal:public NumberObject{
 private:
     Integer _numerator, _denominator;
