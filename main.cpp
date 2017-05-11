@@ -8,11 +8,11 @@ int main(){
     while(cin >> cmd){
         if(cmd == "calc"){
             cin >> formula;
-            cout << *calc(formula).data << endl;
+            cout << *calc(dealNegativeSign(formula)).data << endl;
         }else if(cmd == "set"){
             var tmp;
             cin >> type >> name >> formula >> formula;//把=弄掉
-            tmp = calc(formula);
+            tmp = calc(dealNegativeSign(formula));
             if(type == "Integer"){
                 convert(tmp, 1);
             }else if(type == "Decimal"){
@@ -23,6 +23,9 @@ int main(){
             vars[name] = tmp;
             cout << name << " = ";
             cout << *vars[name].data << endl;
+        }else if(cmd == "debug"){
+            cin >> formula;
+            cout << dealNegativeSign(formula);
         }
     }
 }

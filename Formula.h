@@ -22,5 +22,5 @@ template<typename T1,typename T2,typename T3> void counting(const var&, const va
 var operating(const var&, const var&, char);
 var calc(string);
 void convert(var&, int);
-string dealNegtiveSign(string);
+string dealNegativeSign(string);
 void setVariable(string name, int type, string formula);

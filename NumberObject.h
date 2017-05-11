@@ -16,8 +16,6 @@ class Integer;
 class Decimal;
 class Complex;
 
-Decimal IntToDecimal(const Integer&);
-
 class NumberObject{
     // root class
 public:

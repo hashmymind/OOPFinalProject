@@ -144,8 +144,24 @@ void convert(var& num, int type){
     }
 }
 
-string dealNegtiveSign(string formula){
-    
+string dealNegativeSign(string formula){
+    for(int i=0;i<formula.size();++i){
+        if(formula[i] == '-' && (i == 0 || operators.find(formula[i-1]) != operators.end())){
+            // 負號
+            int rightLoc = formula.size()-1;
+            for(int j=i+1;j<formula.size(); ++j){
+                if(formula[j] == ')' || operators.find(formula[j]) == operators.end()){
+                    rightLoc = j;
+                    break;
+                }
+            }
+            string subFormula = formula.substr(i+1, rightLoc-i);
+            subFormula = "(0-"+subFormula+")";
+            formula.erase(i,rightLoc+1);
+            formula.insert(i,subFormula);
+            i = i+subFormula.length();
+        }
+    }
     return formula;
 }
 void setVariable(string name, int type, string formula){
