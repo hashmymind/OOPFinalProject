@@ -1,12 +1,14 @@
 #include "Calc.h"
-
+map<string, var> vars;
+map<char, int> operators;
 int main(){
     init();
+    
     string cmd, formula, name, type;
     while(cin >> cmd){
         if(cmd == "calc"){
             cin >> formula;
-            outputVar(calc(formula));
+            cout << *calc(formula).data << endl;
         }else if(cmd == "set"){
             var tmp;
             cin >> type >> name >> formula >> formula;//把=弄掉
@@ -20,7 +22,7 @@ int main(){
             }
             vars[name] = tmp;
             cout << name << " = ";
-            outputVar(vars[name]);
+            cout << *vars[name].data << endl;
         }
     }
 }

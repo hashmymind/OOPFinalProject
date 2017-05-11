@@ -83,7 +83,7 @@ void Complex::Output(std::ostream& stream) const{
 }
 
 void Complex::Input(std::istream& stream){
-    char inputChar;
+    //char inputChar;
     //還不知道怎麼寫
 }
 

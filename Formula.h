@@ -1,3 +1,4 @@
+#pragma once
 #include <map>
 #include "NumberObject.h"
 #include "Integer.h"
@@ -11,8 +12,8 @@ struct var{
     NumberObject * data;
 };
 
-map<string, var> vars;
-map<char, int> operators;
+extern map<string, var> vars;
+extern map<char, int> operators;
 const int inf = 0xC8763;
 
 void init();

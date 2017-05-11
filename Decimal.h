@@ -1,5 +1,5 @@
 #pragma once
-#include "Integer"
+#include "Integer.h"
 
 class Decimal:public NumberObject{
 private:

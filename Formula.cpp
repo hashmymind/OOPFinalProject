@@ -1,5 +1,4 @@
 #include "Formula.h"
-
 void init(){
     operators['+'] = 1;
     operators['-'] = 1;

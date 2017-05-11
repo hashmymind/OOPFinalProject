@@ -1,4 +1,6 @@
 #include "Integer.h"
+#include "Decimal.h"
+#include "Complex.h"
 //
 //
 // Integer below
