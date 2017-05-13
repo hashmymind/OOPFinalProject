@@ -41,6 +41,7 @@ public:
     const bool GetSign() const;
     const bool IsReduced();
     std::string ToString(int) const;
+    const Decimal Power(const Integer&);
     
     static Decimal IntToDecimal(const Integer&);
     

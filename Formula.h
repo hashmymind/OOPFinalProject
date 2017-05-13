@@ -23,4 +23,5 @@ var operating(const var&, const var&, char);
 var calc(string);
 void convert(var&, int);
 string dealNegativeSign(string);
+string dealPowerCMD(string);
 void setVariable(string name, int type, string formula);

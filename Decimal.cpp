@@ -172,6 +172,17 @@ std::string Decimal::ToString(int precise) const{
     return result;
 }
 
+const Decimal Decimal::Power(const Integer& rhs){
+    Decimal result = *this;
+    result._numerator.SetSign(result._sign);
+    result._numerator = result._numerator.Power(rhs);
+    result._denominator = result._denominator .Power(rhs);
+    result._sign = result._numerator.GetSign();
+    result._numerator.SetSign(false);
+    result.Reduce();
+    return result;
+}
+
 std::string Decimal::ToString() const{
     return this->ToString(100);
 }

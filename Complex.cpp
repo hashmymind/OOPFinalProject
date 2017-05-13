@@ -71,6 +71,7 @@ const Complex operator*(const Complex& lhs, const Complex& rhs){
 }
 
 const Complex operator/(const Complex& lhs, const Complex& rhs){
+    //
     Complex result;
     Decimal divisor = rhs._realPart*rhs._realPart + rhs._imaginePart*rhs._imaginePart;
     result._realPart = (lhs._realPart*rhs._realPart + lhs._imaginePart*rhs._imaginePart)/divisor;
@@ -85,6 +86,17 @@ void Complex::Output(std::ostream& stream) const{
 void Complex::Input(std::istream& stream){
     //char inputChar;
     //還不知道怎麼寫
+}
+
+const Complex Complex::Power(const Integer& rhs){
+    Complex result = *this;
+    Integer times = rhs, one(1, false);
+    times = times - one;
+    while(!times.IsZero()){
+        result = result * *this;
+        times = times - one;
+    }
+    return result;
 }
 
 std::ostream& operator<<(std::ostream& stream, const Complex& rhs){

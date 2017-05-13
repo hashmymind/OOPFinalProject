@@ -29,6 +29,8 @@ public:
     
     Integer operator=(const std::string&);
     
+    const Integer operator^(const Integer&);
+    
     const Decimal operator+(const Decimal&);
     const Decimal operator-(const Decimal&);
     const Decimal operator*(const Decimal&);
@@ -40,6 +42,8 @@ public:
     const Complex operator/(const Complex&);
     
     const Integer operator++();
+    const Integer operator--();
+    
     void Complete();
     void LeftShift();
     void RightShift();
@@ -52,5 +56,8 @@ public:
     virtual std::string ToString() const;
     const Integer Add(const Integer&)const;
     const Integer operator=(const Integer&);
+    const Integer Power(const Integer&);
+    
+    static Integer Factorial(Integer);
 };
 

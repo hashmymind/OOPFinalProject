@@ -28,6 +28,7 @@ public:
     
     static Complex IntToComplex(const Integer&);
     static Complex DecimalToComplex(const Decimal&);
+    const Complex Power(const Integer&);
     
     virtual void Output(std::ostream&) const;
     virtual void Input(std::istream&);
