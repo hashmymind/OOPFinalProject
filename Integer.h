@@ -1,4 +1,5 @@
 #pragma once
+#include <fstream>
 #include "NumberObject.h"
 
 class Integer: public NumberObject{
@@ -15,7 +16,7 @@ public:
     
     friend const Integer operator+(const Integer&, const Integer&);
     friend const Integer operator-(const Integer&, const Integer&);
-    friend const Integer operator*(const Integer&, const Integer&);
+    friend const Integer operator*(Integer,Integer);
     friend const Integer operator/(const Integer&, const Integer&);
     friend const Integer operator%(const Integer&, const Integer&);
     friend const bool operator>(const Integer&, const Integer&);
@@ -26,6 +27,8 @@ public:
     friend const Integer GCD(const Integer&, const Integer&);
     friend std::ostream& operator<<(std::ostream&, const Integer&);
     friend std::istream& operator>>(std::istream&, Integer&);
+    friend Integer Karatsuba(const Integer&, const Integer&);
+    friend Integer Mul(const Integer&, const Integer&);
     
     Integer operator=(const std::string&);
     
@@ -59,5 +62,6 @@ public:
     const Integer Power(const Integer&);
     
     static Integer Factorial(Integer);
+    static std::vector<BaseNum> primes;
+    static void LoadPrime();
 };
-

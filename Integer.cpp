@@ -1,6 +1,7 @@
 #include "Integer.h"
 #include "Decimal.h"
 #include "Complex.h"
+std::vector<BaseNum> Integer::primes;
 //
 //
 // Integer below
@@ -72,7 +73,7 @@ void Integer::Complete(){
 std::string Integer::ToString() const{
     bool leading = true;
     std::string num = "", tmp;
-    for(int i=0;i<SizeMax;++i){
+    for(int i=SizeMax-this->_sizeUsed;i<SizeMax;++i){
         if(!this->_digi[i] && leading)continue;
         tmp = std::to_string(this->_digi[i]);
         if(!leading)tmp.insert(0, BaseLen - tmp.length(), '0');
@@ -147,16 +148,13 @@ const Integer operator-(const Integer& lhs, const Integer& rhs){
     return ltmp + rtmp;
 }
 
-const Integer operator*(const Integer& lhs, const Integer& rhs){
+Integer Mul(const Integer& lhs, const Integer& rhs){
     Integer result(0, false), rtmp=rhs , itmp;
     for(int j=SizeMax-1;j>=SizeMax-lhs._sizeUsed;--j){
         rtmp = rhs;
         if(lhs._digi[j] == 0)continue;
         int count = 0;
         while(!rtmp.IsZero()){
-            if(count == 18){
-                std::cout << "";
-            }
             itmp =Integer(lhs._digi[j] * (rtmp._digi[SizeMax-1]%10),false);
             rtmp.RightShift();
             for(int k=0;k<count + (SizeMax-j-1)*BaseLen;k++){
@@ -166,6 +164,40 @@ const Integer operator*(const Integer& lhs, const Integer& rhs){
         }
     }
     result._sign = lhs._sign ^ rhs._sign;
+    return result;
+}
+
+Integer Karatsuba(const Integer& lhs, const Integer& rhs){
+    if(lhs.IsZero()||rhs.IsZero())return Integer(0,false);
+    std::string lstr = lhs.ToString(), rstr = rhs.ToString();
+    if(lstr[0] == '-')lstr = lstr.substr(1);
+    if(rstr[0] == '-')rstr = rstr.substr(1);
+    int len = std::max(lstr.length(),rstr.length()) , mid=len/2;
+    if(len<=325){
+        return Mul(lhs, rhs);
+    }
+    if(lstr.length()<len)lstr.insert(0,len-lstr.length(),'0');
+    if(rstr.length()<len)rstr.insert(0,len-rstr.length(),'0');
+    Integer high1(lstr.substr(0,mid)),low1(lstr.substr(mid,lstr.length()-mid));
+    Integer high2(rstr.substr(0,mid)),low2(rstr.substr(mid,rstr.length()-mid));
+    Integer z0 = Karatsuba(low1,low2);
+    Integer z1 = Karatsuba((low1+high1),(low2+high2));
+    Integer z2=Karatsuba(high1,high2);
+    z1 = z1-z2-z0;
+    for(int i=0;i<2*(len-mid);++i){
+        z2.LeftShift();
+    }
+    for(int i=0;i<(len-mid);++i){
+        z1.LeftShift();
+    }
+    return z0+z1+z2;
+}
+
+const Integer operator*(Integer lhs,Integer rhs){
+    bool sign = lhs._sign ^ rhs._sign;
+    lhs._sign=false;rhs._sign=false;
+    Integer result = Karatsuba(lhs, rhs);
+    result._sign = sign;
     return result;
 }
 
@@ -323,12 +355,21 @@ void Integer::SetSign(bool sign){
 }
 
 const Integer Integer::Power(const Integer& rhs){
-    Integer result(1, false), times = rhs, one(1, false);
-    while(!times.IsZero()){
-        result = result * *this;
-        times = times - one;
+    Integer one(1, false), two(2, false), tmp;
+    //end Condition
+    if(rhs.IsZero()){
+        // return square root
+    }else if((rhs - one).IsZero()){
+        return *this;
     }
-    return result;
+    //
+    if((rhs%two).IsZero()){
+        tmp = this->Power(rhs / two);
+        return tmp * tmp;
+    }else{
+        tmp = this->Power(rhs / two);
+        return tmp * tmp * *this;
+    }
 }
 
 std::ostream& operator<<(std::ostream& stream, const Integer& rhs){
@@ -373,11 +414,39 @@ const Complex Integer::operator/(const Complex& rhs){
     return Complex::IntToComplex(*this) / rhs;
 }
 
+void Integer::LoadPrime(){
+    std::ifstream fin("primes.txt");
+    BaseNum tmp;
+    primes.clear();
+    while(fin >> tmp){
+        primes.push_back(tmp);
+    }
+    fin.close();
+}
+
 Integer Integer::Factorial(Integer rhs){
     Integer result(1,false), one(1,false);
-    while(!rhs.IsZero()){
-        result = result * rhs;
-        rhs = rhs - one;
+    // end condition
+    if(rhs < one){
+        return one;
+    }
+    //
+    if(rhs > Integer(primes[primes.size()-1],false)){
+        return rhs * Factorial(rhs - one);
+    }else{
+        
+        Integer tmp(2,false), tmp2, power;
+        for(int i=1;tmp<=rhs;++i){
+            power = Integer(0,false);
+            tmp2 = Integer(1, false);
+            while(true){
+                tmp2 = tmp2 * tmp;
+                if(tmp2 > rhs)break;
+                power = power + rhs/tmp2;
+            }
+            result = result * tmp.Power(power);
+            tmp = Integer(primes[i], false);
+        }
     }
     return result;
 }

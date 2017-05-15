@@ -1,11 +1,15 @@
 #include "Formula.h"
 void init(){
+    Integer::LoadPrime();
+    
     operators['+'] = 1;
     operators['-'] = 1;
     operators['*'] = 2;
     operators['/'] = 2;
     operators['!'] = 4;
     operators['^'] = 5;// to make Power(2,2)! right
+    
+    // print usage
 }
 
 var getVal(string val){
@@ -14,14 +18,7 @@ var getVal(string val){
     bool dot = false, imag = false, factorial = false;
     // clean
     for(int i=0;i<val.length();++i){
-        if(val[i] == 'i'){
-            imag = true;
-        }
-        else if(val[i] == '.'){
-            dot = true;
-        }
-        else if(!isdigit(val[i]) && !isalpha(val[i])){
-            if(val[i] == '!')factorial = true;
+        if(val[i] == ' ' || val[i] == ')' || val[i] =='('){
             val.erase(val.begin() + i);
             --i;
         }
@@ -32,7 +29,20 @@ var getVal(string val){
     if(iter != vars.end()){
         return iter->second;
     }
-    //
+    // clean
+    for(int i=0;i<val.length();++i){
+        if(val[i] == 'i'){
+            imag = true;
+        }
+        else if(val[i] == '.'){
+            dot = true;
+        }
+        else if(!isdigit(val[i])){
+            if(val[i] == '!')factorial = true;
+            val.erase(val.begin() + i);
+            --i;
+        }
+    }
     if(factorial){
         Integer n(val);
         n = Integer::Factorial(n);
@@ -107,9 +117,9 @@ var calc(string formula){
     map<char, int>::iterator iter;
     for(int i=0;i<formula.length();++i){
         if(formula[i] == '('){
-            baseVal += 5;
+            baseVal += 6;
         }else if(formula[i] == ')'){
-            baseVal -= 5;
+            baseVal -= 6;
         }else{
             iter = operators.find(formula[i]);
             if(iter != operators.end()){
@@ -192,9 +202,4 @@ string dealPowerCMD(string formula){
         powerLoc = formula.find("Power");
     }
     return formula;
-}
-
-
-void setVariable(string name, int type, string formula){
-    
 }
