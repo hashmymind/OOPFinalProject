@@ -149,16 +149,16 @@ const Integer operator-(const Integer& lhs, const Integer& rhs){
 }
 
 Integer Mul(const Integer& lhs, const Integer& rhs){
-    Integer result(0, false), rtmp=rhs , itmp;
+    Integer result(0, false), rtmp , itmp;
     for(int j=SizeMax-1;j>=SizeMax-lhs._sizeUsed;--j){
         rtmp = rhs;
         if(lhs._digi[j] == 0)continue;
         int count = 0;
         while(!rtmp.IsZero()){
-            itmp =Integer(lhs._digi[j] * (rtmp._digi[SizeMax-1]%10),false);
-            rtmp.RightShift();
-            for(int k=0;k<count + (SizeMax-j-1)*BaseLen;k++){
-                itmp.LeftShift();
+            itmp =Integer(lhs._digi[j] * rtmp._digi[SizeMax-1],false);
+            rtmp.RightShiftUnit();
+            for(int k=0;k<count + (SizeMax-j-1);k++){
+                itmp.LeftShiftUnit();
             }count++;
             result = result+itmp;
         }
@@ -172,8 +172,8 @@ Integer Karatsuba(const Integer& lhs, const Integer& rhs){
     std::string lstr = lhs.ToString(), rstr = rhs.ToString();
     if(lstr[0] == '-')lstr = lstr.substr(1);
     if(rstr[0] == '-')rstr = rstr.substr(1);
-    int len = std::max(lstr.length(),rstr.length()) , mid=len/2;
-    if(len<=325){
+    int len = (int)std::max(lstr.length(),rstr.length()) , mid=len/2;
+    if(len < 325){
         return Mul(lhs, rhs);
     }
     if(lstr.length()<len)lstr.insert(0,len-lstr.length(),'0');
@@ -319,6 +319,20 @@ const Integer GCD(const Integer& lhs, const Integer& rhs){
     }
     return ltmp;
 }
+void Integer::LeftShiftUnit(){
+    for(int i=SizeMax-this->_sizeUsed;i<=SizeMax-1;++i){
+        this->_digi[i-1] = this->_digi[i];
+    }
+    this->_digi[SizeMax-1] = 0;
+    this->_sizeUsed++;
+}
+
+void Integer::RightShiftUnit(){
+    for(int i = SizeMax-1;i>=SizeMax-this->_sizeUsed;--i){
+        this->_digi[i] = this->_digi[i-1];
+    }
+    this->_sizeUsed--;
+}
 
 void Integer::LeftShift(){
     BaseNum carry = 0, tmp, origin;
@@ -434,18 +448,17 @@ Integer Integer::Factorial(Integer rhs){
     if(rhs > Integer(primes[primes.size()-1],false)){
         return rhs * Factorial(rhs - one);
     }else{
-        
-        Integer tmp(2,false), tmp2, power;
-        for(int i=1;tmp<=rhs;++i){
-            power = Integer(0,false);
-            tmp2 = Integer(1, false);
+        BaseNum tmp = 2, tmp2,power, rhsTmp = rhs._digi[SizeMax-1];
+        for(int i=1;tmp<=rhsTmp;++i){
+            power = 0;
+            tmp2 = 1;
             while(true){
                 tmp2 = tmp2 * tmp;
-                if(tmp2 > rhs)break;
-                power = power + rhs/tmp2;
+                if(tmp2 > rhsTmp)break;
+                power = power + rhsTmp/tmp2;
             }
-            result = result * tmp.Power(power);
-            tmp = Integer(primes[i], false);
+            result = result * Integer(tmp,false).Power(Integer(power,0));
+            tmp = primes[i];
         }
     }
     return result;

@@ -49,7 +49,9 @@ public:
     
     void Complete();
     void LeftShift();
+    void LeftShiftUnit();
     void RightShift();
+    void RightShiftUnit();
     void SetSign(bool);
     const bool IsZero() const;
     const bool GetSign() const;

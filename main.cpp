@@ -42,9 +42,6 @@ int main(){
             cout << name << " = ";
             cout << *vars[name].data << endl;
         }else if(cmd == "Debug"){
-            ssin.ignore();
-            getline(ssin, formula);
-            cout << dealNegativeSign(dealPowerCMD(formula)) << endl;
             
         }
         else if(cmd == "Mod"){
