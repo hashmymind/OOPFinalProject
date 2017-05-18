@@ -9,22 +9,21 @@
 
 typedef uint64_t BaseNum;
 
-const BaseNum BaseMax = 1000000000000000000, subtrahend = BaseMax - 1;
-const uint32_t SizeMax = 1000, BaseLen = 18, ContainLenMax = SizeMax * BaseLen;
+const BaseNum BaseMax = 100000000, subtrahend = BaseMax-1;
+const uint32_t SizeMax = 1000, BaseLen = 8, ContainLenMax = SizeMax * BaseLen;
 
 class Integer;
 class Decimal;
 class Complex;
 
-
-class NumberObject {
-	// root class
+class NumberObject{
+    // root class
 public:
-	friend std::ostream& operator<<(std::ostream&, const NumberObject&);
-	friend std::ostream& operator>>(std::ostream&, const NumberObject&);
-
-
-	virtual void Output(std::ostream&) const = 0;
-	virtual void Input(std::istream&) = 0;
-	virtual std::string ToString() const = 0;
+    friend std::ostream& operator<<(std::ostream&, const NumberObject&);
+    friend std::ostream& operator>>(std::ostream&, const NumberObject&);
+    
+    // Todo:在子類別實作
+    virtual void Output(std::ostream&) const = 0;
+    virtual void Input(std::istream&) = 0;
+    virtual std::string ToString() const = 0;
 };

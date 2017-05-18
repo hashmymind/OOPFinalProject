@@ -7,7 +7,7 @@
 //
 
 Complex::Complex(const std::string& complexStr) {
-
+	//邏輯有點亂 有空改
 	std::string complexTmp = complexStr;
 	bool haveReal = false, haveImag = false;
 	if (complexTmp.find("i") != std::string::npos) {
@@ -34,7 +34,7 @@ Complex::Complex(const std::string& complexStr) {
 			start = midOp + 1;
 		}
 		this->_imaginePart = Decimal(complexTmp.substr(start, complexTmp.length() - start));
-		if (complexTmp[midOp] == '-')this->_imaginePart.SetSign(true);
+		if (midOp != std::string::npos && complexTmp[midOp] == '-')this->_imaginePart.SetSign(true);
 	}
 	else {
 		this->_imaginePart = Decimal("0");
@@ -42,7 +42,7 @@ Complex::Complex(const std::string& complexStr) {
 }
 
 std::string Complex::ToString() const {
-
+	//還沒加入為0忽略的功能
 	std::string result = "";
 	result += this->_realPart.ToString(10) + " ";
 	result += this->_imaginePart.GetSign() ? "- " + this->_imaginePart.ToString(10).substr(1) + "i" : "+ " + this->_imaginePart.ToString(10) + "i";
@@ -71,6 +71,7 @@ const Complex operator*(const Complex& lhs, const Complex& rhs) {
 }
 
 const Complex operator/(const Complex& lhs, const Complex& rhs) {
+	//
 	Complex result;
 	Decimal divisor = rhs._realPart*rhs._realPart + rhs._imaginePart*rhs._imaginePart;
 	result._realPart = (lhs._realPart*rhs._realPart + lhs._imaginePart*rhs._imaginePart) / divisor;
@@ -84,7 +85,18 @@ void Complex::Output(std::ostream& stream) const {
 
 void Complex::Input(std::istream& stream) {
 	//char inputChar;
+	//還不知道怎麼寫
+}
 
+const Complex Complex::Power(const Integer& rhs) {
+	Complex result = *this;
+	Integer times = rhs, one(1, false);
+	times = times - one;
+	while (!times.IsZero()) {
+		result = result * *this;
+		times = times - one;
+	}
+	return result;
 }
 
 std::ostream& operator<<(std::ostream& stream, const Complex& rhs) {
