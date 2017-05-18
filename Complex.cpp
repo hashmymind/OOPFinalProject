@@ -117,6 +117,14 @@ Complex Complex::operator=(const std::string& complexStr){
     return *this;
 }
 
+Complex Complex::operator=(const char charray[]){
+    *this = Complex(std::string(charray));
+    return *this;
+}
+Complex::Complex(const char charray[]){
+    *this = Complex(std::string(charray));
+}
+
 Complex Complex::IntToComplex(const Integer& rhs){
     Complex newComp;
     newComp._realPart = Decimal::IntToDecimal(rhs);

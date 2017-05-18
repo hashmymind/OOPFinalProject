@@ -56,6 +56,15 @@ Decimal Decimal::operator=(const std::string& numSrt){
     return *this;
 }
 
+Decimal Decimal::operator=(const char charray[]){
+    *this = Decimal(std::string(charray));
+    return *this;
+}
+
+Decimal::Decimal(const char charray[]){
+    *this = Decimal(std::string(charray));
+}
+
 void Decimal::Reduce(){
     Integer divisor = GCD(this->_numerator, this->_denominator);
     if(divisor.ToString() == "1"){

@@ -102,6 +102,15 @@ Integer Integer::operator=(const std::string& numSrt){
     return *this;
 }
 
+Integer Integer::operator=(const char charray[]){
+    *this = Integer(std::string(charray));
+    return *this;
+}
+
+Integer::Integer(const char charray[]){
+    *this = Integer(std::string(charray));
+}
+
 const Integer Integer::operator=(const Integer& rhs){
     this->_sign = rhs._sign;
     this->_sizeUsed = rhs._sizeUsed;
@@ -111,11 +120,19 @@ const Integer Integer::operator=(const Integer& rhs){
 
 const Integer Integer::Add(const Integer& rhs) const{
     Integer ltmp = *this, rtmp = rhs;
-    if(ltmp._sign)ltmp.Complete();
-    if(rtmp._sign)rtmp.Complete();
+    int len = std::max(ltmp._sizeUsed, rtmp._sizeUsed)+1;
+    if(ltmp._sign){
+        ltmp.Complete();
+        len = SizeMax;
+    }
+    if(rtmp._sign){
+        rtmp.Complete();
+         len = SizeMax;
+    }
     BaseNum carry = 0,temp;
     //加到ltmp，並假設不會溢位
-    for(int i=SizeMax-1;i>=0;--i){
+    len = SizeMax-len;
+    for(int i=SizeMax-1;i>=len;--i){
         temp = ltmp._digi[i] + rtmp._digi[i] + carry;
         ltmp._digi[i] = temp % BaseMax;
         carry = temp / BaseMax;
@@ -377,7 +394,7 @@ const Integer Integer::Power(const Integer& rhs){
         return *this;
     }
     //
-    if((rhs%two).IsZero()){
+    if(rhs._digi[SizeMax-1]%2 == 0){
         tmp = this->Power(rhs / two);
         return tmp * tmp;
     }else{

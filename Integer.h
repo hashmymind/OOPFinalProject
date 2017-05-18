@@ -13,6 +13,7 @@ public:
     }
     Integer(const std::string&);
     Integer(BaseNum ,bool);
+    Integer(const char[]);
     
     friend const Integer operator+(const Integer&, const Integer&);
     friend const Integer operator-(const Integer&, const Integer&);
@@ -31,6 +32,7 @@ public:
     friend Integer Mul(const Integer&, const Integer&);
     
     Integer operator=(const std::string&);
+    Integer operator=(const char[]);
     
     const Integer operator^(const Integer&);
     

@@ -11,6 +11,7 @@ public:
         _denominator = Integer(1, false);
     }
     Decimal(const std::string&);
+    Decimal(const char[]);
     
     friend const Decimal operator+(const Decimal&, const Decimal&);
     friend const Decimal operator-(const Decimal&, const Decimal&);
@@ -25,6 +26,7 @@ public:
     friend std::istream& operator>>(std::istream&, Decimal&);
     
     Decimal operator=(const std::string&);
+    Decimal operator=(const char[]);
     
     const Decimal operator+(const Integer&);
     const Decimal operator-(const Integer&);
