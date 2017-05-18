@@ -828,6 +828,7 @@ private: System::Void IntegerBTM_Click(System::Object^  sender, System::EventArg
 	Dot->Enabled = false;
 	Imagine->Enabled = false;
 	numberUnlock();
+	SubCheck();
 	type = 0;
 }
 private: System::Void DecimalBTM_Click(System::Object^  sender, System::EventArgs^  e) {
@@ -837,6 +838,7 @@ private: System::Void DecimalBTM_Click(System::Object^  sender, System::EventArg
 	Dot->Enabled = false;
 	Imagine->Enabled = false;
 	numberUnlock();
+	SubCheck();
 	type = 1;
 }
 private: System::Void ComplexBTM_Click(System::Object^  sender, System::EventArgs^  e) {
@@ -846,6 +848,7 @@ private: System::Void ComplexBTM_Click(System::Object^  sender, System::EventArg
 	Dot->Enabled = false;
 	Imagine->Enabled = true;
 	numberUnlock();
+	SubCheck();
 	type = 2;
 }
 private: System::Void One_Click(System::Object^  sender, System::EventArgs^  e) {
@@ -926,12 +929,12 @@ private: System::Void Dot_Click(System::Object^  sender, System::EventArgs^  e) 
 private: System::Void Plus_Click(System::Object^  sender, System::EventArgs^  e) {
 	EQ = false;
 	subCount = 1;
-	SubCheck();
 	typeUnlock();
 	Show->Text += "+";
 	SignFun();
 	numberLock();
 	operatorLock();
+	SubCheck();
 }
 private: System::Void Sub_Click(System::Object^  sender, System::EventArgs^  e) {
 	EQ = false;
@@ -939,8 +942,17 @@ private: System::Void Sub_Click(System::Object^  sender, System::EventArgs^  e) 
 	typeUnlock();
 	Show->Text += "-";
 	SignFun();
-	numberLock();
-	operatorLock();
+	if (subCount == 1)
+	{
+		numberLock();
+		operatorLock();
+	}
+	else if (subCount == 2)
+	{
+		operatorLock();
+		typeLock();
+	}
+
 }
 private: System::Void Multiple_Click(System::Object^  sender, System::EventArgs^  e) {
 	EQ = false;
@@ -950,6 +962,7 @@ private: System::Void Multiple_Click(System::Object^  sender, System::EventArgs^
 	SignFun();
 	numberLock();
 	operatorLock();
+	SubCheck();
 }
 private: System::Void Dev_Click(System::Object^  sender, System::EventArgs^  e) {
 	EQ = false;
@@ -960,6 +973,7 @@ private: System::Void Dev_Click(System::Object^  sender, System::EventArgs^  e) 
 	SignFun();
 	numberLock();
 	operatorLock();
+	SubCheck();
 }
 private: System::Void Back_Click(System::Object^  sender, System::EventArgs^  e) {
 	if (Show->Text->Length) {
@@ -1028,11 +1042,9 @@ private: System::Void Imagine_Click(System::Object^  sender, System::EventArgs^ 
 	Dot->Enabled = false;
 	numberLock();
 }
-private: System::Void Show_TextChanged(System::Object^  sender, System::EventArgs^  e) {
-}
 private: System::Void Set_Click(System::Object^  sender, System::EventArgs^  e) {
 	var output;
-	string out = msclr::interop::marshal_as<std::string>(VarName->Text);;
+	string out = msclr::interop::marshal_as<std::string>(VarName->Text);
 	string result = msclr::interop::marshal_as<std::string>(Show->Text);
 	result = dealNegativeSign(result);
 	output = calc(result);
@@ -1070,9 +1082,92 @@ private: System::Void Set_Click(System::Object^  sender, System::EventArgs^  e) 
 	bracketCheck();
 }
 private: System::Void Modify_Click(System::Object^  sender, System::EventArgs^  e) {
-
+	var output;
+	string out = msclr::interop::marshal_as<std::string>(VarName->Text);
+	string result = msclr::interop::marshal_as<std::string>(Show->Text);
+	result = dealNegativeSign(result);
+	output = calc(result);
+	result = output.data->ToString();
+	map<string, var>::iterator iter;
+	iter = vars.find(out);//find by name
+	if (iter != vars.end()) {
+		vars[out] = output;
+		Show->Text = gcnew String(result.c_str());
+		VarList->Items->Clear();
+		for (map<string, var>::iterator iterator = vars.begin(); iterator != vars.end(); iterator++) {
+			string combine;
+			switch (iterator->second.type)
+			{
+			case 0:
+				combine = "NumberObject\t" + iterator->first + "\t" + iterator->second.data->ToString() + " \b";
+				VarList->Items->Add(gcnew String(combine.c_str()));
+				break;
+			case 1:
+				combine = "Integer\t" + iterator->first + "\t" + iterator->second.data->ToString() + " \b";
+				VarList->Items->Add(gcnew String(combine.c_str()));
+				break;
+			case 2:
+				combine = "Decimal\t" + iterator->first + "\t" + iterator->second.data->ToString() + " \b";
+				VarList->Items->Add(gcnew String(combine.c_str()));
+				break;
+			case 3:
+				combine =  "Complex\t" + iterator->first + "\t" + iterator->second.data->ToString() + " \b";
+				VarList->Items->Add(gcnew String(combine.c_str()));
+				break;
+			}
+		}
+		Show->Text = gcnew String(result.c_str());
+	}
+	else
+		Show->Text = "Error!";
+	Dot->Enabled = false;
+	EQ = true;
+	bracketCount = 0;
+	bracketCheck();
 }
 private: System::Void Delete_Click(System::Object^  sender, System::EventArgs^  e) {
+	// Erroring
+	map<string, var>::iterator iter;
+	string out = msclr::interop::marshal_as<std::string>(VarName->Text);
+	iter = vars.find(out);//find by name
+	if (iter != vars.end()) {
+		VarList->Items->Clear();
+		for (map<string, var>::iterator iterator = vars.begin(); iterator != vars.end(); iterator++) {
+			if (iterator->first != out) {
+				string combine;
+				switch (iterator->second.type)
+				{
+				case 0:
+					combine = "NumberObject\t" + iterator->first + "\t" + iterator->second.data->ToString() + " \b";
+					VarList->Items->Add(gcnew String(combine.c_str()));
+					break;
+				case 1:
+					combine = "Integer\t" + iterator->first + "\t" + iterator->second.data->ToString() + " \b";
+					VarList->Items->Add(gcnew String(combine.c_str()));
+					break;
+				case 2:
+					combine = "Decimal\t" + iterator->first + "\t" + iterator->second.data->ToString() + " \b";
+					VarList->Items->Add(gcnew String(combine.c_str()));
+					break;
+				case 3:
+					combine = "Complex\t" + iterator->first + "\t" + iterator->second.data->ToString() + " \b";
+					VarList->Items->Add(gcnew String(combine.c_str()));
+					break;
+				}
+			}
+			else {
+				vars.erase(iterator);
+				iterator--;
+			}
+		}
+		Show->Text = "";
+	}
+	else
+		Show->Text = "Error!";
+	Dot->Enabled = false;
+	EQ = true;
+	bracketCount = 0;
+	bracketCheck();
 }
 };
 }
