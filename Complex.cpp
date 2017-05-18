@@ -34,7 +34,7 @@ Complex::Complex(const std::string& complexStr){
             start = midOp+1;
         }
         this->_imaginePart = Decimal(complexTmp.substr(start, complexTmp.length()-start));
-        if(complexTmp[midOp]=='-')this->_imaginePart.SetSign(true);
+        if(midOp !=std::string::npos && complexTmp[midOp]=='-')this->_imaginePart.SetSign(true);
     }
     else{
         this->_imaginePart = Decimal("0");
