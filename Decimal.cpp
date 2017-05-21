@@ -247,3 +247,7 @@ Decimal Decimal::Sqrt(Decimal rhs){
     Decimal down = Decimal::Sqrt(rhs._denominator);
     return up/down;
 }
+
+Decimal Decimal::Sqrt(Complex rhs){
+    return Decimal::IntToDecimal(Integer(0,false));
+}

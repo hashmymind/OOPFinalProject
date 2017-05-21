@@ -48,6 +48,7 @@ public:
     static Decimal IntToDecimal(const Integer&);
     static Decimal Sqrt(Integer);
     static Decimal Sqrt(Decimal);
+    static Decimal Sqrt(Complex); //just for compiler
     
     virtual void Output(std::ostream&) const;
     virtual void Input(std::istream&);

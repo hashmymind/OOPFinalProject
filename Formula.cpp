@@ -74,7 +74,13 @@ void counting(const var& lhs, const var& rhs, var& result, char op){
     if(op == '/')
         *(T3 *)result.data = *(T1 *)lhs.data / *(T2 *)rhs.data;
     if(op == '^'){
-        *(T1 *)result.data = ((*(T1 *)lhs.data).Power(*(Integer *)rhs.data));
+        if(rhs.type == 2){
+            result.type = 2;
+            *(Decimal *)result.data = Decimal::Sqrt(*(T1 *)lhs.data);
+        }
+        else{
+            *(T1 *)result.data = ((*(T1 *)lhs.data).Power(*(Integer *)rhs.data));
+        }
     }
 }
 
@@ -88,8 +94,9 @@ var operating(const var& lhs, const var& rhs, char op){
     }
     else if(result.type == 2){
         result.data = new Decimal();
-        if(lhs.type != 2)
+        if(lhs.type != 2){
             counting<Integer,Decimal,Decimal>(lhs,rhs,result,op);
+        }
         else if(rhs.type != 2)
             counting<Decimal,Integer,Decimal>(lhs,rhs,result,op);
         else
