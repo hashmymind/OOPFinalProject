@@ -42,7 +42,17 @@ Integer::Integer(BaseNum val, bool sign){
         this->_digi[SizeMax-2] = val/BaseMax;
         this->_sizeUsed = 2;
     }
-    
+}
+
+BaseNum Integer::Digi(){
+    for(int i=SizeMax-1;i>=SizeMax-this->_sizeUsed;--i){
+        if(this->_digi[i]){
+            BaseNum digi = (BaseNum)log10(this->_digi[i]);
+            digi += BaseLen*(SizeMax-1-i);
+            return digi;
+        }
+    }
+    return 0;
 }
 
 void Integer::Output(std::ostream& stream) const{
@@ -308,6 +318,7 @@ const bool operator>=(const Integer& lhs, const Integer& rhs){
 const bool operator<=(const Integer& lhs, const Integer& rhs){
     return !(lhs > rhs);
 }
+
 const bool operator==(const Integer& lhs, const Integer& rhs){
     if(!(lhs._sign^rhs._sign)){
         if(lhs._sizeUsed != rhs._sizeUsed) return false;
@@ -319,6 +330,9 @@ const bool operator==(const Integer& lhs, const Integer& rhs){
     return false;
 }
 
+const bool operator!=(const Integer& lhs, const Integer& rhs){
+    return !(lhs == rhs);
+}
 const bool Integer::IsZero() const{
     for(int i=SizeMax-1;i>=SizeMax-this->_sizeUsed;--i){
         if(this->_digi[i])return false;

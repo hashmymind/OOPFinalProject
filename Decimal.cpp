@@ -226,3 +226,24 @@ const Complex Decimal::operator*(const Complex& rhs){
 const Complex Decimal::operator/(const Complex& rhs){
     return  Complex::DecimalToComplex(*this) / rhs;
 }
+
+Decimal Decimal::Sqrt(Integer rhs){
+    for(int i=0;i<SqrtPrecise *2;++i)
+        rhs.LeftShift();
+    Integer two(2,false),nVal, val = rhs/two;
+    nVal = (val + (rhs/val))/two;
+    while(nVal != val){
+        val = nVal;
+        nVal = (val + (rhs/val))/two;
+    }
+    Decimal tmp;
+    tmp._numerator = nVal;
+    tmp._denominator = Integer("10000000000");
+    return tmp;
+}
+
+Decimal Decimal::Sqrt(Decimal rhs){
+    Decimal up = Decimal::Sqrt(rhs._numerator);
+    Decimal down = Decimal::Sqrt(rhs._denominator);
+    return up/down;
+}

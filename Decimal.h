@@ -46,6 +46,8 @@ public:
     const Decimal Power(const Integer&);
     
     static Decimal IntToDecimal(const Integer&);
+    static Decimal Sqrt(Integer);
+    static Decimal Sqrt(Decimal);
     
     virtual void Output(std::ostream&) const;
     virtual void Input(std::istream&);

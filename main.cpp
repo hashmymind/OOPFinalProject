@@ -42,8 +42,9 @@ int main(){
             cout << name << " = ";
             cout << *vars[name].data << endl;
         }else if(cmd == "Debug"){
-            Integer A = "1234";
-            cout << A << endl;
+            cin >> name;
+            Integer A = name;
+            cout << (Decimal::Sqrt(A)) << endl;
         }
         else if(cmd == "Mod"){
             
