@@ -8,7 +8,7 @@ private:
     uint32_t _sizeUsed;
     bool _sign;
 public:
-    Integer():_sizeUsed(1){
+    Integer():_sizeUsed(1),_sign(false){
         _digi.resize(SizeMax);
     }
     Integer(const std::string&);

@@ -175,7 +175,7 @@ std::string Decimal::ToString(int precise) const{
     }
     tmp.Reduce();
     result = (tmp._numerator / tmp._denominator).ToString();
-    if(result.size() < precise)result.insert(0, precise - result.length()+1,'0');
+    if(result.size() <= precise)result.insert(0, precise - result.length()+1,'0');
     result.insert(result.length() - precise, ".");
     if(this->_sign)result = "-" + result;
     return result;
@@ -230,7 +230,11 @@ const Complex Decimal::operator/(const Complex& rhs){
 Decimal Decimal::Sqrt(Integer rhs){
     for(int i=0;i<SqrtPrecise *2;++i)
         rhs.LeftShift();
-    Integer two(2,false),nVal, val = rhs/two;
+    Integer two(2,false),nVal, val = rhs;
+    BaseNum digi = rhs.Digi()/2;
+    for(int i=0;i<digi;++i)
+        val.RightShift();
+    val = val/two;
     nVal = (val + (rhs/val))/two;
     while(nVal != val){
         val = nVal;
@@ -239,6 +243,7 @@ Decimal Decimal::Sqrt(Integer rhs){
     Decimal tmp;
     tmp._numerator = nVal;
     tmp._denominator = Integer("10000000000");
+    tmp._sign = false;
     return tmp;
 }
 

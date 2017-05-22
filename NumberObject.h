@@ -10,7 +10,7 @@
 typedef uint64_t BaseNum;
 
 const BaseNum BaseMax = 100000000, subtrahend = BaseMax-1;
-const uint32_t SizeMax = 10000, BaseLen = 8, ContainLenMax = SizeMax * BaseLen, SqrtPrecise = 10;
+const uint32_t SizeMax = 1000, BaseLen = 8, ContainLenMax = SizeMax * BaseLen, SqrtPrecise = 10;
 
 class Integer;
 class Decimal;
