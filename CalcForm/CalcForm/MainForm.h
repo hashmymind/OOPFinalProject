@@ -659,7 +659,7 @@ namespace CalcForm {
 
 		}
 #pragma endregion
-
+		
 		int subCount = 1;
 		int bracketCount = 0;
 		bool dotCheck = false;
@@ -1043,36 +1043,32 @@ private: System::Void Imagine_Click(System::Object^  sender, System::EventArgs^ 
 	numberLock();
 }
 private: System::Void Set_Click(System::Object^  sender, System::EventArgs^  e) {
-	var output;
-	string out = msclr::interop::marshal_as<std::string>(VarName->Text);
-	string result = msclr::interop::marshal_as<std::string>(Show->Text);
-	result = dealNegativeSign(result);
-	output = calc(result);
-	result = output.data->ToString();
-	
+	var result;
+	string value = msclr::interop::marshal_as<std::string>(VarName->Text);
+	result = calc(dealNegativeSign(msclr::interop::marshal_as<std::string>(Show->Text)));
 	map<string, var>::iterator iter;
-	iter = vars.find(out);//find by name
+	iter = vars.find(value);//find by name
 	if (iter == vars.end()) {
-		switch (output.type)
+		switch (result.type)
 		{
 		case 0:
 			VarList->Items->Add("NumberObject\t" + VarName->Text + "\t" + Show->Text + " \b");
-			vars[out] = output;
+			vars[value] = result;
 			break;
 		case 1:
 			VarList->Items->Add("Integer\t" + VarName->Text + "\t" + Show->Text + " \b");
-			vars[out] = output;
+			vars[value] = result;
 			break;
 		case 2:
 			VarList->Items->Add("Decimal\t" + VarName->Text + "\t" + Show->Text + " \b");
-			vars[out] = output;
+			vars[value] = result;
 			break;
 		case 3:
 			VarList->Items->Add("Complex\t" + VarName->Text + "\t" + Show->Text + " \b");
-			vars[out] = output;
+			vars[value] = result;
 			break;
 		}
-		Show->Text = gcnew String(result.c_str());
+		Show->Text = gcnew String(result.data->ToString().c_str());
 	}
 	else
 		Show->Text = "Error!";
@@ -1082,17 +1078,14 @@ private: System::Void Set_Click(System::Object^  sender, System::EventArgs^  e) 
 	bracketCheck();
 }
 private: System::Void Modify_Click(System::Object^  sender, System::EventArgs^  e) {
-	var output;
-	string out = msclr::interop::marshal_as<std::string>(VarName->Text);
-	string result = msclr::interop::marshal_as<std::string>(Show->Text);
-	result = dealNegativeSign(result);
-	output = calc(result);
-	result = output.data->ToString();
+	var result;
+	string value = msclr::interop::marshal_as<std::string>(VarName->Text);
+	result = calc(dealNegativeSign(msclr::interop::marshal_as<std::string>(Show->Text)));
 	map<string, var>::iterator iter;
-	iter = vars.find(out);//find by name
+	iter = vars.find(value);//find by name
 	if (iter != vars.end()) {
-		vars[out] = output;
-		Show->Text = gcnew String(result.c_str());
+		vars[value] = result;
+		Show->Text = gcnew String(result.data->ToString().c_str());
 		VarList->Items->Clear();
 		for (map<string, var>::iterator iterator = vars.begin(); iterator != vars.end(); iterator++) {
 			string combine;
@@ -1116,7 +1109,7 @@ private: System::Void Modify_Click(System::Object^  sender, System::EventArgs^  
 				break;
 			}
 		}
-		Show->Text = gcnew String(result.c_str());
+		Show->Text = gcnew String(result.data->ToString().c_str());
 	}
 	else
 		Show->Text = "Error!";
@@ -1126,14 +1119,23 @@ private: System::Void Modify_Click(System::Object^  sender, System::EventArgs^  
 	bracketCheck();
 }
 private: System::Void Delete_Click(System::Object^  sender, System::EventArgs^  e) {
-	// Erroring
+
 	map<string, var>::iterator iter;
-	string out = msclr::interop::marshal_as<std::string>(VarName->Text);
-	iter = vars.find(out);//find by name
-	if (iter != vars.end()) {
+	string value = msclr::interop::marshal_as<std::string>(VarName->Text);
+	iter = vars.find(value);//find by name
+	if (iter == vars.end()) 
+		Show->Text = "Error!";
+	else
+	{
 		VarList->Items->Clear();
+		
 		for (map<string, var>::iterator iterator = vars.begin(); iterator != vars.end(); iterator++) {
-			if (iterator->first != out) {
+			if (iterator->first == value) {
+				vars.erase(iterator);
+				break;
+			}
+		}
+		for (map<string, var>::iterator iterator = vars.begin(); iterator != vars.end(); iterator++) {
 				string combine;
 				switch (iterator->second.type)
 				{
@@ -1154,16 +1156,9 @@ private: System::Void Delete_Click(System::Object^  sender, System::EventArgs^  
 					VarList->Items->Add(gcnew String(combine.c_str()));
 					break;
 				}
-			}
-			else {
-				vars.erase(iterator);
-				iterator--;
-			}
 		}
 		Show->Text = "";
 	}
-	else
-		Show->Text = "Error!";
 	Dot->Enabled = false;
 	EQ = true;
 	bracketCount = 0;
