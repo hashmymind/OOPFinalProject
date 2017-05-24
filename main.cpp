@@ -32,6 +32,8 @@ double stopTime(){
     return (double)(t2-t)/CLOCKS_PER_SEC;
 }
 
+bool outputTime = true;
+
 int main(){
     init();
     cout << "If you don't know how to use, use the 'Help' command.\n";
@@ -74,13 +76,24 @@ int main(){
             getline(cin, formula);
             cout << *(calc(dealNegativeSign(dealPowerCMD(formula))).data) << endl;
         }
+        else if(cmd == "calc"){
+            getline(cin, formula);
+            cout << *(calc(dealNegativeSign(dealPowerCMD(formula))).data) << endl;
+        }
         else if(cmd == "exit"){
             exit(0);
+        }
+        else if(cmd == "debug"){
+            Integer A("1755612218155759"),B= ("3285689347853000");
+            if(A>=B){
+                cout << "fuck" << endl;
+            }
         }
         else{
             cout << "Error: Not a command." << endl;
         }
         runTime = stopTime();
+        if(outputTime) cout << runTime << endl;
         cout << "> ";
     }
 }

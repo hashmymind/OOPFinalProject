@@ -177,6 +177,16 @@ std::string Decimal::ToString(int precise) const{
     result = (tmp._numerator / tmp._denominator).ToString();
     if(result.size() <= precise)result.insert(0, precise - result.length()+1,'0');
     result.insert(result.length() - precise, ".");
+    //claer lasting zero
+    int lasting = result.length()-1;
+    for(;lasting>0;--lasting){
+        if(result[lasting]=='.'){
+            --lasting;
+            break;
+        }
+        if(result[lasting]!='0')break;
+    }
+    result = result.substr(0,lasting+1);
     if(this->_sign)result = "-" + result;
     return result;
 }

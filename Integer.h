@@ -9,7 +9,7 @@ private:
     bool _sign;
 public:
     Integer():_sizeUsed(1),_sign(false){
-        _digi.resize(SizeMax);
+        _digi.resize(1);
     }
     Integer(const std::string&);
     Integer(BaseNum ,bool);
@@ -58,6 +58,8 @@ public:
     void SetSign(bool);
     const bool IsZero() const;
     const bool GetSign() const;
+    void resize(int used);
+    void autoAdjSize();
     
     virtual void Output(std::ostream&) const;
     virtual void Input(std::istream&);
