@@ -605,6 +605,7 @@ namespace CalcForm {
 			this->VarList->Size = System::Drawing::Size(235, 340);
 			this->VarList->Sorted = true;
 			this->VarList->TabIndex = 1;
+			this->VarList->MouseDoubleClick += gcnew System::Windows::Forms::MouseEventHandler(this, &MainForm::VarList_MouseDoubleClick);
 			// 
 			// Modify
 			// 
@@ -820,6 +821,7 @@ namespace CalcForm {
 		}
 private: System::Void MainForm_Load(System::Object^  sender, System::EventArgs^  e) {
 	init();
+	VarList->Enabled = false;
 }
 private: System::Void IntegerBTM_Click(System::Object^  sender, System::EventArgs^  e) {
 	IntegerBTM->Enabled = false;
@@ -1043,32 +1045,30 @@ private: System::Void Imagine_Click(System::Object^  sender, System::EventArgs^ 
 	numberLock();
 }
 private: System::Void Set_Click(System::Object^  sender, System::EventArgs^  e) {
+	VarList->Enabled = true;
 	var result;
 	string value = msclr::interop::marshal_as<std::string>(VarName->Text);
 	result = calc(dealNegativeSign(msclr::interop::marshal_as<std::string>(Show->Text)));
 	map<string, var>::iterator iter;
 	iter = vars.find(value);//find by name
-	if (iter == vars.end()) {
+	if (iter == vars.end() && value != "") {
+		vars[value] = result;
+		Show->Text = gcnew String(result.data->ToString().c_str());
 		switch (result.type)
 		{
 		case 0:
 			VarList->Items->Add("NumberObject\t" + VarName->Text + "\t" + Show->Text + " \b");
-			vars[value] = result;
 			break;
 		case 1:
 			VarList->Items->Add("Integer\t" + VarName->Text + "\t" + Show->Text + " \b");
-			vars[value] = result;
 			break;
 		case 2:
 			VarList->Items->Add("Decimal\t" + VarName->Text + "\t" + Show->Text + " \b");
-			vars[value] = result;
 			break;
 		case 3:
 			VarList->Items->Add("Complex\t" + VarName->Text + "\t" + Show->Text + " \b");
-			vars[value] = result;
 			break;
 		}
-		Show->Text = gcnew String(result.data->ToString().c_str());
 	}
 	else
 		Show->Text = "Error!";
@@ -1092,22 +1092,20 @@ private: System::Void Modify_Click(System::Object^  sender, System::EventArgs^  
 			switch (iterator->second.type)
 			{
 			case 0:
-				combine = "NumberObject\t" + iterator->first + "\t" + iterator->second.data->ToString() + " \b";
-				VarList->Items->Add(gcnew String(combine.c_str()));
+				combine = "NumberObject\t" ;
 				break;
 			case 1:
-				combine = "Integer\t" + iterator->first + "\t" + iterator->second.data->ToString() + " \b";
-				VarList->Items->Add(gcnew String(combine.c_str()));
+				combine = "Integer\t";
 				break;
 			case 2:
-				combine = "Decimal\t" + iterator->first + "\t" + iterator->second.data->ToString() + " \b";
-				VarList->Items->Add(gcnew String(combine.c_str()));
+				combine = "Decimal\t";
 				break;
 			case 3:
-				combine =  "Complex\t" + iterator->first + "\t" + iterator->second.data->ToString() + " \b";
-				VarList->Items->Add(gcnew String(combine.c_str()));
+				combine = "Complex\t";
 				break;
 			}
+			combine += iterator->first + "\t" + iterator->second.data->ToString() + " \b";
+			VarList->Items->Add(gcnew String(combine.c_str()));
 		}
 		Show->Text = gcnew String(result.data->ToString().c_str());
 	}
@@ -1128,7 +1126,6 @@ private: System::Void Delete_Click(System::Object^  sender, System::EventArgs^  
 	else
 	{
 		VarList->Items->Clear();
-		
 		for (map<string, var>::iterator iterator = vars.begin(); iterator != vars.end(); iterator++) {
 			if (iterator->first == value) {
 				vars.erase(iterator);
@@ -1136,33 +1133,42 @@ private: System::Void Delete_Click(System::Object^  sender, System::EventArgs^  
 			}
 		}
 		for (map<string, var>::iterator iterator = vars.begin(); iterator != vars.end(); iterator++) {
-				string combine;
-				switch (iterator->second.type)
-				{
-				case 0:
-					combine = "NumberObject\t" + iterator->first + "\t" + iterator->second.data->ToString() + " \b";
-					VarList->Items->Add(gcnew String(combine.c_str()));
-					break;
-				case 1:
-					combine = "Integer\t" + iterator->first + "\t" + iterator->second.data->ToString() + " \b";
-					VarList->Items->Add(gcnew String(combine.c_str()));
-					break;
-				case 2:
-					combine = "Decimal\t" + iterator->first + "\t" + iterator->second.data->ToString() + " \b";
-					VarList->Items->Add(gcnew String(combine.c_str()));
-					break;
-				case 3:
-					combine = "Complex\t" + iterator->first + "\t" + iterator->second.data->ToString() + " \b";
-					VarList->Items->Add(gcnew String(combine.c_str()));
-					break;
-				}
+			string combine;
+			switch (iterator->second.type)
+			{
+			case 0:
+				combine = "NumberObject\t";
+				break;
+			case 1:
+				combine = "Integer\t";
+				break;
+			case 2:
+				combine = "Decimal\t";
+				break;
+			case 3:
+				combine = "Complex\t";
+				break;
+			}
+			combine += iterator->first + "\t" + iterator->second.data->ToString() + " \b";
+			VarList->Items->Add(gcnew String(combine.c_str()));
 		}
 		Show->Text = "";
+		if (VarList->Items)
+			VarList->Enabled = false;
 	}
 	Dot->Enabled = false;
 	EQ = true;
 	bracketCount = 0;
 	bracketCheck();
+}
+private: System::Void VarList_MouseDoubleClick(System::Object^  sender, System::Windows::Forms::MouseEventArgs^  e) {
+
+	int index = this->VarList->IndexFromPoint(e->Location);
+	map<string, var>::iterator iterator = vars.begin();
+	for (int i = 0; i < index; i++)iterator++;
+	string combine = msclr::interop::marshal_as<std::string>(Show->Text);
+	combine += iterator->first;
+	Show->Text = gcnew String(combine.c_str());
 }
 };
 }
