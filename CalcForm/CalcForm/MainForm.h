@@ -122,6 +122,12 @@ namespace CalcForm {
 	private: System::Windows::Forms::Button^  Delete;
 
 	private: System::Windows::Forms::Button^  Modify;
+private: System::Windows::Forms::Button^  COM_Btm;
+private: System::Windows::Forms::Button^  DEC_Btm;
+private: System::Windows::Forms::Button^  INT_Btm;
+
+
+
 
 
 
@@ -170,6 +176,9 @@ namespace CalcForm {
 			this->Modify = (gcnew System::Windows::Forms::Button());
 			this->Delete = (gcnew System::Windows::Forms::Button());
 			this->Set = (gcnew System::Windows::Forms::Button());
+			this->INT_Btm = (gcnew System::Windows::Forms::Button());
+			this->DEC_Btm = (gcnew System::Windows::Forms::Button());
+			this->COM_Btm = (gcnew System::Windows::Forms::Button());
 			this->Nymber->SuspendLayout();
 			this->Functions->SuspendLayout();
 			this->Var->SuspendLayout();
@@ -520,6 +529,9 @@ namespace CalcForm {
 			this->Var->Controls->Add(this->VarList);
 			this->Var->Controls->Add(this->Modify);
 			this->Var->Controls->Add(this->Delete);
+			this->Var->Controls->Add(this->COM_Btm);
+			this->Var->Controls->Add(this->DEC_Btm);
+			this->Var->Controls->Add(this->INT_Btm);
 			this->Var->Controls->Add(this->Set);
 			this->Var->Location = System::Drawing::Point(463, 100);
 			this->Var->Name = L"Var";
@@ -530,9 +542,9 @@ namespace CalcForm {
 			// 
 			// VarName
 			// 
-			this->VarName->Location = System::Drawing::Point(20, 22);
+			this->VarName->Location = System::Drawing::Point(6, 22);
 			this->VarName->Name = L"VarName";
-			this->VarName->Size = System::Drawing::Size(212, 22);
+			this->VarName->Size = System::Drawing::Size(235, 22);
 			this->VarName->TabIndex = 2;
 			// 
 			// VarList
@@ -544,18 +556,18 @@ namespace CalcForm {
 			this->VarList->HorizontalScrollbar = true;
 			this->VarList->IntegralHeight = false;
 			this->VarList->ItemHeight = 24;
-			this->VarList->Location = System::Drawing::Point(6, 91);
+			this->VarList->Location = System::Drawing::Point(6, 132);
 			this->VarList->Name = L"VarList";
-			this->VarList->Size = System::Drawing::Size(235, 301);
+			this->VarList->Size = System::Drawing::Size(235, 249);
 			this->VarList->Sorted = true;
 			this->VarList->TabIndex = 1;
 			this->VarList->MouseDoubleClick += gcnew System::Windows::Forms::MouseEventHandler(this, &MainForm::VarList_MouseDoubleClick);
 			// 
 			// Modify
 			// 
-			this->Modify->Location = System::Drawing::Point(103, 56);
+			this->Modify->Location = System::Drawing::Point(88, 56);
 			this->Modify->Name = L"Modify";
-			this->Modify->Size = System::Drawing::Size(62, 24);
+			this->Modify->Size = System::Drawing::Size(72, 24);
 			this->Modify->TabIndex = 0;
 			this->Modify->Text = L"Modify";
 			this->Modify->UseVisualStyleBackColor = true;
@@ -563,9 +575,9 @@ namespace CalcForm {
 			// 
 			// Delete
 			// 
-			this->Delete->Location = System::Drawing::Point(171, 56);
+			this->Delete->Location = System::Drawing::Point(169, 56);
 			this->Delete->Name = L"Delete";
-			this->Delete->Size = System::Drawing::Size(70, 24);
+			this->Delete->Size = System::Drawing::Size(72, 24);
 			this->Delete->TabIndex = 0;
 			this->Delete->Text = L"DELETE";
 			this->Delete->UseVisualStyleBackColor = true;
@@ -573,13 +585,43 @@ namespace CalcForm {
 			// 
 			// Set
 			// 
-			this->Set->Location = System::Drawing::Point(20, 56);
+			this->Set->Location = System::Drawing::Point(6, 56);
 			this->Set->Name = L"Set";
-			this->Set->Size = System::Drawing::Size(77, 24);
+			this->Set->Size = System::Drawing::Size(71, 24);
 			this->Set->TabIndex = 0;
 			this->Set->Text = L"SET";
 			this->Set->UseVisualStyleBackColor = true;
 			this->Set->Click += gcnew System::EventHandler(this, &MainForm::Set_Click);
+			// 
+			// INT_Btm
+			// 
+			this->INT_Btm->Location = System::Drawing::Point(6, 95);
+			this->INT_Btm->Name = L"INT_Btm";
+			this->INT_Btm->Size = System::Drawing::Size(71, 31);
+			this->INT_Btm->TabIndex = 0;
+			this->INT_Btm->Text = L"Integer";
+			this->INT_Btm->UseVisualStyleBackColor = true;
+			this->INT_Btm->Click += gcnew System::EventHandler(this, &MainForm::INT_Btm_Click);
+			// 
+			// DEC_Btm
+			// 
+			this->DEC_Btm->Location = System::Drawing::Point(88, 95);
+			this->DEC_Btm->Name = L"DEC_Btm";
+			this->DEC_Btm->Size = System::Drawing::Size(72, 31);
+			this->DEC_Btm->TabIndex = 0;
+			this->DEC_Btm->Text = L"Decimal";
+			this->DEC_Btm->UseVisualStyleBackColor = true;
+			this->DEC_Btm->Click += gcnew System::EventHandler(this, &MainForm::DEC_Btm_Click);
+			// 
+			// COM_Btm
+			// 
+			this->COM_Btm->Location = System::Drawing::Point(169, 95);
+			this->COM_Btm->Name = L"COM_Btm";
+			this->COM_Btm->Size = System::Drawing::Size(72, 31);
+			this->COM_Btm->TabIndex = 0;
+			this->COM_Btm->Text = L"Complex";
+			this->COM_Btm->UseVisualStyleBackColor = true;
+			this->COM_Btm->Click += gcnew System::EventHandler(this, &MainForm::COM_Btm_Click);
 			// 
 			// MainForm
 			// 
@@ -617,7 +659,7 @@ namespace CalcForm {
 				dotCheck = true;
 			}
 		}
-		void  errorCheck()
+		void errorCheck()
 		{
 			if (Show->Text == "Error!")
 			{
@@ -960,20 +1002,27 @@ private: System::Void Set_Click(System::Object^  sender, System::EventArgs^  e) 
 	if (iter == vars.end() && value != "") {
 		vars[value] = result;
 		Show->Text = gcnew String(result.data->ToString().c_str());
-		switch (result.type)
-		{
-		case 0:
-			VarList->Items->Add("NumberObject\t" + VarName->Text + "\t" + Show->Text + " \b");
-			break;
-		case 1:
-			VarList->Items->Add("Integer\t" + VarName->Text + "\t" + Show->Text + " \b");
-			break;
-		case 2:
-			VarList->Items->Add("Decimal\t" + VarName->Text + "\t" + Show->Text + " \b");
-			break;
-		case 3:
-			VarList->Items->Add("Complex\t" + VarName->Text + "\t" + Show->Text + " \b");
-			break;
+		VarList->Items->Clear();
+		for (map<string, var>::iterator iterator = vars.begin(); iterator != vars.end(); iterator++) {
+			string combine;
+			combine = iterator->first + "\t";
+			switch (iterator->second.type)
+			{
+			case 0:
+				combine += "NumberObject\t";
+				break;
+			case 1:
+				combine += "Integer\t";
+				break;
+			case 2:
+				combine += "Decimal\t";
+				break;
+			case 3:
+				combine += "Complex\t";
+				break;
+			}
+			combine += iterator->second.data->ToString() + " \b";
+			VarList->Items->Add(gcnew String(combine.c_str()));
 		}
 	}
 	else
@@ -994,24 +1043,26 @@ private: System::Void Modify_Click(System::Object^  sender, System::EventArgs^  
 		vars[value] = result;
 		Show->Text = gcnew String(result.data->ToString().c_str());
 		VarList->Items->Clear();
+		VarList->Items->Clear();
 		for (map<string, var>::iterator iterator = vars.begin(); iterator != vars.end(); iterator++) {
 			string combine;
+			combine = iterator->first + "\t";
 			switch (iterator->second.type)
 			{
 			case 0:
-				combine = "NumberObject\t" ;
+				combine += "NumberObject\t";
 				break;
 			case 1:
-				combine = "Integer\t";
+				combine += "Integer\t";
 				break;
 			case 2:
-				combine = "Decimal\t";
+				combine += "Decimal\t";
 				break;
 			case 3:
-				combine = "Complex\t";
+				combine += "Complex\t";
 				break;
 			}
-			combine += iterator->first + "\t" + iterator->second.data->ToString() + " \b";
+			combine += iterator->second.data->ToString() + " \b";
 			VarList->Items->Add(gcnew String(combine.c_str()));
 		}
 		Show->Text = gcnew String(result.data->ToString().c_str());
@@ -1039,24 +1090,26 @@ private: System::Void Delete_Click(System::Object^  sender, System::EventArgs^  
 				break;
 			}
 		}
+		VarList->Items->Clear();
 		for (map<string, var>::iterator iterator = vars.begin(); iterator != vars.end(); iterator++) {
 			string combine;
+			combine = iterator->first + "\t";
 			switch (iterator->second.type)
 			{
 			case 0:
-				combine = "NumberObject\t";
+				combine += "NumberObject\t";
 				break;
 			case 1:
-				combine = "Integer\t";
+				combine += "Integer\t";
 				break;
 			case 2:
-				combine = "Decimal\t";
+				combine += "Decimal\t";
 				break;
 			case 3:
-				combine = "Complex\t";
+				combine += "Complex\t";
 				break;
 			}
-			combine += iterator->first + "\t" + iterator->second.data->ToString() + " \b";
+			combine += iterator->second.data->ToString() + " \b";
 			VarList->Items->Add(gcnew String(combine.c_str()));
 		}
 		Show->Text = "";
@@ -1069,13 +1122,27 @@ private: System::Void Delete_Click(System::Object^  sender, System::EventArgs^  
 	bracketCheck();
 }
 private: System::Void VarList_MouseDoubleClick(System::Object^  sender, System::Windows::Forms::MouseEventArgs^  e) {
-
 	int index = this->VarList->IndexFromPoint(e->Location);
 	map<string, var>::iterator iterator = vars.begin();
 	for (int i = 0; i < index; i++)iterator++;
 	string combine = msclr::interop::marshal_as<std::string>(Show->Text);
 	combine += iterator->first;
 	Show->Text = gcnew String(combine.c_str());
+}
+private: System::Void INT_Btm_Click(System::Object^  sender, System::EventArgs^  e) {
+	INT_Btm->Enabled = false;
+	COM_Btm->Enabled = true;
+	DEC_Btm->Enabled = true;
+}
+private: System::Void DEC_Btm_Click(System::Object^  sender, System::EventArgs^  e) {
+	INT_Btm->Enabled = true;
+	COM_Btm->Enabled = true;
+	DEC_Btm->Enabled = false;
+}
+private: System::Void COM_Btm_Click(System::Object^  sender, System::EventArgs^  e) {
+	INT_Btm->Enabled = true;
+	COM_Btm->Enabled = false;
+	DEC_Btm->Enabled = true;
 }
 };
 }
