@@ -922,7 +922,7 @@ private: System::Void Left_Click(System::Object^  sender, System::EventArgs^  e)
 	bracketCount++;
 	Right->Enabled = false;
 	SubCheck();
-
+	Equal->Enabled = false;
 	Show->Text += "(";
 }
 private: System::Void Right_Click(System::Object^  sender, System::EventArgs^  e) {
@@ -934,7 +934,9 @@ private: System::Void Right_Click(System::Object^  sender, System::EventArgs^  e
 	Dot->Enabled = false;
 	Imagine->Enabled = false;
 	Show->Text += ")";
-
+	Equal->Enabled = false;
+	if (bracketCount == 0)
+		Equal->Enabled = true;
 }
 private: System::Void Factor_Click(System::Object^  sender, System::EventArgs^  e) {
 	EQ = false;
@@ -948,13 +950,22 @@ private: System::Void Factor_Click(System::Object^  sender, System::EventArgs^  
 	POW->Enabled = false;
 	Dot->Enabled = false;
 	Imagine->Enabled = false;
+	Equal->Enabled = false;
 	Show->Text += "!";
 }
 private: System::Void Clear_Click(System::Object^  sender, System::EventArgs^  e) {
 	EQ = false;
 	bracketCount = 0;
 	subCount = 1;
+	operatorLock();
 	SubCheck();
+	bracketCheck();
+	numberUnlock();
+	Left->Enabled = true;
+	dotCheck = false;
+	Dot->Enabled = false;
+	if (power)
+		power = false;
 	Show->Text = "";
 }
 private: System::Void POW_Click(System::Object^  sender, System::EventArgs^  e) {
@@ -990,6 +1001,7 @@ private: System::Void Imagine_Click(System::Object^  sender, System::EventArgs^ 
 	Left->Enabled = false;
 	Factor->Enabled = false;
 	numberLock();
+	bracketCheck();
 }
 private: System::Void Set_Click(System::Object^  sender, System::EventArgs^  e) {
 	errorCheck();
