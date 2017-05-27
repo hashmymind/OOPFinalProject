@@ -1,99 +1,76 @@
 #include <sstream>
 #include <ctime>
-#include <fstream>
 #include "Calc.h"
 clock_t t;
 map<string, var> vars;
 map<char, int> operators;
 
-string helpInfo =
-"\
-Setting a variable\n\
-    Set Type NAME = Formula\n\
-Modify a variable\n\
-    Mod NAME = Formula\n\
-Calculate a formula\n\
-    Calc Formula\n\
-Print a variable\n\
-    Print NAME\n\
-\n\
-Note. User Should follow the format above strictly.\n",
-typeWarn =
-"Warning: The outcome type is not what you demand.\n",
-redefine =
-"Warning: Redefining a variable.\n";
-
 void startTime(){
     t = clock();
 }
 
-double stopTime(){
+void stopTime(){
     clock_t t2 = clock();
-    return (double)(t2-t)/CLOCKS_PER_SEC;
+    cout << (double)(t2-t)/CLOCKS_PER_SEC << "s" << endl;
 }
-
-bool outputTime = true;
 
 int main(){
     init();
-    cout << "If you don't know how to use, use the 'Help' command.\n";
+    string raw;
     cout << "> ";
-    string cmd, ignore;
-    string type, name, formula;
-    double runTime;int typeCode;
-    var tmp;
-    map<string, var>::iterator iter;
-    while(cin >> cmd){
-        transform(cmd.begin(), cmd.end(), cmd.begin(), ::tolower);
+    while(getline(cin, raw)){
         startTime();
-        if(cmd == "help"){
-            cout << helpInfo;
-        }
-        else if(cmd == "set"){
-            cin >> type >> name >> ignore;
-            getline(cin, formula);
-            iter = vars.find(name);
-            typeCode = type == "Integer"?1:(type == "Decimal"?2:(type == "Complex"?3:0));
-            if(typeCode == 0){
-                cout << "Error: Wrong Type!\n";
+        string cmd, formula, name, type;
+        stringstream ssin(raw);
+        map<string, var>::iterator iter;
+        ssin >> cmd;
+        iter = vars.find(cmd);
+        if(cmd == "Set"){
+            var tmp;
+            ssin >> type >> name >> formula;//把=弄掉
+            ssin.ignore();
+            getline(ssin, formula);
+            tmp = calc(dealNegativeSign(dealPowerCMD(formula)));
+            if(type == "Integer"){
+                convert(tmp, 1);
+            }else if(type == "Decimal"){
+                convert(tmp, 2);
+            }else{
+                convert(tmp, 3);
             }
-            else{
+            vars[name] = tmp;
+            cout << name << " = ";
+            cout << *vars[name].data << endl;
+        }else if(cmd == "Debug"){
+            
+        }
+        else if(cmd == "Mod"){
+            
+        }else if(iter != vars.end()){
+            var tmp;
+            ssin >> formula;
+            name = cmd;
+            if(formula == "="){
+                //assign
+                ssin.ignore();
+                getline(ssin, formula);
                 tmp = calc(dealNegativeSign(dealPowerCMD(formula)));
                 vars[name] = tmp;
-                if(tmp.type != typeCode) cout << typeWarn;
-                if(iter != vars.end()) cout << redefine;
+                cout << name << " = " << *vars[name].data << endl;
+            }else{
+                //calc
+                cmd = formula;
+                getline(ssin, formula);
+                formula = name + cmd + formula;
+                tmp = calc(dealNegativeSign(dealPowerCMD(formula)));
+                cout << *tmp.data << endl;
             }
+            
+        }else{
+            formula = raw;
+            cout << *calc(dealNegativeSign(dealPowerCMD(formula))).data << endl;
         }
-        else if(cmd == "mod"){
-            cin >> name >> ignore;
-            getline(cin, formula);
-            typeCode = vars[name].type;
-            tmp = calc(dealNegativeSign(dealPowerCMD(formula)));
-            vars[name] = tmp;
-            if(tmp.type != typeCode) cout << typeWarn;
-        }
-        else if(cmd == "print"){
-            getline(cin, formula);
-            cout << *(calc(dealNegativeSign(dealPowerCMD(formula))).data) << endl;
-        }
-        else if(cmd == "calc"){
-            getline(cin, formula);
-            cout << *(calc(dealNegativeSign(dealPowerCMD(formula))).data) << endl;
-        }
-        else if(cmd == "exit"){
-            exit(0);
-        }
-        else if(cmd == "debug"){
-            Integer A("1755612218155759"),B= ("3285689347853000");
-            if(A>=B){
-                cout << "fuck" << endl;
-            }
-        }
-        else{
-            cout << "Error: Not a command." << endl;
-        }
-        runTime = stopTime();
-        if(outputTime) cout << runTime << endl;
+        stopTime();
         cout << "> ";
     }
 }

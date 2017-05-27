@@ -8,12 +8,11 @@ private:
     uint32_t _sizeUsed;
     bool _sign;
 public:
-    Integer():_sizeUsed(1),_sign(false){
-        _digi.resize(1);
+    Integer():_sizeUsed(1){
+        _digi.resize(SizeMax);
     }
     Integer(const std::string&);
     Integer(BaseNum ,bool);
-    Integer(const char[]);
     
     friend const Integer operator+(const Integer&, const Integer&);
     friend const Integer operator-(const Integer&, const Integer&);
@@ -25,7 +24,6 @@ public:
     friend const bool operator>=(const Integer&, const Integer&);
     friend const bool operator<=(const Integer&, const Integer&);
     friend const bool operator==(const Integer&, const Integer&);
-    friend const bool operator!=(const Integer&, const Integer&);
     friend const Integer GCD(const Integer&, const Integer&);
     friend std::ostream& operator<<(std::ostream&, const Integer&);
     friend std::istream& operator>>(std::istream&, Integer&);
@@ -33,7 +31,6 @@ public:
     friend Integer Mul(const Integer&, const Integer&);
     
     Integer operator=(const std::string&);
-    Integer operator=(const char[]);
     
     const Integer operator^(const Integer&);
     
@@ -58,8 +55,6 @@ public:
     void SetSign(bool);
     const bool IsZero() const;
     const bool GetSign() const;
-    void resize(int used);
-    void autoAdjSize();
     
     virtual void Output(std::ostream&) const;
     virtual void Input(std::istream&);
@@ -67,7 +62,6 @@ public:
     const Integer Add(const Integer&)const;
     const Integer operator=(const Integer&);
     const Integer Power(const Integer&);
-    BaseNum Digi();
     
     static Integer Factorial(Integer);
     static std::vector<BaseNum> primes;

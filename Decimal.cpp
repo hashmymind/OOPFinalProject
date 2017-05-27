@@ -56,15 +56,6 @@ Decimal Decimal::operator=(const std::string& numSrt){
     return *this;
 }
 
-Decimal Decimal::operator=(const char charray[]){
-    *this = Decimal(std::string(charray));
-    return *this;
-}
-
-Decimal::Decimal(const char charray[]){
-    *this = Decimal(std::string(charray));
-}
-
 void Decimal::Reduce(){
     Integer divisor = GCD(this->_numerator, this->_denominator);
     if(divisor.ToString() == "1"){
@@ -175,18 +166,8 @@ std::string Decimal::ToString(int precise) const{
     }
     tmp.Reduce();
     result = (tmp._numerator / tmp._denominator).ToString();
-    if(result.size() <= precise)result.insert(0, precise - result.length()+1,'0');
+    if(result.size() < precise)result.insert(0, precise - result.length()+1,'0');
     result.insert(result.length() - precise, ".");
-    //claer lasting zero
-    int lasting = result.length()-1;
-    for(;lasting>0;--lasting){
-        if(result[lasting]=='.'){
-            --lasting;
-            break;
-        }
-        if(result[lasting]!='0')break;
-    }
-    result = result.substr(0,lasting+1);
     if(this->_sign)result = "-" + result;
     return result;
 }
@@ -235,34 +216,4 @@ const Complex Decimal::operator*(const Complex& rhs){
 }
 const Complex Decimal::operator/(const Complex& rhs){
     return  Complex::DecimalToComplex(*this) / rhs;
-}
-
-Decimal Decimal::Sqrt(Integer rhs){
-    for(int i=0;i<SqrtPrecise *2;++i)
-        rhs.LeftShift();
-    Integer two(2,false),nVal, val = rhs;
-    BaseNum digi = rhs.Digi()/2;
-    for(int i=0;i<digi;++i)
-        val.RightShift();
-    val = val/two;
-    nVal = (val + (rhs/val))/two;
-    while(nVal != val){
-        val = nVal;
-        nVal = (val + (rhs/val))/two;
-    }
-    Decimal tmp;
-    tmp._numerator = nVal;
-    tmp._denominator = Integer("10000000000");
-    tmp._sign = false;
-    return tmp;
-}
-
-Decimal Decimal::Sqrt(Decimal rhs){
-    Decimal up = Decimal::Sqrt(rhs._numerator);
-    Decimal down = Decimal::Sqrt(rhs._denominator);
-    return up/down;
-}
-
-Decimal Decimal::Sqrt(Complex rhs){
-    return Decimal::IntToDecimal(Integer(0,false));
 }

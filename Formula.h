@@ -10,6 +10,7 @@ using namespace std;
 struct var{
     int type;// 0 NumberObject 1 Integer 2 Decimal 3 Complex
     NumberObject * data;
+	string calcStr; // ¥ý¦sºâ¦¡
 };
 
 extern map<string, var> vars;

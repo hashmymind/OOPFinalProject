@@ -7,53 +7,42 @@ std::vector<BaseNum> Integer::primes;
 // Integer below
 //
 //
+
 Integer::Integer(const std::string& numStr){
     std::string numTmp = numStr;
-    this->_sizeUsed = static_cast<uint32_t>(numTmp.length()) / BaseLen + 1;
-    this->_digi.resize(this->_sizeUsed);
+    this->_digi.resize(SizeMax);
     //防呆
     if(numTmp[0] == '+')numTmp = numTmp.substr(1);
     if(numTmp == "")numTmp = "0";
     //處理負號
     this->_sign = numStr[0]=='-' ? true:false;
     numTmp = this->_sign ? numTmp.substr(1):numTmp;
+    //計算使用量
+    this->_sizeUsed = static_cast<uint32_t>(numTmp.length()) / BaseLen + 1;
     //字串補0方便轉換
-    numTmp.insert(0, this->_sizeUsed*BaseLen -numTmp.length(),'0');
+    numTmp.insert(0, ContainLenMax-numTmp.length(),'0');
     //轉換
-    int i=0;
-    for(auto iter = std::begin(this->_digi);iter != std::end(this->_digi);++iter){
+    for(int i=0;i<SizeMax;++i){
         BaseNum tmp = 0;
         for(int j=0;j<BaseLen;++j){
             tmp += static_cast<BaseNum>(pow(10,BaseLen-j-1))*(numTmp[i*BaseLen+j]-'0');
         }
-        *iter = tmp;
-        i++;
+        this->_digi[i] = tmp;
     }
 }
 
 Integer::Integer(BaseNum val, bool sign){
     //用數字來建構比較小的
-    this->_digi.resize(1);
+    this->_digi.resize(SizeMax);
     this->_sign = sign;
-    this->_digi[0] = val;
+    this->_digi[SizeMax-1] = val;
     this->_sizeUsed = 1;
-    if(this->_digi[0]/BaseMax >0){
-        this->_digi.push_back(0);
-        this->_digi[1] = val%BaseMax;
-        this->_digi[0] = val/BaseMax;
+    if(this->_digi[SizeMax-1]/BaseMax >0){
+        this->_digi[SizeMax-1] = this->_digi[SizeMax-1]%BaseMax;
+        this->_digi[SizeMax-2] = val/BaseMax;
         this->_sizeUsed = 2;
     }
-}
-
-BaseNum Integer::Digi(){
-    for(int i=this->_sizeUsed-1;i>=0;--i){
-        if(this->_digi[i]){
-            BaseNum digi = (BaseNum)log10(this->_digi[i]);
-            digi += BaseLen*(this->_sizeUsed-1-i);
-            return digi;
-        }
-    }
-    return 0;
+    
 }
 
 void Integer::Output(std::ostream& stream) const{
@@ -66,42 +55,25 @@ void Integer::Input(std::istream& stream){
     *this = Integer(digis);
 }
 
-void Integer::resize(int used){
-    if(used > this->_sizeUsed){
-        for(int i=this->_sizeUsed;i<used;++i){
-            this->_digi.push_back(0);
-            this->_sizeUsed++;
-            this->RightShiftUnit();
-        }
-    }else if(used < this->_sizeUsed){
-        for(int i=used;i<this->_sizeUsed;++i){
-            this->_digi.erase(this->_digi.begin());
-        }
-        this->_sizeUsed = used;
-    }
-}
-
 void Integer::Complete(){
     //將數字轉成10補數
     BaseNum temp;
     uint8_t carry = 1;
-    for(int i=0;i<this->_sizeUsed;++i){
+    for(int i=0;i<SizeMax;++i){
         this->_digi[i] = subtrahend - this->_digi[i];
     }
-    auto iter = std::end(this->_digi)-1;
-    do{
+    for(int i=SizeMax-1;i>=0;--i){
         if(!carry)break;
-        temp = *iter + carry;
-        *iter = temp % BaseMax;
+        temp = this->_digi[i] + carry;
+        this->_digi[i] = temp % BaseMax;
         carry = temp / BaseMax;
-        --iter;
-    }while(iter != std::begin(this->_digi));
+    }
 }
 
 std::string Integer::ToString() const{
     bool leading = true;
     std::string num = "", tmp;
-    for(int i=0;i<this->_sizeUsed;++i){
+    for(int i=SizeMax-this->_sizeUsed;i<SizeMax;++i){
         if(!this->_digi[i] && leading)continue;
         tmp = std::to_string(this->_digi[i]);
         if(!leading)tmp.insert(0, BaseLen - tmp.length(), '0');
@@ -116,7 +88,7 @@ const Integer Integer::operator++(){
     //prefix ++ ex:++integer
     uint8_t carry = 1;
     BaseNum temp;
-    for(int i=this->_sizeUsed-1;i>=0;--i){
+    for(int i=SizeMax-1;i>=0;--i){
         if(!carry)break;
         temp = this->_digi[i] + carry;
         this->_digi[i] = temp % BaseMax;
@@ -130,15 +102,6 @@ Integer Integer::operator=(const std::string& numSrt){
     return *this;
 }
 
-Integer Integer::operator=(const char charray[]){
-    *this = Integer(std::string(charray));
-    return *this;
-}
-
-Integer::Integer(const char charray[]){
-    *this = Integer(std::string(charray));
-}
-
 const Integer Integer::operator=(const Integer& rhs){
     this->_sign = rhs._sign;
     this->_sizeUsed = rhs._sizeUsed;
@@ -148,18 +111,11 @@ const Integer Integer::operator=(const Integer& rhs){
 
 const Integer Integer::Add(const Integer& rhs) const{
     Integer ltmp = *this, rtmp = rhs;
-    int len = std::max(ltmp._sizeUsed, rtmp._sizeUsed)+1;
-    if(ltmp._sizeUsed < len) ltmp.resize(len);
-    if(rtmp._sizeUsed < len) rtmp.resize(len);
-    if(ltmp._sign){
-        ltmp.Complete();
-    }
-    if(rtmp._sign){
-        rtmp.Complete();
-    }
+    if(ltmp._sign)ltmp.Complete();
+    if(rtmp._sign)rtmp.Complete();
     BaseNum carry = 0,temp;
     //加到ltmp，並假設不會溢位
-    for(int i=len - 1;i>=0;--i){
+    for(int i=SizeMax-1;i>=0;--i){
         temp = ltmp._digi[i] + rtmp._digi[i] + carry;
         ltmp._digi[i] = temp % BaseMax;
         carry = temp / BaseMax;
@@ -170,7 +126,14 @@ const Integer Integer::Add(const Integer& rhs) const{
         ltmp.Complete();
         ltmp._sign = true;
     }
-    ltmp.autoAdjSize();
+    //重新計算使用量
+    ltmp._sizeUsed = 1;
+    for(int i = 0;i<SizeMax;++i){
+        if(ltmp._digi[i]){
+            ltmp._sizeUsed = SizeMax - i;
+            break;
+        }
+    }
     return ltmp;
     
 }
@@ -187,18 +150,16 @@ const Integer operator-(const Integer& lhs, const Integer& rhs){
 
 Integer Mul(const Integer& lhs, const Integer& rhs){
     Integer result(0, false), rtmp , itmp;
-    
-    for(int j=lhs._sizeUsed-1;j>=0;--j){
+    for(int j=SizeMax-1;j>=SizeMax-lhs._sizeUsed;--j){
         rtmp = rhs;
         if(lhs._digi[j] == 0)continue;
         int count = 0;
         while(!rtmp.IsZero()){
-            itmp =Integer(lhs._digi[j] * rtmp._digi[rtmp._sizeUsed-1],false);
+            itmp =Integer(lhs._digi[j] * rtmp._digi[SizeMax-1],false);
             rtmp.RightShiftUnit();
-            for(int k=0;k<count + (lhs._sizeUsed-j-1);k++){
+            for(int k=0;k<count + (SizeMax-j-1);k++){
                 itmp.LeftShiftUnit();
             }count++;
-            
             result = result+itmp;
         }
     }
@@ -232,34 +193,11 @@ Integer Karatsuba(const Integer& lhs, const Integer& rhs){
     return z0+z1+z2;
 }
 
-void Integer::autoAdjSize(){
-    int lastZero = -1;
-    for(int i=0;i<this->_sizeUsed;++i){
-        if(!this->_digi[i]){
-            lastZero = i;
-        }else{
-            break;
-        }
-    }
-    if(lastZero != -1){
-        this->resize(this->_sizeUsed - lastZero -1);
-    }
-}
-
 const Integer operator*(Integer lhs,Integer rhs){
-    Integer result(0, false), itmp;
-    for(int j=lhs._sizeUsed-1;j>=0;--j){
-        if(lhs._digi[j] == 0)continue;
-        for(int i=rhs._sizeUsed-1;i>=0;--i){
-            itmp =Integer(lhs._digi[j] * rhs._digi[i],false);
-            for(int k=0;k<(rhs._sizeUsed -i -1) + (lhs._sizeUsed-j-1);k++){
-                itmp._digi.push_back(0);
-                itmp._sizeUsed++;
-            }
-            result = result+itmp;
-        }
-    }
-    result._sign = lhs._sign ^ rhs._sign;
+    bool sign = lhs._sign ^ rhs._sign;
+    lhs._sign=false;rhs._sign=false;
+    Integer result = Karatsuba(lhs, rhs);
+    result._sign = sign;
     return result;
 }
 
@@ -270,24 +208,18 @@ const Integer operator/(const Integer& lhs,const Integer& rhs){
     if(dividend < divisor)return Integer(0,false);
     if(dividend == divisor)return Integer(1,false);
     if(divisor == Integer(1,false))return dividend;
-    while(dividend >= divisor){
+    while(dividend >= divisor)
         divisor.LeftShift();
-    }
-    //std::cout << divisor << "\n";
     divisor.RightShift();
-    //std::cout << divisor << "\n";
     while(divisor >= oriDivisor){
         result.LeftShift();
         while(dividend >= divisor){
             ++result;
             //現在不知道是調用乘法快還是用減法快，待測試
             dividend = dividend - divisor;//to do -=
-            //std::cout << dividend << " " << divisor << "\n-------" << std::endl;
         }
         divisor.RightShift();
-        //std::cout << dividend << " " << divisor << "\n-------" << std::endl;
     }
-    result.autoAdjSize();
     return result;
 }
 
@@ -359,7 +291,6 @@ const bool operator>=(const Integer& lhs, const Integer& rhs){
 const bool operator<=(const Integer& lhs, const Integer& rhs){
     return !(lhs > rhs);
 }
-
 const bool operator==(const Integer& lhs, const Integer& rhs){
     if(!(lhs._sign^rhs._sign)){
         if(lhs._sizeUsed != rhs._sizeUsed) return false;
@@ -371,12 +302,8 @@ const bool operator==(const Integer& lhs, const Integer& rhs){
     return false;
 }
 
-const bool operator!=(const Integer& lhs, const Integer& rhs){
-    return !(lhs == rhs);
-}
 const bool Integer::IsZero() const{
-    
-    for(int i=this->_sizeUsed-1;i>=0;--i){
+    for(int i=SizeMax-1;i>=SizeMax-this->_sizeUsed;--i){
         if(this->_digi[i])return false;
     }
     return true;
@@ -393,23 +320,24 @@ const Integer GCD(const Integer& lhs, const Integer& rhs){
     return ltmp;
 }
 void Integer::LeftShiftUnit(){
-    for(int i=0;i<this->_sizeUsed-1;++i){
-        this->_digi[i] = this->_digi[i+1];
+    for(int i=SizeMax-this->_sizeUsed;i<=SizeMax-1;++i){
+        this->_digi[i-1] = this->_digi[i];
     }
-    this->_digi[this->_sizeUsed-1] = 0;
+    this->_digi[SizeMax-1] = 0;
+    this->_sizeUsed++;
 }
 
 void Integer::RightShiftUnit(){
-    for(int i=this->_sizeUsed-1;i>0;--i){
+    for(int i = SizeMax-1;i>=SizeMax-this->_sizeUsed;--i){
         this->_digi[i] = this->_digi[i-1];
     }
-    this->_digi[0] = 0;
+    this->_sizeUsed--;
 }
 
 void Integer::LeftShift(){
-    /*BaseNum carry = 0, tmp, origin;
+    BaseNum carry = 0, tmp, origin;
     uint32_t newSize = 0;
-    for(int i=this->_sizeUsed-1;i>=0 || carry;--i){
+    for(int i=SizeMax-1;i>=SizeMax-this->_sizeUsed || carry;--i){
         origin = this->_digi[i];
         tmp = this->_digi[i]*9 + carry;//先乘9
         this->_digi[i] = tmp % BaseMax;
@@ -417,19 +345,19 @@ void Integer::LeftShift(){
         tmp = this->_digi[i] + origin;//再加一次
         this->_digi[i] = tmp % BaseMax;
         carry += tmp / BaseMax;
-        newSize = this->_sizeUsed - i;
+        newSize = SizeMax - i;
     }
-    this->_sizeUsed = newSize;*/
-    *this = *this * Integer(10,false);
+    this->_sizeUsed = newSize;
 }
 
 void Integer::RightShift(){
-    for(int i=_sizeUsed-1;i>0;--i){
-        this->_digi[i]/=10;
-        this->_digi[i]+=(this->_digi[i-1]%10)*10000000;
+    for(int i=SizeMax-1;i>=SizeMax-this->_sizeUsed;--i){
+        this->_digi[i] /= 10;
+        this->_digi[i] += this->_digi[i-1]%10 * (BaseMax/10);
     }
-    this->_digi[0] /= 10;
-    this->autoAdjSize();
+    if(!this->_digi[SizeMax - this->_sizeUsed]){
+        this->_sizeUsed -= 1;
+    }
 }
 
 const bool Integer::GetSign() const{
@@ -444,16 +372,18 @@ const Integer Integer::Power(const Integer& rhs){
     Integer one(1, false), two(2, false), tmp;
     //end Condition
     if(rhs.IsZero()){
-        return one;
+        // return square root
+    }else if((rhs - one).IsZero()){
+        return *this;
     }
-    if(rhs._digi[this->_sizeUsed-1]%2 == 0){
+    //
+    if((rhs%two).IsZero()){
         tmp = this->Power(rhs / two);
         return tmp * tmp;
     }else{
         tmp = this->Power(rhs / two);
         return tmp * tmp * *this;
     }
-    
 }
 
 std::ostream& operator<<(std::ostream& stream, const Integer& rhs){
@@ -510,10 +440,6 @@ void Integer::LoadPrime(){
 
 Integer Integer::Factorial(Integer rhs){
     Integer result(1,false), one(1,false);
-    /*while(!rhs.IsZero()){
-        result = result * rhs;
-        rhs= rhs-one;
-    }*/
     // end condition
     if(rhs < one){
         return one;
@@ -522,7 +448,7 @@ Integer Integer::Factorial(Integer rhs){
     if(rhs > Integer(primes[primes.size()-1],false)){
         return rhs * Factorial(rhs - one);
     }else{
-        BaseNum tmp = 2, tmp2,power, rhsTmp = rhs._digi[rhs._sizeUsed-1];
+        BaseNum tmp = 2, tmp2,power, rhsTmp = rhs._digi[SizeMax-1];
         for(int i=1;tmp<=rhsTmp;++i){
             power = 0;
             tmp2 = 1;
@@ -531,7 +457,7 @@ Integer Integer::Factorial(Integer rhs){
                 if(tmp2 > rhsTmp)break;
                 power = power + rhsTmp/tmp2;
             }
-            result = result * Integer(tmp,false).Power(Integer(power,false));
+            result = result * Integer(tmp,false).Power(Integer(power,0));
             tmp = primes[i];
         }
     }

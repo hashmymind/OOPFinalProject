@@ -11,7 +11,6 @@ public:
         _denominator = Integer(1, false);
     }
     Decimal(const std::string&);
-    Decimal(const char[]);
     
     friend const Decimal operator+(const Decimal&, const Decimal&);
     friend const Decimal operator-(const Decimal&, const Decimal&);
@@ -26,7 +25,6 @@ public:
     friend std::istream& operator>>(std::istream&, Decimal&);
     
     Decimal operator=(const std::string&);
-    Decimal operator=(const char[]);
     
     const Decimal operator+(const Integer&);
     const Decimal operator-(const Integer&);
@@ -46,9 +44,6 @@ public:
     const Decimal Power(const Integer&);
     
     static Decimal IntToDecimal(const Integer&);
-    static Decimal Sqrt(Integer);
-    static Decimal Sqrt(Decimal);
-    static Decimal Sqrt(Complex); //just for compiler
     
     virtual void Output(std::ostream&) const;
     virtual void Input(std::istream&);

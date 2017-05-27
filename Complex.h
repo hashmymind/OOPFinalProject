@@ -5,7 +5,6 @@ private:
 public:
     Complex(){}
     Complex(const std::string&);
-    Complex(const char[]);
     
     friend const Complex operator+(const Complex&, const Complex&);
     friend const Complex operator-(const Complex&, const Complex&);
@@ -16,7 +15,6 @@ public:
     friend std::istream& operator>>(std::istream&, Complex&);
     
     Complex operator=(const std::string&);
-    Complex operator=(const char[]);
     
     const Complex operator+(const Integer&);
     const Complex operator-(const Integer&);
