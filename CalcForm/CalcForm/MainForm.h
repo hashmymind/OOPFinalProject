@@ -658,6 +658,8 @@ private: System::Windows::Forms::Button^  INT_Btm;
 				Dot->Enabled = true;
 				dotCheck = true;
 			}
+			if (Dot->Enabled == false)
+				Factor->Enabled = false;
 		}
 		void errorCheck()
 		{
@@ -854,6 +856,7 @@ private: System::Void Dot_Click(System::Object^  sender, System::EventArgs^  e) 
 	operatorLock();
 	Imagine->Enabled = false;
 	Equal->Enabled = false;
+	Factor->Enabled = false;
 }
 private: System::Void Plus_Click(System::Object^  sender, System::EventArgs^  e) {
 	EQ = false;
@@ -872,11 +875,8 @@ private: System::Void Sub_Click(System::Object^  sender, System::EventArgs^  e) 
 	Show->Text += "-";
 	SignFun();
 	operatorLock();
-	if (subCount != 2)
-		Left->Enabled = true;
-	else
-		Left->Enabled = false;
 	SubCheck();
+	Left ->Enabled = true;
 	Equal->Enabled = false;
 }
 private: System::Void Multiple_Click(System::Object^  sender, System::EventArgs^  e) {
@@ -901,18 +901,98 @@ private: System::Void Dev_Click(System::Object^  sender, System::EventArgs^  e) 
 }
 private: System::Void Back_Click(System::Object^  sender, System::EventArgs^  e) {
 	if (Show->Text->Length) {
-		if (Show->Text[Show->Text->Length - 1] == '.')
+		if (Show->Text[Show->Text->Length - 1] == '(')
+			bracketCount--;
+		else if (Show->Text[Show->Text->Length - 1] == ')')
+			bracketCount++;
+		else if (Show->Text[Show->Text->Length - 1] == '.')
 		{
-			Dot->Enabled = true;
 			dotCheck = false;
+			DotEnabled();
 		}
-		else if (Show->Text[Show->Text->Length - 1] == '-') {
-			subCount--;
+		else if (Show->Text[Show->Text->Length - 1] == '^')
+		{
+			power = false;
 		}
-		if (Show->Text->Length - 1 == 0)
-			subCount = 1;
-		SubCheck();
 		Show->Text = Show->Text->Substring(0, Show->Text->Length - 1);
+		if (Show->Text->Length)
+		{
+			if (Show->Text[Show->Text->Length - 1] == '-')
+			{
+				if (Show->Text->Length > 1)
+				{
+					if (Show->Text[Show->Text->Length - 2] == '-')
+					{
+						subCount = 2;
+					}
+					else
+					{
+						subCount = 1;
+					}
+				}
+			}
+			else if (Show->Text[Show->Text->Length - 1] == '+' || Show->Text[Show->Text->Length - 1] == '*' || Show->Text[Show->Text->Length - 1] == '/')
+			{
+				operatorLock();
+				Left->Enabled = true;
+				numberUnlock();
+				Dot->Enabled = false;
+				subCount = 1;
+			}
+			else if (Show->Text[Show->Text->Length - 1] == '(')
+			{
+				operatorLock();
+				subCount = 1;
+			}
+			else if (Show->Text[Show->Text->Length - 1] == ')')
+			{
+				operatorUnlock();
+				subCount = 0;
+			}
+			else if (Show->Text[Show->Text->Length - 1] == '^')
+			{
+				Imagine->Enabled = false;
+				Dot->Enabled = false;
+				operatorLock();
+				subCount = 2;
+			}
+			else if (Show->Text[Show->Text->Length - 1] == 'i')
+			{
+				Factor->Enabled = false;
+			}
+			else if (Show->Text[Show->Text->Length - 1] == '!')
+			{
+				Imagine->Enabled = false;
+				numberLock();
+			}
+			else if (Show->Text[Show->Text->Length - 1] == '.')
+			{
+				operatorLock();
+				Left->Enabled = false;
+				subCount = 2;
+			}
+			else
+			{
+				Left->Enabled = false;
+				subCount = 0;
+			}
+		}
+		if (Show->Text->Length == 0)
+		{
+			EQ = false;
+			bracketCount = 0;
+			subCount = 1;
+			operatorLock();
+			bracketCheck();
+			numberUnlock();
+			Left->Enabled = true;
+			dotCheck = false;
+			Dot->Enabled = false;
+			if (power)
+				power = false;
+		}
+		SubCheck();
+		PowerCheck();
 	}
 }
 private: System::Void Left_Click(System::Object^  sender, System::EventArgs^  e) {
