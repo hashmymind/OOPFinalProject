@@ -13,4 +13,4 @@
 
 ## 文字版
 編譯命令 
-` g++ main.cpp Formula.cpp Complex.cpp NumberObject.cpp Integer.cpp Decimal.cpp -O3 `
+` g++ main.cpp Formula.cpp Complex.cpp NumberObject.cpp Integer.cpp Decimal.cpp Ultimate.cpp -O3 `
