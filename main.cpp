@@ -98,7 +98,7 @@ int main(){
         }
         else if(cmd == "print"){
             getline(cin, formula);
-            string ans = calc(dealFormula(formula)).data.ToString();
+            string ans = ToString(calc(dealFormula(formula)));
             cout << ans << endl;
             outputsRecord << ans << "\n-------------------------\n";
         }

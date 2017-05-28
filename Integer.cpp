@@ -370,7 +370,7 @@ const bool operator!=(const Integer& lhs, const Integer& rhs){
     return !(lhs == rhs);
 }
 const bool Integer::IsZero() const{
-    
+    if(this->_sizeUsed == 0)return true;
     for(int i=this->_sizeUsed-1;i>=0;--i){
         if(this->_digi[i])return false;
     }

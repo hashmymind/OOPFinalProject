@@ -25,3 +25,4 @@ void convert(var&, int);
 string dealNegativeSign(string);
 string dealPowerCMD(string);
 string dealFormula(string);
+string ToString(var);
