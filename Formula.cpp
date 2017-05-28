@@ -174,18 +174,3 @@ string dealFormula(string formula){
     formula.erase (std::remove (formula.begin(), formula.end(), ' '), formula.end());
     return formula;
 }
-
-string ToString(var num){
-    if(num.type == 1){
-        return (Integer::Int(num.data)).ToString();
-    }
-    else if(num.type == 2){
-        return (Decimal::Dec(num.data)).ToString();
-    }
-    else if(num.type == 3){
-        return (Complex::Com(num.data)).ToString();
-    }
-    else{
-        return num.data.ToString();
-    }
-}

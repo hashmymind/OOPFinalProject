@@ -47,8 +47,9 @@ Complex::Complex(const std::string& complexStr){
 std::string Complex::ToString() const{
     std::string result = "";
     bool haveReal = !this->_realPart.IsZroe();
-    if(haveReal)result += this->_realPart.ToString(100);
-    if(!this->_imaginePart.IsZroe()){
+    bool haveImag = !this->_imaginePart.IsZroe();
+    if(haveReal || !haveImag)result += this->_realPart.ToString(100);
+    if(haveImag){
         std::string addSign = haveReal?"+":"";
         result += this->_imaginePart.GetSign()?"-"+this->_imaginePart.ToString(10).substr(1)+"i":addSign+this->_imaginePart.ToString(10)+"i";
     }
