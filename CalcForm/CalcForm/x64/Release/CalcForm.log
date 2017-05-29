@@ -1,4 +1,2 @@
-﻿  MainForm.cpp
-c:\users\admin\desktop\github\oopfinalproject\calcform\calcform\NumberObject.h : warning C4819: 檔案含有無法在目前字碼頁 (950) 中表示的字元。請以 Unicode 格式儲存檔案以防止資料遺失
-  CalcForm.vcxproj -> C:\Users\admin\Desktop\GitHub\OOPFinalProject\CalcForm\x64\Release\CalcForm.exe
+﻿  CalcForm.vcxproj -> C:\Users\admin\Desktop\GitHub\OOPFinalProject\CalcForm\x64\Release\CalcForm.exe
   CalcForm.vcxproj -> C:\Users\admin\Desktop\GitHub\OOPFinalProject\CalcForm\x64\Release\CalcForm.pdb (Full PDB)
