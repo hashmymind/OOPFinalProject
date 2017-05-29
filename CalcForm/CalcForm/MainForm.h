@@ -792,7 +792,7 @@ private: System::Windows::Forms::Button^  INT_Btm;
 			}
 			else if (DEC_Btm->Enabled == false) {
 				result.type = 2;
-				result.data = Ultimate::Ult(Decimal::Dec(result.data));
+				result.data = Ultimate::Ult(NDecimal::Dec(result.data));
 			}
 			else if (COM_Btm->Enabled == false) {
 				result.type = 3;
@@ -1158,12 +1158,13 @@ private: System::Void POW_Click(System::Object^  sender, System::EventArgs^  e) 
 private: System::Void Equal_Click(System::Object^  sender, System::EventArgs^  e) {
 	string result = msclr::interop::marshal_as<std::string>(Show->Text);
 	result = dealNegativeSign(result);
-	result = calc(result).data->ToString();
+	result = calc(result).data.ToString();
 	Show->Text = gcnew String(result.c_str());
 	Dot->Enabled = false;
 	EQ = true;
 	bracketCount = 0;
 	bracketCheck();
+	numberUnlock();
 }
 private: System::Void Imagine_Click(System::Object^  sender, System::EventArgs^  e) {
 	Show->Text += "i";
@@ -1187,7 +1188,7 @@ private: System::Void Set_Click(System::Object^  sender, System::EventArgs^  e) 
 	if (iter == vars.end() && value != "") {
 		typeSet(result);
 		vars[value] = result;
-		Show->Text = gcnew String(result.data.ToString().c_str());
+		Show->Text = "";
 		VarList->Items->Clear();
 		for (map<string, var>::iterator iterator = vars.begin(); iterator != vars.end(); iterator++) {
 			string combine;
@@ -1206,6 +1207,9 @@ private: System::Void Set_Click(System::Object^  sender, System::EventArgs^  e) 
 			case 3:
 				combine += "Complex\t";
 				break;
+			default :
+				combine += "Formula\t";
+				break;
 			}
 			combine += iterator->second.data.ToString() + " \b";
 			VarList->Items->Add(gcnew String(combine.c_str()));
@@ -1217,6 +1221,7 @@ private: System::Void Set_Click(System::Object^  sender, System::EventArgs^  e) 
 	EQ = true;
 	bracketCount = 0;
 	bracketCheck();
+	numberUnlock();
 }
 private: System::Void Modify_Click(System::Object^  sender, System::EventArgs^  e) {
 	errorCheck();
@@ -1228,7 +1233,7 @@ private: System::Void Modify_Click(System::Object^  sender, System::EventArgs^  
 	if (iter != vars.end()) {
 		typeSet(result);
 		vars[value] = result;
-		Show->Text = gcnew String(result.data.ToString().c_str());
+		Show->Text = "";
 		VarList->Items->Clear();
 		VarList->Items->Clear();
 		for (map<string, var>::iterator iterator = vars.begin(); iterator != vars.end(); iterator++) {
@@ -1248,6 +1253,9 @@ private: System::Void Modify_Click(System::Object^  sender, System::EventArgs^  
 			case 3:
 				combine += "Complex\t";
 				break;
+			default:
+				combine += "Formula\t";
+				break;
 			}
 			combine += iterator->second.data.ToString() + " \b";
 			VarList->Items->Add(gcnew String(combine.c_str()));
@@ -1260,6 +1268,7 @@ private: System::Void Modify_Click(System::Object^  sender, System::EventArgs^  
 	EQ = true;
 	bracketCount = 0;
 	bracketCheck();
+	numberUnlock();
 }
 private: System::Void Delete_Click(System::Object^  sender, System::EventArgs^  e) {
 	errorCheck();
@@ -1303,10 +1312,14 @@ private: System::Void Delete_Click(System::Object^  sender, System::EventArgs^  
 		if (VarList->Items)
 			VarList->Enabled = false;
 	}
+	INT_Btm->Enabled = true;
+	DEC_Btm->Enabled = true;
+	COM_Btm->Enabled = true;
 	Dot->Enabled = false;
 	EQ = true;
 	bracketCount = 0;
 	bracketCheck();
+	numberUnlock();
 }
 private: System::Void VarList_MouseDoubleClick(System::Object^  sender, System::Windows::Forms::MouseEventArgs^  e) {
 	int index = this->VarList->IndexFromPoint(e->Location);
@@ -1315,6 +1328,7 @@ private: System::Void VarList_MouseDoubleClick(System::Object^  sender, System::
 	string combine = msclr::interop::marshal_as<std::string>(Show->Text);
 	combine += iterator->first;
 	Show->Text = gcnew String(combine.c_str());
+	operatorUnlock();
 }
 private: System::Void INT_Btm_Click(System::Object^  sender, System::EventArgs^  e) {
 	INT_Btm->Enabled = false;
@@ -1330,4 +1344,6 @@ private: System::Void COM_Btm_Click(System::Object^  sender, System::EventArgs^ 
 	INT_Btm->Enabled = true;
 	COM_Btm->Enabled = false;
 	DEC_Btm->Enabled = true;
+}
+};
 }

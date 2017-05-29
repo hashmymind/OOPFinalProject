@@ -21,9 +21,6 @@
     <ClCompile Include="Complex.cpp">
       <Filter>原始程式檔</Filter>
     </ClCompile>
-    <ClCompile Include="Decimal.cpp">
-      <Filter>原始程式檔</Filter>
-    </ClCompile>
     <ClCompile Include="Formula.cpp">
       <Filter>原始程式檔</Filter>
     </ClCompile>
@@ -31,6 +28,12 @@
       <Filter>原始程式檔</Filter>
     </ClCompile>
     <ClCompile Include="NumberObject.cpp">
+      <Filter>原始程式檔</Filter>
+    </ClCompile>
+    <ClCompile Include="NDecimal.cpp">
+      <Filter>原始程式檔</Filter>
+    </ClCompile>
+    <ClCompile Include="Ultimate.cpp">
       <Filter>原始程式檔</Filter>
     </ClCompile>
   </ItemGroup>
@@ -41,9 +44,6 @@
     <ClInclude Include="Complex.h">
       <Filter>原始程式檔</Filter>
     </ClInclude>
-    <ClInclude Include="Decimal.h">
-      <Filter>原始程式檔</Filter>
-    </ClInclude>
     <ClInclude Include="Formula.h">
       <Filter>原始程式檔</Filter>
     </ClInclude>
@@ -51,6 +51,12 @@
       <Filter>原始程式檔</Filter>
     </ClInclude>
     <ClInclude Include="NumberObject.h">
+      <Filter>原始程式檔</Filter>
+    </ClInclude>
+    <ClInclude Include="NDecimal.h">
+      <Filter>原始程式檔</Filter>
+    </ClInclude>
+    <ClInclude Include="Ultimate.h">
       <Filter>原始程式檔</Filter>
     </ClInclude>
   </ItemGroup>

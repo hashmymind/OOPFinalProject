@@ -1,29 +1,19 @@
-﻿  Complex.cpp
-Complex.cpp : warning C4819: 檔案含有無法在目前字碼頁 (950) 中表示的字元。請以 Unicode 格式儲存檔案以防止資料遺失
-c:\users\admin\desktop\github\oopfinalproject\calcform\calcform\NumberObject.h : warning C4819: 檔案含有無法在目前字碼頁 (950) 中表示的字元。請以 Unicode 格式儲存檔案以防止資料遺失
-  Decimal.cpp
-Decimal.cpp : warning C4819: 檔案含有無法在目前字碼頁 (950) 中表示的字元。請以 Unicode 格式儲存檔案以防止資料遺失
-c:\users\admin\desktop\github\oopfinalproject\calcform\calcform\NumberObject.h : warning C4819: 檔案含有無法在目前字碼頁 (950) 中表示的字元。請以 Unicode 格式儲存檔案以防止資料遺失
-  Formula.cpp
-Formula.cpp : warning C4819: 檔案含有無法在目前字碼頁 (950) 中表示的字元。請以 Unicode 格式儲存檔案以防止資料遺失
-c:\users\admin\desktop\github\oopfinalproject\calcform\calcform\NumberObject.h : warning C4819: 檔案含有無法在目前字碼頁 (950) 中表示的字元。請以 Unicode 格式儲存檔案以防止資料遺失
-  Integer.cpp
+﻿  Integer.cpp
 Integer.cpp : warning C4819: 檔案含有無法在目前字碼頁 (950) 中表示的字元。請以 Unicode 格式儲存檔案以防止資料遺失
-c:\users\admin\desktop\github\oopfinalproject\calcform\calcform\NumberObject.h : warning C4819: 檔案含有無法在目前字碼頁 (950) 中表示的字元。請以 Unicode 格式儲存檔案以防止資料遺失
-Integer.cpp(69): warning C4244: '=': 將 'BaseNum' 轉換為 'uint8_t'，由於類型不同，可能導致資料遺失
-Integer.cpp(95): warning C4244: '=': 將 'BaseNum' 轉換為 'uint8_t'，由於類型不同，可能導致資料遺失
-Integer.cpp(153): warning C4018: '>=': signed/unsigned 不相符
-Integer.cpp(160): warning C4018: '<': signed/unsigned 不相符
-Integer.cpp(306): warning C4018: '>=': signed/unsigned 不相符
-Integer.cpp(331): warning C4018: '>=': signed/unsigned 不相符
-Integer.cpp(340): warning C4018: '>=': signed/unsigned 不相符
-Integer.cpp(354): warning C4018: '>=': signed/unsigned 不相符
-  MainForm.cpp
-c:\users\admin\desktop\github\oopfinalproject\calcform\calcform\NumberObject.h : warning C4819: 檔案含有無法在目前字碼頁 (950) 中表示的字元。請以 Unicode 格式儲存檔案以防止資料遺失
-  NumberObject.cpp
-c:\users\admin\desktop\github\oopfinalproject\calcform\calcform\NumberObject.h : warning C4819: 檔案含有無法在目前字碼頁 (950) 中表示的字元。請以 Unicode 格式儲存檔案以防止資料遺失
-  正在產生程式碼...
-  .NETFramework,Version=v4.6.1.AssemblyAttributes.cpp
+c:\users\admin\desktop\oopfinalproject\calcform\calcform\NumberObject.h : warning C4819: 檔案含有無法在目前字碼頁 (950) 中表示的字元。請以 Unicode 格式儲存檔案以防止資料遺失
+Integer.cpp(65): warning C4018: '>': signed/unsigned 不相符
+Integer.cpp(71): warning C4018: '<': signed/unsigned 不相符
+Integer.cpp(72): warning C4018: '<': signed/unsigned 不相符
+Integer.cpp(83): warning C4018: '<': signed/unsigned 不相符
+Integer.cpp(92): warning C4244: '=': 將 'BaseNum' 轉換為 'uint8_t'，由於類型不同，可能導致資料遺失
+Integer.cpp(99): warning C4018: '<': signed/unsigned 不相符
+Integer.cpp(118): warning C4244: '=': 將 'BaseNum' 轉換為 'uint8_t'，由於類型不同，可能導致資料遺失
+Integer.cpp(147): warning C4018: '<': signed/unsigned 不相符
+Integer.cpp(148): warning C4018: '<': signed/unsigned 不相符
+Integer.cpp(193): warning C4018: '<': signed/unsigned 不相符
+Integer.cpp(232): warning C4018: '<': signed/unsigned 不相符
+Integer.cpp(250): warning C4018: '<': signed/unsigned 不相符
+Integer.cpp(391): warning C4018: '<': signed/unsigned 不相符
   Complex.obj : Managed 程式碼存在時不支援 /DEBUG:FASTLINK; 正在以 /DEBUG:FULL 重新啟動連結
-  CalcForm.vcxproj -> C:\Users\admin\Desktop\GitHub\OOPFinalProject\CalcForm\x64\Debug\CalcForm.exe
-  CalcForm.vcxproj -> C:\Users\admin\Desktop\GitHub\OOPFinalProject\CalcForm\x64\Debug\CalcForm.pdb (Partial PDB)
+  CalcForm.vcxproj -> C:\Users\admin\Desktop\OOPFinalProject\CalcForm\x64\Debug\CalcForm.exe
+  CalcForm.vcxproj -> C:\Users\admin\Desktop\OOPFinalProject\CalcForm\x64\Debug\CalcForm.pdb (Partial PDB)
