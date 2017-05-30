@@ -1,6 +1,7 @@
 #include "Decimal.h"
 #include "Complex.h"
 #include "Ultimate.h"
+#include "Formula.h"
 //
 //
 // Decimal below
@@ -41,7 +42,7 @@ void Decimal::Output(std::ostream& stream) const{
 
 
 Decimal Decimal::operator=(const std::string& numSrt){
-    *this = Decimal(numSrt);
+    *this = Decimal::Dec(calc(numSrt).data);
     return *this;
 }
 
@@ -208,6 +209,13 @@ std::string Decimal::ToString() const{
 
 std::ostream& operator<<(std::ostream& stream, const Decimal& rhs){
     rhs.Output(stream);
+    return stream;
+}
+
+std::istream& operator>>(std::istream& stream, Decimal& rhs){
+    std::string numStr;
+    stream >> numStr;
+    rhs = Decimal(numStr);
     return stream;
 }
 

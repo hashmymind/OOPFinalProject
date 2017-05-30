@@ -1,5 +1,6 @@
 #include "Complex.h"
 #include "Ultimate.h"
+#include "Formula.h"
 
 //
 //
@@ -110,12 +111,20 @@ std::ostream& operator<<(std::ostream& stream, const Complex& rhs){
     rhs.Output(stream);
     return stream;
 }
+
+std::istream& operator>>(std::istream& stream, Complex& rhs){
+    std::string numStr;
+    stream >> numStr;
+    rhs = Complex(numStr);
+    return stream;
+}
+
 const bool operator==(const Complex& lhs, const Complex& rhs){
     return lhs._realPart == rhs._realPart && lhs._imaginePart == rhs._imaginePart;
 }
 
 Complex Complex::operator=(const std::string& complexStr){
-    *this = Complex(complexStr);
+    *this = Complex::Com(calc(complexStr).data);
     return *this;
 }
 

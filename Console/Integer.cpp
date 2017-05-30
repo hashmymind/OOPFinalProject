@@ -458,6 +458,13 @@ std::ostream& operator<<(std::ostream& stream, const Integer& rhs){
     return stream;
 }
 
+std::istream& operator>>(std::istream& stream, Integer& rhs){
+    std::string numStr;
+    stream >> numStr;
+    rhs = Integer(numStr);
+    return stream;
+}
+
 const Decimal Integer::operator+(const Decimal& rhs){
     return Decimal::IntToDecimal(*this) + rhs;
 }

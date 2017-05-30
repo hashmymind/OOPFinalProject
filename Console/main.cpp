@@ -32,7 +32,7 @@ double stopTime(){
     return (double)(t2-t)/CLOCKS_PER_SEC;
 }
 
-bool outputTime = true;
+bool outputTime = false;
 
 int main(){
     init();
@@ -111,8 +111,9 @@ int main(){
             exit(0);
         }
         else if(cmd == "debug"){
-            formula = "-9";
-            cout << dealNegativeSign(formula) << endl;
+            Integer i;Decimal d = "123.3"; Complex c = "123+123i";
+            i = "123+1";
+            cout << i << endl;
         }
         else{
             cout << "Error: Not a command." << endl;

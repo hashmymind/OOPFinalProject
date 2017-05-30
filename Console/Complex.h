@@ -14,6 +14,7 @@ public:
     friend const Complex operator/(const Complex&, const Complex&);
     friend const bool operator==(const Complex&, const Complex&);
     friend std::ostream& operator<<(std::ostream&, const Complex&);
+    friend std::istream& operator>>(std::istream&, Complex&);
     
     Complex operator=(const std::string&);
     Complex operator=(const char[]);

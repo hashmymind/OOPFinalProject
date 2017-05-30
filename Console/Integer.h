@@ -28,6 +28,8 @@ public:
     friend const bool operator!=(const Integer&, const Integer&);
     friend const Integer GCD(const Integer&, const Integer&);
     friend std::ostream& operator<<(std::ostream&, const Integer&);
+    friend std::istream& operator>>(std::istream&, Integer&);
+    
     friend Integer Karatsuba(const Integer&, const Integer&);
     friend Integer Mul(const Integer&, const Integer&);
     
