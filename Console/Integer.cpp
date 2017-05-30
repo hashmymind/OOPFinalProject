@@ -515,7 +515,7 @@ Integer Integer::Factorial(Integer rhs){
         return one;
     }
     //
-    if(rhs > Integer(primes[primes.size()-1],false)){
+    if(primes.size() == 0 ||  rhs > Integer(primes[primes.size()-1],false)){
         return rhs * Factorial(rhs - one);
     }else{
         BaseNum tmp = 2, tmp2,power, rhsTmp = rhs._digi[rhs._sizeUsed-1];
