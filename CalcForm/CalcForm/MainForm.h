@@ -4,7 +4,7 @@
 #include <msclr/marshal_cppstd.h> // .NET string to STL string
 map<string, var> vars;
 map<char, int> operators;
-namespace CalcForm {	
+namespace CalcForm {
 	using namespace System;
 	using namespace System::ComponentModel;
 	using namespace System::Collections;
@@ -122,9 +122,9 @@ namespace CalcForm {
 	private: System::Windows::Forms::Button^  Delete;
 
 	private: System::Windows::Forms::Button^  Modify;
-private: System::Windows::Forms::Button^  COM_Btm;
-private: System::Windows::Forms::Button^  DEC_Btm;
-private: System::Windows::Forms::Button^  INT_Btm;
+	private: System::Windows::Forms::Button^  COM_Btm;
+	private: System::Windows::Forms::Button^  DEC_Btm;
+	private: System::Windows::Forms::Button^  INT_Btm;
 
 
 
@@ -645,7 +645,7 @@ private: System::Windows::Forms::Button^  INT_Btm;
 
 		}
 #pragma endregion
-		
+
 		int subCount = 1;
 		int bracketCount = 0;
 		bool dotCheck = false;
@@ -663,8 +663,17 @@ private: System::Windows::Forms::Button^  INT_Btm;
 		}
 		void errorCheck()
 		{
-			if (Show->Text == "Error!")
+			if (Show->Text == "Have the same variable !")
 			{
+				Show->Text = "";
+				operatorLock();
+			}
+			else if (Show->Text == "The variable does not exist !")
+			{
+				Show->Text = "";
+				operatorLock();
+			}
+			else if (Show->Text == "Not a standard variable !") {
 				Show->Text = "";
 				operatorLock();
 			}
@@ -798,552 +807,596 @@ private: System::Windows::Forms::Button^  INT_Btm;
 				result.type = 3;
 				result.data = Ultimate::Ult(Complex::Com(result.data));
 			}
-			INT_Btm->Enabled = true;
-			DEC_Btm->Enabled = true;
-			COM_Btm->Enabled = true;
 		}
-
-private: System::Void MainForm_Load(System::Object^  sender, System::EventArgs^  e) {
-	init();
-	VarList->Enabled = false;
-}
-private: System::Void One_Click(System::Object^  sender, System::EventArgs^  e) {
-	errorCheck();
-	subCount = 0;
-	EnableFunctions();
-	Show->Text += "1";
-}
-private: System::Void Two_Click(System::Object^  sender, System::EventArgs^  e) {
-	errorCheck();
-	subCount = 0;
-	EnableFunctions();
-	Show->Text += "2";
-}
-private: System::Void Three_Click(System::Object^  sender, System::EventArgs^  e) {
-	errorCheck();
-	subCount = 0;
-	EnableFunctions();
-	Show->Text += "3";
-}
-private: System::Void Four_Click(System::Object^  sender, System::EventArgs^  e) {
-	errorCheck();
-	subCount = 0;
-	EnableFunctions();
-	Show->Text += "4";
-}
-private: System::Void Five_Click(System::Object^  sender, System::EventArgs^  e) {
-	errorCheck();
-	subCount = 0;
-	EnableFunctions();
-	Show->Text += "5";
-}
-private: System::Void Six_Click(System::Object^  sender, System::EventArgs^  e) {
-	errorCheck();
-	subCount = 0;
-	EnableFunctions();
-	Show->Text += "6";
-}
-private: System::Void Seven_Click(System::Object^  sender, System::EventArgs^  e) {
-	errorCheck();
-	subCount = 0;
-	EnableFunctions();
-	Show->Text += "7";
-}
-private: System::Void Eight_Click(System::Object^  sender, System::EventArgs^  e) {
-	errorCheck();
-	subCount = 0;
-	EnableFunctions();
-	Show->Text += "8";
-}
-private: System::Void Nine_Click(System::Object^  sender, System::EventArgs^  e) {
-	errorCheck();
-	subCount = 0;
-	EnableFunctions();
-	Show->Text += "9";
-}
-private: System::Void Zero_Click(System::Object^  sender, System::EventArgs^  e) {
-	errorCheck();
-	subCount = 0;
-	EnableFunctions();
-	Show->Text += "0";
-}
-private: System::Void Dot_Click(System::Object^  sender, System::EventArgs^  e) {
-	Show->Text += ".";
-	dotCheck = true;
-	Dot->Enabled = false;
-	Left->Enabled = false;
-	operatorLock();
-	Imagine->Enabled = false;
-	Equal->Enabled = false;
-	Factor->Enabled = false;
-}
-private: System::Void Plus_Click(System::Object^  sender, System::EventArgs^  e) {
-	EQ = false;
-	subCount = 1;
-	Show->Text += "+";
-	SignFun();
-	operatorLock();
-	Left->Enabled = true;
-	SubCheck();
-	Equal->Enabled = false;
-}
-private: System::Void Sub_Click(System::Object^  sender, System::EventArgs^  e) {
-	errorCheck();
-	EQ = false;
-	subCount++;
-	Show->Text += "-";
-	SignFun();
-	operatorLock();
-	SubCheck();
-	Left->Enabled = true;
-	Equal->Enabled = false;
-}
-private: System::Void Multiple_Click(System::Object^  sender, System::EventArgs^  e) {
-	EQ = false;
-	subCount = 1;
-	Show->Text += "*";
-	SignFun();
-	operatorLock();
-	Left->Enabled = true;
-	SubCheck();
-	Equal->Enabled = false;
-}
-private: System::Void Dev_Click(System::Object^  sender, System::EventArgs^  e) {
-	EQ = false;
-	subCount = 1;
-	Show->Text += "/";
-	SignFun();
-	operatorLock();
-	Left->Enabled = true;
-	SubCheck();
-	Equal->Enabled = false;
-}
-private: System::Void Back_Click(System::Object^  sender, System::EventArgs^  e) {
-	if (Show->Text->Length) {
-		if (Show->Text[Show->Text->Length - 1] == '(')
-			bracketCount--;
-		else if (Show->Text[Show->Text->Length - 1] == ')')
-			bracketCount++;
-		else if (Show->Text[Show->Text->Length - 1] == '.')
-		{
-			dotCheck = false;
-			Dot->Enabled = true;
-		}
-		else if (Show->Text[Show->Text->Length - 1] == '^')
-		{
-			power = false;
-		}
-		else if (Show->Text[Show->Text->Length - 1] == 'i')
-		{
-			numberUnlock();
-			Imagine->Enabled = true;
-		}
-		Show->Text = Show->Text->Substring(0, Show->Text->Length - 1);
-		bracketCheck();
-		if (Show->Text->Length)
-		{
-			if (Show->Text[Show->Text->Length - 1] == '-')
-			{
-				if (Show->Text->Length > 1)
-				{
-					if (Show->Text[Show->Text->Length - 2] == '-')
-					{
-						subCount = 2;
-					}
-					else
-					{
-						subCount = 1;
-					}
+		bool JudgeVar(string& value) {
+			bool IsRight = false;
+			if ((value == "i") || (value[0] <= '9' && value[0] >= '0'))
+				return false;
+			for (int i = 0; i < value.size(); i++) {
+				if ((value[i] <= '9'&&value[i] >= '0') || (value[i] >= 'a'&&value[i] <= 'z') || (value[i] >= 'A'&&value[i] <= 'z')) {
+					IsRight = true;
 				}
-				Dot->Enabled = false;
-				operatorLock();
-				Left->Enabled = true;
+				else {
+					IsRight = false;
+					break;
+				}
 			}
-			else if (Show->Text[Show->Text->Length - 1] == '+' || Show->Text[Show->Text->Length - 1] == '*' || Show->Text[Show->Text->Length - 1] == '/')
-			{
-				EQ = false;
-				subCount = 1;
-				SignFun();
-				operatorLock();
-				Left->Enabled = true;
-				Equal->Enabled = false;
-			}
-			else if (Show->Text[Show->Text->Length - 1] == '(')
-			{
-				errorCheck();
-				EQCheck();
-				subCount = 1;
-				SubCheck();
-				Equal->Enabled = false;
-				operatorLock();
-				numberUnlock();
-				Left->Enabled = true;
-				Right->Enabled = false;
-			}
+			return IsRight;
+		}
+	private: System::Void MainForm_Load(System::Object^  sender, System::EventArgs^  e) {
+		init();
+		VarList->Enabled = false;
+	}
+	private: System::Void One_Click(System::Object^  sender, System::EventArgs^  e) {
+		errorCheck();
+		subCount = 0;
+		EnableFunctions();
+		Show->Text += "1";
+	}
+	private: System::Void Two_Click(System::Object^  sender, System::EventArgs^  e) {
+		errorCheck();
+		subCount = 0;
+		EnableFunctions();
+		Show->Text += "2";
+	}
+	private: System::Void Three_Click(System::Object^  sender, System::EventArgs^  e) {
+		errorCheck();
+		subCount = 0;
+		EnableFunctions();
+		Show->Text += "3";
+	}
+	private: System::Void Four_Click(System::Object^  sender, System::EventArgs^  e) {
+		errorCheck();
+		subCount = 0;
+		EnableFunctions();
+		Show->Text += "4";
+	}
+	private: System::Void Five_Click(System::Object^  sender, System::EventArgs^  e) {
+		errorCheck();
+		subCount = 0;
+		EnableFunctions();
+		Show->Text += "5";
+	}
+	private: System::Void Six_Click(System::Object^  sender, System::EventArgs^  e) {
+		errorCheck();
+		subCount = 0;
+		EnableFunctions();
+		Show->Text += "6";
+	}
+	private: System::Void Seven_Click(System::Object^  sender, System::EventArgs^  e) {
+		errorCheck();
+		subCount = 0;
+		EnableFunctions();
+		Show->Text += "7";
+	}
+	private: System::Void Eight_Click(System::Object^  sender, System::EventArgs^  e) {
+		errorCheck();
+		subCount = 0;
+		EnableFunctions();
+		Show->Text += "8";
+	}
+	private: System::Void Nine_Click(System::Object^  sender, System::EventArgs^  e) {
+		errorCheck();
+		subCount = 0;
+		EnableFunctions();
+		Show->Text += "9";
+	}
+	private: System::Void Zero_Click(System::Object^  sender, System::EventArgs^  e) {
+		errorCheck();
+		subCount = 0;
+		EnableFunctions();
+		Show->Text += "0";
+	}
+	private: System::Void Dot_Click(System::Object^  sender, System::EventArgs^  e) {
+		Show->Text += ".";
+		dotCheck = true;
+		Dot->Enabled = false;
+		Left->Enabled = false;
+		operatorLock();
+		Imagine->Enabled = false;
+		Equal->Enabled = false;
+		Factor->Enabled = false;
+	}
+	private: System::Void Plus_Click(System::Object^  sender, System::EventArgs^  e) {
+		EQ = false;
+		subCount = 1;
+		Show->Text += "+";
+		SignFun();
+		operatorLock();
+		Left->Enabled = true;
+		SubCheck();
+		Equal->Enabled = false;
+	}
+	private: System::Void Sub_Click(System::Object^  sender, System::EventArgs^  e) {
+		errorCheck();
+		EQ = false;
+		subCount++;
+		Show->Text += "-";
+		SignFun();
+		operatorLock();
+		SubCheck();
+		Left->Enabled = true;
+		Equal->Enabled = false;
+	}
+	private: System::Void Multiple_Click(System::Object^  sender, System::EventArgs^  e) {
+		EQ = false;
+		subCount = 1;
+		Show->Text += "*";
+		SignFun();
+		operatorLock();
+		Left->Enabled = true;
+		SubCheck();
+		Equal->Enabled = false;
+	}
+	private: System::Void Dev_Click(System::Object^  sender, System::EventArgs^  e) {
+		EQ = false;
+		subCount = 1;
+		Show->Text += "/";
+		SignFun();
+		operatorLock();
+		Left->Enabled = true;
+		SubCheck();
+		Equal->Enabled = false;
+	}
+	private: System::Void Back_Click(System::Object^  sender, System::EventArgs^  e) {
+		if (Show->Text->Length) {
+			if (Show->Text[Show->Text->Length - 1] == '(')
+				bracketCount--;
 			else if (Show->Text[Show->Text->Length - 1] == ')')
-			{
-				subCount = 0;
-				SubCheck();
-				bracketCheck();
-				numberLock();
-				Dot->Enabled = false;
-				Imagine->Enabled = false;
-				Equal->Enabled = false;
-				if (bracketCount == 0)
-					Equal->Enabled = true;
-				operatorUnlock();
-				Left->Enabled = false;
-			}
-			else if (Show->Text[Show->Text->Length - 1] == '^')
-			{
-				EQ = false;
-				Sub->Enabled = false;
-				POW->Enabled = false;
-				operatorLock();
-				Imagine->Enabled = false;
-				Left->Enabled = true;
-				dotCheck = false;
-				Dot->Enabled = false;
-				numberUnlock();
-				Equal->Enabled = false;
-				power = true;
-			}
-			else if (Show->Text[Show->Text->Length - 1] == 'i')
-			{
-				Imagine->Enabled = false;
-				Dot->Enabled = false;
-				SubCheck();
-				operatorUnlock();
-				Left->Enabled = false;
-				Factor->Enabled = false;
-				numberLock();
-				bracketCheck();
-				power = true;
-			}
-			else if (Show->Text[Show->Text->Length - 1] == '!')
-			{
-				EQ = false;
-				subCount = 0;
-				SignFun();
-				Factor->Enabled = false;
-				numberLock();
-				operatorUnlock();
-				Left->Enabled = false;
-				bracketCheck();
-				POW->Enabled = true;
-				Dot->Enabled = false;
-				Imagine->Enabled = false;
-			}
+				bracketCount++;
 			else if (Show->Text[Show->Text->Length - 1] == '.')
-			{
-				dotCheck = true;
-				Dot->Enabled = false;
-				Left->Enabled = false;
-				operatorLock();
-				Imagine->Enabled = false;
-				Equal->Enabled = false;
-				Factor->Enabled = false;
-				power = true;
-			}
-			else
 			{
 				dotCheck = false;
 				Dot->Enabled = true;
-				Imagine->Enabled = true;
-				subCount = 0;
-				for (int i = Show->Text->Length - 2; i >= 0; i--)
-				{
-					if (Show->Text[i] == '+' || Show->Text[i] == '-' || Show->Text[i] == '*' || Show->Text[i] == '/' || Show->Text[i] == '(')
-						break;
-					else if (Show->Text[i] == '.')
-					{
-						dotCheck = true;
-						Dot->Enabled = false;
-					}
-					else if (Show->Text[i] == '^')
-						power = true;
-					else if (Show->Text[i] == 'i')
-						Imagine->Enabled = false;
-				}
-				operatorUnlock();
-				Left->Enabled = false;
+			}
+			else if (Show->Text[Show->Text->Length - 1] == '^')
+			{
+				power = false;
+			}
+			else if (Show->Text[Show->Text->Length - 1] == 'i')
+			{
 				numberUnlock();
+				Imagine->Enabled = true;
 			}
-		}
-		if (Show->Text->Length == 0)
-		{
-			EQ = false;
-			bracketCount = 0;
-			subCount = 1;
-			operatorLock();
+			Show->Text = Show->Text->Substring(0, Show->Text->Length - 1);
 			bracketCheck();
-			numberUnlock();
-			Left->Enabled = true;
-			dotCheck = false;
-			Dot->Enabled = false;
-			power = false;
-			Imagine->Enabled = true;
+			if (Show->Text->Length)
+			{
+				if (Show->Text[Show->Text->Length - 1] == '-')
+				{
+					if (Show->Text->Length > 1)
+					{
+						if (Show->Text[Show->Text->Length - 2] == '-')
+						{
+							subCount = 2;
+						}
+						else
+						{
+							subCount = 1;
+						}
+					}
+					Dot->Enabled = false;
+					operatorLock();
+					Left->Enabled = true;
+				}
+				else if (Show->Text[Show->Text->Length - 1] == '+' || Show->Text[Show->Text->Length - 1] == '*' || Show->Text[Show->Text->Length - 1] == '/')
+				{
+					EQ = false;
+					subCount = 1;
+					SignFun();
+					operatorLock();
+					Left->Enabled = true;
+					Equal->Enabled = false;
+					Imagine->Enabled = true;
+				}
+				else if (Show->Text[Show->Text->Length - 1] == '(')
+				{
+					errorCheck();
+					EQCheck();
+					subCount = 1;
+					SubCheck();
+					Equal->Enabled = false;
+					operatorLock();
+					numberUnlock();
+					Left->Enabled = true;
+					Right->Enabled = false;
+					dotCheck = false;
+					Dot->Enabled = false;
+				}
+				else if (Show->Text[Show->Text->Length - 1] == ')')
+				{
+					subCount = 0;
+					SubCheck();
+					bracketCheck();
+					numberLock();
+					Dot->Enabled = false;
+					Imagine->Enabled = false;
+					Equal->Enabled = false;
+					if (bracketCount == 0)
+						Equal->Enabled = true;
+					operatorUnlock();
+					Left->Enabled = false;
+				}
+				else if (Show->Text[Show->Text->Length - 1] == '^')
+				{
+					EQ = false;
+					Sub->Enabled = false;
+					POW->Enabled = false;
+					operatorLock();
+					Imagine->Enabled = false;
+					Left->Enabled = true;
+					dotCheck = false;
+					Dot->Enabled = false;
+					numberUnlock();
+					Equal->Enabled = false;
+					power = true;
+				}
+				else if (Show->Text[Show->Text->Length - 1] == 'i')
+				{
+					Imagine->Enabled = false;
+					Dot->Enabled = false;
+					SubCheck();
+					operatorUnlock();
+					Left->Enabled = false;
+					Factor->Enabled = false;
+					numberLock();
+					bracketCheck();
+					power = true;
+				}
+				else if (Show->Text[Show->Text->Length - 1] == '!')
+				{
+					EQ = false;
+					subCount = 0;
+					SignFun();
+					Factor->Enabled = false;
+					numberLock();
+					operatorUnlock();
+					Left->Enabled = false;
+					bracketCheck();
+					POW->Enabled = true;
+					Dot->Enabled = false;
+					Imagine->Enabled = false;
+				}
+				else if (Show->Text[Show->Text->Length - 1] == '.')
+				{
+					dotCheck = true;
+					Dot->Enabled = false;
+					Left->Enabled = false;
+					operatorLock();
+					Imagine->Enabled = false;
+					Equal->Enabled = false;
+					Factor->Enabled = false;
+					power = true;
+				}
+				else if (Show->Text[Show->Text->Length - 1] == '0' || Show->Text[Show->Text->Length - 1] == '1' || Show->Text[Show->Text->Length - 1] == '2' || Show->Text[Show->Text->Length - 1] == '3' || Show->Text[Show->Text->Length - 1] == '4' || Show->Text[Show->Text->Length - 1] == '5' || Show->Text[Show->Text->Length - 1] == '6' || Show->Text[Show->Text->Length - 1] == '7' || Show->Text[Show->Text->Length - 1] == '8' || Show->Text[Show->Text->Length - 1] == '9')
+				{
+					dotCheck = false;
+					Dot->Enabled = true;
+					Imagine->Enabled = true;
+					power = false;
+					subCount = 0;
+					for (int i = Show->Text->Length - 2; i >= 0; i--)
+					{
+						if (Show->Text[i] == '+' || Show->Text[i] == '-' || Show->Text[i] == '*' || Show->Text[i] == '/' || Show->Text[i] == '(')
+							break;
+						else if (Show->Text[i] == '.')
+						{
+							dotCheck = true;
+							Dot->Enabled = false;
+						}
+						else if (Show->Text[i] == '^')
+							power = true;
+						else if (Show->Text[i] == 'i')
+							Imagine->Enabled = false;
+					}
+					operatorUnlock();
+					Left->Enabled = false;
+					numberUnlock();
+				}
+				else
+				{
+					operatorUnlock();
+					Equal->Enabled = true;
+					numberLock();
+					Left->Enabled = false;
+					bracketCheck();
+					Imagine->Enabled = false;
+					power = true;
+				}
+			}
+			if (Show->Text->Length == 0)
+			{
+				EQ = false;
+				bracketCount = 0;
+				subCount = 1;
+				operatorLock();
+				bracketCheck();
+				numberUnlock();
+				Left->Enabled = true;
+				dotCheck = false;
+				Dot->Enabled = false;
+				power = false;
+				Imagine->Enabled = true;
+			}
+			SubCheck();
+			PowerCheck();
 		}
+	}
+	private: System::Void Left_Click(System::Object^  sender, System::EventArgs^  e) {
+		errorCheck();
+		EQCheck();
+		subCount = 1;
+		bracketCount++;
+		Right->Enabled = false;
 		SubCheck();
-		PowerCheck();
+		Equal->Enabled = false;
+		Show->Text += "(";
 	}
-}
-private: System::Void Left_Click(System::Object^  sender, System::EventArgs^  e) {
-	errorCheck();
-	EQCheck();
-	subCount = 1;
-	bracketCount++;
-	Right->Enabled = false;
-	SubCheck();
-	Equal->Enabled = false;
-	Show->Text += "(";
-}
-private: System::Void Right_Click(System::Object^  sender, System::EventArgs^  e) {
-	subCount = 0;
-	bracketCount--;
-	SubCheck();
-	bracketCheck();
-	numberLock();
-	Dot->Enabled = false;
-	Imagine->Enabled = false;
-	Show->Text += ")";
-	Equal->Enabled = false;
-	if (bracketCount == 0)
+	private: System::Void Right_Click(System::Object^  sender, System::EventArgs^  e) {
+		subCount = 0;
+		bracketCount--;
+		SubCheck();
+		bracketCheck();
+		numberLock();
+		Dot->Enabled = false;
+		Imagine->Enabled = false;
+		Show->Text += ")";
+		Equal->Enabled = false;
+		if (bracketCount == 0)
+			Equal->Enabled = true;
+	}
+	private: System::Void Factor_Click(System::Object^  sender, System::EventArgs^  e) {
+		EQ = false;
+		subCount = 0;
+		SignFun();
+		Factor->Enabled = false;
+		numberLock();
+		operatorUnlock();
+		Left->Enabled = false;
+		bracketCheck();
+		POW->Enabled = true;
+		Dot->Enabled = false;
+		Imagine->Enabled = false;
+		Show->Text += "!";
+	}
+	private: System::Void Clear_Click(System::Object^  sender, System::EventArgs^  e) {
+		EQ = false;
+		bracketCount = 0;
+		subCount = 1;
+		operatorLock();
+		SubCheck();
+		bracketCheck();
+		numberUnlock();
+		Left->Enabled = true;
+		Imagine->Enabled = true;
+		dotCheck = false;
+		Dot->Enabled = false;
+		if (power)
+			power = false;
+		Show->Text = "";
+	}
+	private: System::Void POW_Click(System::Object^  sender, System::EventArgs^  e) {
+		EQ = false;
+		Sub->Enabled = false;
+		POW->Enabled = false;
+		Show->Text += "^";
+		operatorLock();
+		Imagine->Enabled = false;
+		Left->Enabled = true;
+		dotCheck = false;
+		Dot->Enabled = false;
+		numberUnlock();
+		Equal->Enabled = false;
+		power = true;
+	}
+	private: System::Void Equal_Click(System::Object^  sender, System::EventArgs^  e) {
+		string result = msclr::interop::marshal_as<std::string>(Show->Text);
+		result = dealNegativeSign(result);
+		result = calc(result).data.ToString();
+		Show->Text = gcnew String(result.c_str());
+		Dot->Enabled = false;
+		EQ = true;
+		bracketCount = 0;
+		bracketCheck();
+		numberUnlock();
+	}
+	private: System::Void Imagine_Click(System::Object^  sender, System::EventArgs^  e) {
+		Show->Text += "i";
+		Imagine->Enabled = false;
+		Dot->Enabled = false;
+		SubCheck();
+		operatorUnlock();
+		Left->Enabled = false;
+		Factor->Enabled = false;
+		numberLock();
+		bracketCheck();
+	}
+	private: System::Void Set_Click(System::Object^  sender, System::EventArgs^  e) {
+		errorCheck();
+		VarList->Enabled = true;
+		var result;
+		string value = msclr::interop::marshal_as<std::string>(VarName->Text);
+		bool IsRight = JudgeVar(value);
+		VarName->Text = "";
+		result = calc(dealNegativeSign(msclr::interop::marshal_as<std::string>(Show->Text)));
+		map<string, var>::iterator iter;
+		iter = vars.find(value);//find by name 
+		if (iter == vars.end() && IsRight) {
+			typeSet(result);
+			vars[value] = result;
+			Show->Text = "";
+			VarList->Items->Clear();
+			for (map<string, var>::iterator iterator = vars.begin(); iterator != vars.end(); iterator++) {
+				string combine;
+				combine = iterator->first + "\t";
+				switch (iterator->second.type)
+				{
+				case 0:
+					combine += "NumberObject\t";
+					break;
+				case 1:
+					combine += "Integer\t";
+					break;
+				case 2:
+					combine += "Decimal\t";
+					break;
+				case 3:
+					combine += "Complex\t";
+					break;
+				default:
+					combine += "Formula\t";
+					break;
+				}
+				combine += iterator->second.data.ToString() + " \b";
+				VarList->Items->Add(gcnew String(combine.c_str()));
+			}
+		}
+		else if (!IsRight)
+			Show->Text = "Not a standard variable !";
+		else
+			Show->Text = "Have the same variable !";
+		Dot->Enabled = false;
+		EQ = true;
+		INT_Btm->Enabled = true;
+		DEC_Btm->Enabled = true;
+		COM_Btm->Enabled = true;
+		bracketCount = 0;
+		bracketCheck();
+		numberUnlock();
+	}
+	private: System::Void Modify_Click(System::Object^  sender, System::EventArgs^  e) {
+		errorCheck();
+		var result;
+		string value = msclr::interop::marshal_as<std::string>(VarName->Text);
+		bool IsRight = JudgeVar(value);
+		VarName->Text = "";
+		result = calc(dealNegativeSign(msclr::interop::marshal_as<std::string>(Show->Text)));
+		map<string, var>::iterator iter;
+		iter = vars.find(value);//find by name
+		if (iter != vars.end()) {
+			typeSet(result);
+			vars[value] = result;
+			Show->Text = "";
+			VarList->Items->Clear();
+			VarList->Items->Clear();
+			for (map<string, var>::iterator iterator = vars.begin(); iterator != vars.end(); iterator++) {
+				string combine;
+				combine = iterator->first + "\t";
+				switch (iterator->second.type)
+				{
+				case 0:
+					combine += "NumberObject\t";
+					break;
+				case 1:
+					combine += "Integer\t";
+					break;
+				case 2:
+					combine += "Decimal\t";
+					break;
+				case 3:
+					combine += "Complex\t";
+					break;
+				default:
+					combine += "Formula\t";
+					break;
+				}
+				combine += iterator->second.data.ToString() + " \b";
+				VarList->Items->Add(gcnew String(combine.c_str()));
+			}
+			Show->Text = gcnew String(result.data.ToString().c_str());
+		}
+		else
+			Show->Text = "The variable does not exist !";
+		Dot->Enabled = false;
+		EQ = true;
+		INT_Btm->Enabled = true;
+		DEC_Btm->Enabled = true;
+		COM_Btm->Enabled = true;
+		bracketCount = 0;
+		bracketCheck();
+		numberUnlock();
+	}
+	private: System::Void Delete_Click(System::Object^  sender, System::EventArgs^  e) {
+		errorCheck();
+		map<string, var>::iterator iter;
+		string value = msclr::interop::marshal_as<std::string>(VarName->Text);
+		VarName->Text = "";
+		iter = vars.find(value);//find by name
+		if (iter == vars.end())
+			Show->Text = "The variable does not exist !";
+		else
+		{
+			VarList->Items->Clear();
+			for (map<string, var>::iterator iterator = vars.begin(); iterator != vars.end(); iterator++) {
+				if (iterator->first == value) {
+					vars.erase(iterator);
+					break;
+				}
+			}
+			VarList->Items->Clear();
+			for (map<string, var>::iterator iterator = vars.begin(); iterator != vars.end(); iterator++) {
+				string combine;
+				combine = iterator->first + "\t";
+				switch (iterator->second.type)
+				{
+				case 0:
+					combine += "NumberObject\t";
+					break;
+				case 1:
+					combine += "Integer\t";
+					break;
+				case 2:
+					combine += "Decimal\t";
+					break;
+				case 3:
+					combine += "Complex\t";
+					break;
+				}
+				combine += iterator->second.data.ToString() + " \b";
+				VarList->Items->Add(gcnew String(combine.c_str()));
+			}
+			Show->Text = "";
+			if (VarList->Items)
+				VarList->Enabled = false;
+		}
+		INT_Btm->Enabled = true;
+		DEC_Btm->Enabled = true;
+		COM_Btm->Enabled = true;
+		Dot->Enabled = false;
+		EQ = true;
+		bracketCount = 0;
+		bracketCheck();
+		numberUnlock();
+	}
+	private: System::Void VarList_MouseDoubleClick(System::Object^  sender, System::Windows::Forms::MouseEventArgs^  e) {
+		errorCheck();
+		int index = this->VarList->IndexFromPoint(e->Location);
+		map<string, var>::iterator iterator = vars.begin();
+		for (int i = 0; i < index; i++)iterator++;
+		string combine = msclr::interop::marshal_as<std::string>(Show->Text);
+		combine += iterator->first;
+		Show->Text = gcnew String(combine.c_str());
+		operatorUnlock();
 		Equal->Enabled = true;
-}
-private: System::Void Factor_Click(System::Object^  sender, System::EventArgs^  e) {
-	EQ = false;
-	subCount = 0;
-	SignFun();
-	Factor->Enabled = false;
-	numberLock();
-	operatorUnlock();
-	Left->Enabled = false;
-	bracketCheck();
-	POW->Enabled = true;
-	Dot->Enabled = false;
-	Imagine->Enabled = false;
-	Show->Text += "!";
-}
-private: System::Void Clear_Click(System::Object^  sender, System::EventArgs^  e) {
-	EQ = false;
-	bracketCount = 0;
-	subCount = 1;
-	operatorLock();
-	SubCheck();
-	bracketCheck();
-	numberUnlock();
-	Left->Enabled = true;
-	Imagine->Enabled = true;
-	dotCheck = false;
-	Dot->Enabled = false;
-	if (power)
-		power = false;
-	Show->Text = "";
-}
-private: System::Void POW_Click(System::Object^  sender, System::EventArgs^  e) {
-	EQ = false;
-	Sub->Enabled = false;
-	POW->Enabled = false;
-	Show->Text += "^";
-	operatorLock();
-	Imagine->Enabled = false;
-	Left->Enabled = true;
-	dotCheck = false;
-	Dot->Enabled = false;
-	numberUnlock();
-	Equal->Enabled = false;
-	power = true;
-}
-private: System::Void Equal_Click(System::Object^  sender, System::EventArgs^  e) {
-	string result = msclr::interop::marshal_as<std::string>(Show->Text);
-	result = dealNegativeSign(result);
-	result = calc(result).data.ToString();
-	Show->Text = gcnew String(result.c_str());
-	Dot->Enabled = false;
-	EQ = true;
-	bracketCount = 0;
-	bracketCheck();
-	numberUnlock();
-}
-private: System::Void Imagine_Click(System::Object^  sender, System::EventArgs^  e) {
-	Show->Text += "i";
-	Imagine->Enabled = false;
-	Dot->Enabled = false;
-	SubCheck();
-	operatorUnlock();
-	Left->Enabled = false;
-	Factor->Enabled = false;
-	numberLock();
-	bracketCheck();
-}
-private: System::Void Set_Click(System::Object^  sender, System::EventArgs^  e) {
-	errorCheck();
-	VarList->Enabled = true;
-	var result;
-	string value = msclr::interop::marshal_as<std::string>(VarName->Text);
-	result = calc(dealNegativeSign(msclr::interop::marshal_as<std::string>(Show->Text)));
-	map<string, var>::iterator iter;
-	iter = vars.find(value);//find by name
-	if (iter == vars.end() && value != "") {
-		typeSet(result);
-		vars[value] = result;
-		Show->Text = "";
-		VarList->Items->Clear();
-		for (map<string, var>::iterator iterator = vars.begin(); iterator != vars.end(); iterator++) {
-			string combine;
-			combine = iterator->first + "\t";
-			switch (iterator->second.type)
-			{
-			case 0:
-				combine += "NumberObject\t";
-				break;
-			case 1:
-				combine += "Integer\t";
-				break;
-			case 2:
-				combine += "Decimal\t";
-				break;
-			case 3:
-				combine += "Complex\t";
-				break;
-			default :
-				combine += "Formula\t";
-				break;
-			}
-			combine += iterator->second.data.ToString() + " \b";
-			VarList->Items->Add(gcnew String(combine.c_str()));
-		}
+		numberLock();
+		Imagine->Enabled = false;
+		Left->Enabled = false;
+		bracketCheck();
 	}
-	else
-		Show->Text = "Error!";
-	Dot->Enabled = false;
-	EQ = true;
-	bracketCount = 0;
-	bracketCheck();
-	numberUnlock();
-}
-private: System::Void Modify_Click(System::Object^  sender, System::EventArgs^  e) {
-	errorCheck();
-	var result;
-	string value = msclr::interop::marshal_as<std::string>(VarName->Text);
-	result = calc(dealNegativeSign(msclr::interop::marshal_as<std::string>(Show->Text)));
-	map<string, var>::iterator iter;
-	iter = vars.find(value);//find by name
-	if (iter != vars.end()) {
-		typeSet(result);
-		vars[value] = result;
-		Show->Text = "";
-		VarList->Items->Clear();
-		VarList->Items->Clear();
-		for (map<string, var>::iterator iterator = vars.begin(); iterator != vars.end(); iterator++) {
-			string combine;
-			combine = iterator->first + "\t";
-			switch (iterator->second.type)
-			{
-			case 0:
-				combine += "NumberObject\t";
-				break;
-			case 1:
-				combine += "Integer\t";
-				break;
-			case 2:
-				combine += "Decimal\t";
-				break;
-			case 3:
-				combine += "Complex\t";
-				break;
-			default:
-				combine += "Formula\t";
-				break;
-			}
-			combine += iterator->second.data.ToString() + " \b";
-			VarList->Items->Add(gcnew String(combine.c_str()));
-		}
-		Show->Text = gcnew String(result.data.ToString().c_str());
+	private: System::Void INT_Btm_Click(System::Object^  sender, System::EventArgs^  e) {
+		INT_Btm->Enabled = false;
+		COM_Btm->Enabled = true;
+		DEC_Btm->Enabled = true;
 	}
-	else
-		Show->Text = "Error!";
-	Dot->Enabled = false;
-	EQ = true;
-	bracketCount = 0;
-	bracketCheck();
-	numberUnlock();
-}
-private: System::Void Delete_Click(System::Object^  sender, System::EventArgs^  e) {
-	errorCheck();
-	map<string, var>::iterator iter;
-	string value = msclr::interop::marshal_as<std::string>(VarName->Text);
-	iter = vars.find(value);//find by name
-	if (iter == vars.end())
-		Show->Text = "Error!";
-	else
-	{
-		VarList->Items->Clear();
-		for (map<string, var>::iterator iterator = vars.begin(); iterator != vars.end(); iterator++) {
-			if (iterator->first == value) {
-				vars.erase(iterator);
-				break;
-			}
-		}
-		VarList->Items->Clear();
-		for (map<string, var>::iterator iterator = vars.begin(); iterator != vars.end(); iterator++) {
-			string combine;
-			combine = iterator->first + "\t";
-			switch (iterator->second.type)
-			{
-			case 0:
-				combine += "NumberObject\t";
-				break;
-			case 1:
-				combine += "Integer\t";
-				break;
-			case 2:
-				combine += "Decimal\t";
-				break;
-			case 3:
-				combine += "Complex\t";
-				break;
-			}
-			combine += iterator->second.data.ToString() + " \b";
-			VarList->Items->Add(gcnew String(combine.c_str()));
-		}
-		Show->Text = "";
-		if (VarList->Items)
-			VarList->Enabled = false;
+	private: System::Void DEC_Btm_Click(System::Object^  sender, System::EventArgs^  e) {
+		INT_Btm->Enabled = true;
+		COM_Btm->Enabled = true;
+		DEC_Btm->Enabled = false;
 	}
-	INT_Btm->Enabled = true;
-	DEC_Btm->Enabled = true;
-	COM_Btm->Enabled = true;
-	Dot->Enabled = false;
-	EQ = true;
-	bracketCount = 0;
-	bracketCheck();
-	numberUnlock();
-}
-private: System::Void VarList_MouseDoubleClick(System::Object^  sender, System::Windows::Forms::MouseEventArgs^  e) {
-	int index = this->VarList->IndexFromPoint(e->Location);
-	map<string, var>::iterator iterator = vars.begin();
-	for (int i = 0; i < index; i++)iterator++;
-	string combine = msclr::interop::marshal_as<std::string>(Show->Text);
-	combine += iterator->first;
-	Show->Text = gcnew String(combine.c_str());
-	operatorUnlock();
-}
-private: System::Void INT_Btm_Click(System::Object^  sender, System::EventArgs^  e) {
-	INT_Btm->Enabled = false;
-	COM_Btm->Enabled = true;
-	DEC_Btm->Enabled = true;
-}
-private: System::Void DEC_Btm_Click(System::Object^  sender, System::EventArgs^  e) {
-	INT_Btm->Enabled = true;
-	COM_Btm->Enabled = true;
-	DEC_Btm->Enabled = false;
-}
-private: System::Void COM_Btm_Click(System::Object^  sender, System::EventArgs^  e) {
-	INT_Btm->Enabled = true;
-	COM_Btm->Enabled = false;
-	DEC_Btm->Enabled = true;
-}
-};
+	private: System::Void COM_Btm_Click(System::Object^  sender, System::EventArgs^  e) {
+		INT_Btm->Enabled = true;
+		COM_Btm->Enabled = false;
+		DEC_Btm->Enabled = true;
+	}
+	};
 }
