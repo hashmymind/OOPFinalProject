@@ -5,3 +5,4 @@ Power((-2)*(-1),2)
 -3+5*(-1)+8
 5*-1+1
 Complex 實數精度
+Error message 會多產生
