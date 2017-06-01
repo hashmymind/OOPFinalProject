@@ -1,5 +1,5 @@
-#include "Integer.h"
-#include "NDecimal.h"
+﻿#include "Integer.h"
+#include "Decimal.h"
 #include "Complex.h"
 #include "Ultimate.h"
 std::vector<BaseNum> Integer::primes;
@@ -260,6 +260,9 @@ const Integer operator*(Integer lhs,Integer rhs){
 
 
 const Integer operator/(const Integer& lhs,const Integer& rhs){
+	if (rhs.IsZero()) {
+		throw "Divide By Zero";
+	}
     Integer dividend = lhs, divisor = rhs, result(0,false), oriDivisor = rhs;
     dividend._sign = false;divisor._sign = false;
     if(dividend < divisor)return Integer(0,false);
@@ -441,9 +444,12 @@ const Integer Integer::Power(Integer rhs){
     if(rhs.IsZero()){
         return one;
     }
+	if (rhs == one) {
+		return *this;
+	}
     bool sign = rhs._sign;
     rhs._sign = false;
-    if(rhs._digi[this->_sizeUsed-1]%2 == 0){
+    if(rhs._digi[rhs._sizeUsed-1]%2 == 0){
         tmp = this->Power(rhs / two);
         return (sign)?(one/(tmp * tmp)):(tmp*tmp);
     }else{
@@ -458,20 +464,27 @@ std::ostream& operator<<(std::ostream& stream, const Integer& rhs){
     return stream;
 }
 
-const NDecimal Integer::operator+(const NDecimal& rhs){
-    return NDecimal::IntToNDecimal(*this) + rhs;
+std::istream& operator>>(std::istream& stream, Integer& rhs){
+    std::string numStr;
+    stream >> numStr;
+    rhs = Integer(numStr);
+    return stream;
 }
 
-const NDecimal Integer::operator-(const NDecimal& rhs){
-    return NDecimal::IntToNDecimal(*this) - rhs;
+const Decimal Integer::operator+(const Decimal& rhs){
+    return Decimal::IntToDecimal(*this) + rhs;
 }
 
-const NDecimal Integer::operator*(const NDecimal& rhs){
-    return NDecimal::IntToNDecimal(*this) * rhs;
+const Decimal Integer::operator-(const Decimal& rhs){
+    return Decimal::IntToDecimal(*this) - rhs;
 }
 
-const NDecimal Integer::operator/(const NDecimal& rhs){
-    return NDecimal::IntToNDecimal(*this) / rhs;
+const Decimal Integer::operator*(const Decimal& rhs){
+    return Decimal::IntToDecimal(*this) * rhs;
+}
+
+const Decimal Integer::operator/(const Decimal& rhs){
+    return Decimal::IntToDecimal(*this) / rhs;
 }
 
 const Complex Integer::operator+(const Complex& rhs){
@@ -515,7 +528,7 @@ Integer Integer::Factorial(Integer rhs){
         return one;
     }
     //
-    if(rhs > Integer(primes[primes.size()-1],false)){
+    if(primes.size() == 0 ||  rhs > Integer(primes[primes.size()-1],false)){
         return rhs * Factorial(rhs - one);
     }else{
         BaseNum tmp = 2, tmp2,power, rhsTmp = rhs._digi[rhs._sizeUsed-1];
@@ -538,8 +551,8 @@ Integer Integer::Int(const Integer& rhs){
     return rhs;
 }
 
-Integer Integer::Int(const NDecimal& rhs){
-    return NDecimal::DecToInteger(rhs);
+Integer Integer::Int(const Decimal& rhs){
+    return Decimal::DecToInteger(rhs);
 }
 
 Integer Integer::Int(const Complex& rhs){

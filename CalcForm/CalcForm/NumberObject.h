@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 #include <iostream>
 #include <algorithm>
 #include <cstdint>
@@ -13,7 +13,7 @@ typedef uint64_t BaseNum;
 const BaseNum BaseMax = 100000000, subtrahend = BaseMax-1, BaseLen =8,SqrtPrecise = 100;
 
 class Integer;
-class NDecimal;
+class Decimal;
 class Complex;
 class Ultimate;
 

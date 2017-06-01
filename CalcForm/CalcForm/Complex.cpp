@@ -1,5 +1,6 @@
-#include "Complex.h"
+﻿#include "Complex.h"
 #include "Ultimate.h"
+#include "Formula.h"
 
 //
 //
@@ -24,10 +25,10 @@ Complex::Complex(const std::string& complexStr){
         size_t end = complexTmp.length();
         if(haveImag)
             end = midOp;
-        this->_realPart = NDecimal(complexTmp.substr(0,end));
+        this->_realPart = Decimal(complexTmp.substr(0,end));
     }
     else{
-        this->_realPart = NDecimal("0");
+        this->_realPart = Decimal("0");
     }
     if(haveImag){
         size_t start = 0;
@@ -36,19 +37,21 @@ Complex::Complex(const std::string& complexStr){
         }
         std::string img = complexTmp.substr(start, complexTmp.length()-start);
         if(img == "")img="1";
-        this->_imaginePart = NDecimal(img);
+        this->_imaginePart = Decimal(img);
         if(midOp !=std::string::npos && complexTmp[midOp]=='-')this->_imaginePart.SetSign(true);
     }
     else{
-        this->_imaginePart = NDecimal("0");
+        this->_imaginePart = Decimal("0");
     }
 }
 
+
+
 std::string Complex::ToString() const{
     std::string result = "";
-    bool haveReal = !this->_realPart.IsZroe();
-    bool haveImag = !this->_imaginePart.IsZroe();
-    if(haveReal || !haveImag)result += this->_realPart.ToString(100);
+    bool haveReal = !this->_realPart.IsZero();
+    bool haveImag = !this->_imaginePart.IsZero();
+    if(haveReal || !haveImag)result += this->_realPart.ToString(haveImag?10:100);
     if(haveImag){
         std::string addSign = haveReal?"+":"";
         result += this->_imaginePart.GetSign()?"-"+this->_imaginePart.ToString(10).substr(1)+"i":addSign+this->_imaginePart.ToString(10)+"i";
@@ -72,7 +75,7 @@ const Complex operator-(const Complex& lhs, const Complex& rhs){
 
 const Complex operator*(const Complex& lhs, const Complex& rhs){
     Complex result;
-    NDecimal de1,de2;
+    Decimal de1,de2;
     
     result._realPart = lhs._realPart*rhs._realPart - lhs._imaginePart*rhs._imaginePart;
     result._imaginePart = lhs._realPart*rhs._imaginePart + lhs._imaginePart*rhs._realPart;
@@ -82,7 +85,7 @@ const Complex operator*(const Complex& lhs, const Complex& rhs){
 const Complex operator/(const Complex& lhs, const Complex& rhs){
     //
     Complex result;
-    NDecimal divisor = rhs._realPart*rhs._realPart + rhs._imaginePart*rhs._imaginePart;
+    Decimal divisor = rhs._realPart*rhs._realPart + rhs._imaginePart*rhs._imaginePart;
     result._realPart = (lhs._realPart*rhs._realPart + lhs._imaginePart*rhs._imaginePart)/divisor;
     result._imaginePart = (lhs._imaginePart*rhs._realPart - lhs._realPart*rhs._imaginePart)/divisor;
     return result;
@@ -93,13 +96,22 @@ void Complex::Output(std::ostream& stream) const{
 }
 
 const Complex Complex::Power(const Integer& rhs){
+	if (rhs.IsZero()) {
+		return Complex("1");
+	}
+	if (rhs == Integer("1")) {
+		return *this;
+	}
     Complex result = *this;
     Integer times = rhs, one(1, false);
+    bool Sign = times.GetSign();
+    times.SetSign(false);
     times = times - one;
     while(!times.IsZero()){
         result = result * *this;
         times = times - one;
     }
+    if(Sign)result = one/result;
     return result;
 }
 
@@ -107,12 +119,20 @@ std::ostream& operator<<(std::ostream& stream, const Complex& rhs){
     rhs.Output(stream);
     return stream;
 }
+
+std::istream& operator>>(std::istream& stream, Complex& rhs){
+    std::string numStr;
+    stream >> numStr;
+    rhs = Complex(numStr);
+    return stream;
+}
+
 const bool operator==(const Complex& lhs, const Complex& rhs){
     return lhs._realPart == rhs._realPart && lhs._imaginePart == rhs._imaginePart;
 }
 
 Complex Complex::operator=(const std::string& complexStr){
-    *this = Complex(complexStr);
+    *this = Complex::Com(calc(complexStr).data);
     return *this;
 }
 
@@ -126,15 +146,15 @@ Complex::Complex(const char charray[]){
 
 Complex Complex::IntToComplex(const Integer& rhs){
     Complex newComp;
-    newComp._realPart = NDecimal::IntToNDecimal(rhs);
-    newComp._imaginePart = NDecimal::IntToNDecimal(Integer(0,false));
+    newComp._realPart = Decimal::IntToDecimal(rhs);
+    newComp._imaginePart = Decimal::IntToDecimal(Integer(0,false));
     return newComp;
 }
 
-Complex Complex::NDecimalToComplex(const NDecimal& rhs){
+Complex Complex::DecimalToComplex(const Decimal& rhs){
     Complex newComp;
     newComp._realPart = rhs;
-    newComp._imaginePart = NDecimal::IntToNDecimal(Integer(0,false));
+    newComp._imaginePart = Decimal::IntToDecimal(Integer(0,false));
     return newComp;
 }
 
@@ -151,24 +171,24 @@ const Complex Complex::operator/(const Integer& rhs){
     return *this / IntToComplex(rhs);
 }
 
-const Complex Complex::operator+(const NDecimal& rhs){
-    return *this + NDecimalToComplex(rhs);
+const Complex Complex::operator+(const Decimal& rhs){
+    return *this + DecimalToComplex(rhs);
 }
-const Complex Complex::operator-(const NDecimal& rhs){
-    return *this - NDecimalToComplex(rhs);
+const Complex Complex::operator-(const Decimal& rhs){
+    return *this - DecimalToComplex(rhs);
 }
-const Complex Complex::operator*(const NDecimal& rhs){
-    return *this * NDecimalToComplex(rhs);
+const Complex Complex::operator*(const Decimal& rhs){
+    return *this * DecimalToComplex(rhs);
 }
-const Complex Complex::operator/(const NDecimal& rhs){
-    return *this / NDecimalToComplex(rhs);
+const Complex Complex::operator/(const Decimal& rhs){
+    return *this / DecimalToComplex(rhs);
 }
 
 Integer Complex::ComToInteger(const Complex& rhs){
-    return NDecimal::DecToInteger(rhs._realPart);
+    return Decimal::DecToInteger(rhs._realPart);
 }
 
-NDecimal Complex::ComToNDecimal(const Complex& rhs){
+Decimal Complex::ComToDecimal(const Complex& rhs){
     return rhs._realPart;
 }
 
@@ -176,8 +196,8 @@ Complex Complex::Com(const Integer& rhs){
     return Complex::IntToComplex(rhs);
 }
 
-Complex Complex::Com(const NDecimal& rhs){
-    return Complex::NDecimalToComplex(rhs);
+Complex Complex::Com(const Decimal& rhs){
+    return Complex::DecimalToComplex(rhs);
 }
 
 Complex Complex::Com(const Complex& rhs){

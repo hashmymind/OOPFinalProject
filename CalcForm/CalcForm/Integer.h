@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 #include <fstream>
 #include "NumberObject.h"
 
@@ -28,6 +28,8 @@ public:
     friend const bool operator!=(const Integer&, const Integer&);
     friend const Integer GCD(const Integer&, const Integer&);
     friend std::ostream& operator<<(std::ostream&, const Integer&);
+    friend std::istream& operator>>(std::istream&, Integer&);
+    
     friend Integer Karatsuba(const Integer&, const Integer&);
     friend Integer Mul(const Integer&, const Integer&);
     
@@ -36,10 +38,10 @@ public:
     
     const Integer operator^(const Integer&);
     
-    const NDecimal operator+(const NDecimal&);
-    const NDecimal operator-(const NDecimal&);
-    const NDecimal operator*(const NDecimal&);
-    const NDecimal operator/(const NDecimal&);
+    const Decimal operator+(const Decimal&);
+    const Decimal operator-(const Decimal&);
+    const Decimal operator*(const Decimal&);
+    const Decimal operator/(const Decimal&);
     
     const Complex operator+(const Complex&);
     const Complex operator-(const Complex&);
@@ -73,7 +75,7 @@ public:
     BaseNum Digi();
     
     static Integer Int(const Integer&);
-    static Integer Int(const NDecimal&);
+    static Integer Int(const Decimal&);
     static Integer Int(const Complex&);
     static Integer Int(const Ultimate&);
     
