@@ -1,2 +1,0 @@
-Complex 實數精度
-Error message 會多產生
